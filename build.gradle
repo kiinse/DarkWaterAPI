@@ -43,17 +43,12 @@ publishing {
     repositories {
         maven {
             name = "KiinseRepository"
-            url = "https://repo.kiinse.me/#/releases"
+            url = "https://repo.kiinse.me/releases"
             credentials {
                 username System.getenv("USERNAME")
                 password System.getenv("TOKEN")
             }
             authentication {basic(BasicAuthentication)}
-        }
-    }
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
         }
     }
 }
