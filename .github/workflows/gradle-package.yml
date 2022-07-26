@@ -1,7 +1,16 @@
 name: Create packages with Gradle
 
-on: [release]
-
+on:
+  release:
+    types: [published]
+    branches:
+      - master
+      - dev
+  workflow_dispatch:
+    inputs:
+      tags:
+        required: false 
+        
 jobs:
   build:
 
