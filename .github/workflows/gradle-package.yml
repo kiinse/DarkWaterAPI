@@ -1,12 +1,6 @@
 name: Create packages with Gradle
 
-on:
-  release:
-    branches:
-      - master
-      - dev
-      - testing
-    types: [created]
+on: [Release]
 
 jobs:
   build:
