@@ -1,6 +1,6 @@
 name: Create packages with Gradle
 
-on: [Release]
+on: [release]
 
 jobs:
   build:
