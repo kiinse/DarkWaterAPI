@@ -10,7 +10,6 @@ import kiinse.plugins.api.darkwaterapi.utilities.PlayerUtils;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 
-
 @SchedulerData(
         name = "IndicatorSchedule"
 )
