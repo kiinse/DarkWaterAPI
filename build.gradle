@@ -4,8 +4,8 @@ plugins {
 }
 
 group = 'kiinse.plugins.api'
-version = '2.2.0'
 description = 'DarkWaterAPI'
+version = '2.2.0'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -50,7 +50,7 @@ publishing {
         }
     }
     publications {
-        gpr(MavenPublication) {
+        maven(MavenPublication) {
             from(components.java)
         }
     }
