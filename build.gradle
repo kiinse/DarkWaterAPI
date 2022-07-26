@@ -44,18 +44,11 @@ publishing {
         maven {
             name = "KiinseRepository"
             url = "https://repo.kiinse.me/#/releases"
-
-            var credents = PasswordCredentials
-            credents.properties.put("KiinseRepositoryUsername", System.getenv("USERNAME"))
-            credents.properties.put("KiinseRepositoryPassword", System.getenv("TOKEN"))
-
-            println(PasswordCredentials.properties.values())
-            println(BasicAuthentication.properties.values())
-
-            credentials(credents)
-            authentication {
-                basic(BasicAuthentication)
+            credentials {
+                username System.getenv("USERNAME")
+                password System.getenv("TOKEN")
             }
+            authentication {basic(BasicAuthentication)}
         }
     }
     publications {
