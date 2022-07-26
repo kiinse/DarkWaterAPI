@@ -51,6 +51,7 @@ publishing {
     }
     publications {
         maven(MavenPublication) {
+            artifactId = 'darkwaterapi'
             from(components.java)
         }
     }
