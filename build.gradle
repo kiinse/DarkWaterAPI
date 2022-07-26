@@ -51,6 +51,11 @@ publishing {
             authentication {basic(BasicAuthentication)}
         }
     }
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
+    }
 }
 
 tasks.withType(Jar) {
