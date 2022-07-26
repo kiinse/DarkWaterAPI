@@ -4,7 +4,7 @@
 </h1>
 
 <p align="center">
-  <b>A library for <code>PaperMC</code> that aims to improve plugin code</b><br><br>
+  <b>A library for <code>PaperMC 1.18 and above</code> that aims to improve plugin code</b><br><br>
 
   <a href="https://app.codacy.com/gh/kiinse/DarkWaterAPI/dashboard">
     <img src="https://app.codacy.com/project/badge/Grade/04669f7c982b4ec8ba4783493dfb1ca9" alt="codacy"/>
