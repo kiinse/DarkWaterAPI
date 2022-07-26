@@ -27,8 +27,7 @@
   </a>
   <a href="https://github.com/kiinse/DarkWaterAPI/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/kiinse/DarkWaterAPI?style=flat-square" alt="licence"> 
-  </a>
-  
+  </a><br><br>
   <a href="#support">Support</a> •
   <a href="#features">Features</a> •
   <a href="#download">Download</a> •
