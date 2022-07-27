@@ -28,10 +28,15 @@
   <a href="https://github.com/kiinse/DarkWaterAPI/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/kiinse/DarkWaterAPI?style=flat-square" alt="licence"> 
   </a><br><br>
-  <a href="#support">Support</a> • <a href="#features">Features</a> • <a href="#download">Download</a> • <a href="#usage">Usage</a> • <a href="#commands">Commands</a> • <a href="#config">Config</a>
+  <a href="#support">Support</a> •
+  <a href="#features">Features</a> •
+  <a href="#download">Download</a> •
+  <a href="#usage">Usage</a> •
+  <a href="#commands">Commands</a> •
+  <a href="#config">Config</a>
 </p>
 <p align="center">
-  <a href="https://github.com/kiinse/DarkWaterAPI/blob/master/README.md">English</a> • <a href="https://github.com/kiinse/DarkWaterAPI/blob/master/.github/README.md">Русский</a>
+  <ins>English</ins> • <a href="https://github.com/kiinse/DarkWaterAPI/blob/master/.github/Rus-README.md">Русский</a>
 </p>
 
 ## Donations
