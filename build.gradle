@@ -45,7 +45,7 @@ publishing {
     repositories {
         maven {
             name = "KiinseRepository"
-            url = "https://repo.kiinse.me/releases"
+            url = "https://repo.kiinse.me/snapshots"
             credentials {
                 username System.getenv("USERNAME")
                 password System.getenv("TOKEN")
