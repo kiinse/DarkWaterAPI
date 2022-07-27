@@ -1,8 +1,10 @@
 package kiinse.plugins.api.darkwaterapi.files.locale.interfaces;
 
 import kiinse.plugins.api.darkwaterapi.files.locale.Locale;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -10,12 +12,12 @@ import java.util.UUID;
 
 public interface LocaleLoader {
 
-    LocaleStorage getLocaleStorage() throws IOException;
+    @NotNull LocaleStorage getLocaleStorage() throws IOException;
 
-    List<Locale> parseAllowedLocales(List<java.io.File> messages);
+    @NotNull List<Locale> parseAllowedLocales(@NotNull List<File> messages);
 
-    Locale parseDefaultLocale(String locale);
+    @NotNull Locale parseDefaultLocale(@NotNull String locale);
 
-    HashMap<UUID, Locale> parseLocalesData(JSONObject json);
+    @NotNull HashMap<UUID, Locale> parseLocalesData(@NotNull JSONObject json);
 
 }

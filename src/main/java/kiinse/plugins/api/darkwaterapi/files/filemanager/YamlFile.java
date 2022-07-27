@@ -1,12 +1,14 @@
 package kiinse.plugins.api.darkwaterapi.files.filemanager;
 
 import kiinse.plugins.api.darkwaterapi.files.config.interfaces.ConfigKeys;
-import kiinse.plugins.api.darkwaterapi.files.config.utils.Config;
+import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesKeys;
-import kiinse.plugins.api.darkwaterapi.files.filemanager.utils.File;
+import kiinse.plugins.api.darkwaterapi.files.filemanager.enums.File;
 import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -17,7 +19,7 @@ public class YamlFile extends FilesManager {
     private YamlConfiguration file;
     private final FilesKeys fileName;
 
-    public YamlFile(DarkWaterJavaPlugin plugin, FilesKeys fileName) {
+    public YamlFile(@NotNull DarkWaterJavaPlugin plugin, @NotNull FilesKeys fileName) {
         super(plugin);
         if (isFileNotExists(fileName)) {
             copyFile(fileName);
@@ -28,7 +30,7 @@ public class YamlFile extends FilesManager {
         plugin.sendLog("File '&b" + getFileName(fileName) + "&a' loaded");
     }
 
-    private void checkVersion(DarkWaterJavaPlugin plugin) {
+    private void checkVersion(@NotNull DarkWaterJavaPlugin plugin) {
         var cfgVersion = getDouble(Config.CONFIG_VERSION);
         var tmpCfg = File.CONFIG_TMP_YML;
         deleteFile(tmpCfg);
@@ -55,31 +57,32 @@ public class YamlFile extends FilesManager {
         this.file = YamlConfiguration.loadConfiguration(getFile(fileName));
     }
 
-    public String getString(ConfigKeys key) {
-        return file.getString(getKeyString(key));
+    public @NotNull String getString(@NotNull ConfigKeys key) {
+        var string = file.getString(getKeyString(key));
+        return string != null ? string : "";
     }
 
-    public boolean getBoolean(ConfigKeys key) {
+    public boolean getBoolean(@NotNull ConfigKeys key) {
         return file.getBoolean(getKeyString(key));
     }
 
-    public double getDouble(ConfigKeys key) {
+    public double getDouble(@NotNull ConfigKeys key) {
         return file.getDouble(getKeyString(key));
     }
 
-    public int getInt(ConfigKeys key) {
+    public int getInt(@NotNull ConfigKeys key) {
         return file.getInt(getKeyString(key));
     }
 
-    public ItemStack getItemStack(ConfigKeys key) {
+    public @Nullable ItemStack getItemStack(@NotNull ConfigKeys key) {
         return file.getItemStack(getKeyString(key));
     }
 
-    public List<String> getStringList(ConfigKeys key) {
+    public @NotNull List<String> getStringList(@NotNull ConfigKeys key) {
         return file.getStringList(getKeyString(key));
     }
 
-    private String getKeyString(ConfigKeys key) {
+    private @NotNull String getKeyString(@NotNull ConfigKeys key) {
         return key.toString().toLowerCase().replace("_", ".");
     }
 

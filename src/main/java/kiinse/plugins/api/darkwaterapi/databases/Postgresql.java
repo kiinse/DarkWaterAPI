@@ -1,8 +1,8 @@
 package kiinse.plugins.api.darkwaterapi.databases;
 
-import kiinse.plugins.api.darkwaterapi.databases.SQLConnectionSettings;
-import kiinse.plugins.api.darkwaterapi.files.config.utils.Config;
+import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
 import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -21,7 +21,7 @@ public abstract class Postgresql {
 
     private final DarkWaterJavaPlugin plugin;
 
-    protected Postgresql(DarkWaterJavaPlugin plugin) throws Exception {
+    protected Postgresql(@NotNull DarkWaterJavaPlugin plugin) throws Exception {
         connect();
         this.plugin = plugin;
     }
@@ -40,7 +40,7 @@ public abstract class Postgresql {
         }
     }
 
-    public SQLConnectionSettings getSettings(DarkWaterJavaPlugin plugin) {
+    public @NotNull SQLConnectionSettings getSettings(@NotNull DarkWaterJavaPlugin plugin) {
         var settings = new SQLConnectionSettings();
         var config = plugin.getConfiguration();
         settings.setHost(config.getString(Config.PG_HOST));
@@ -52,23 +52,23 @@ public abstract class Postgresql {
         return settings;
     }
 
-    public abstract Connection registerConnection(SQLConnectionSettings settings) throws Exception;
+    public abstract @NotNull Connection registerConnection(@NotNull SQLConnectionSettings settings) throws Exception;
 
-    public abstract void createDataBases(DSLContext context);
+    public abstract void createDataBases(@NotNull DSLContext context);
 
-    public DSLContext getContext() {
+    public @NotNull DSLContext getContext() {
         return this.context;
     }
 
-    public Connection getConnection() {return this.connection;}
+    public @NotNull Connection getConnection() {return this.connection;}
 
-    public String getURL(SQLConnectionSettings settings) {
+    public @NotNull String getURL(@NotNull SQLConnectionSettings settings) {
         var url = "jdbc:" + settings.getUrlDriver() + "://" + settings.getHost() + ":" + settings.getPort() + "/";
         plugin.sendLog(Level.CONFIG, "Database connection url: &d" + url);
         return url;
     }
 
-    public Properties getProperties(SQLConnectionSettings settings) {
+    public @NotNull Properties getProperties(@NotNull SQLConnectionSettings settings) {
         var connInfo = new Properties();
         connInfo.setProperty("user", settings.getLogin());
         connInfo.setProperty("password", settings.getPassword());

@@ -2,15 +2,17 @@ package kiinse.plugins.api.darkwaterapi.loader;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.files.config.Configuration;
-import kiinse.plugins.api.darkwaterapi.files.config.utils.Config;
+import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.YamlFile;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesKeys;
-import kiinse.plugins.api.darkwaterapi.files.filemanager.utils.File;
+import kiinse.plugins.api.darkwaterapi.files.filemanager.enums.File;
 import kiinse.plugins.api.darkwaterapi.files.messages.DarkWaterMessages;
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.Messages;
+import kiinse.plugins.api.darkwaterapi.utilities.DarkWaterUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.Utility;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 
 import java.util.HashMap;
@@ -20,10 +22,6 @@ import java.util.logging.Level;
  * DarkWaterJavaPlugin plugin class
  */
 public abstract class DarkWaterJavaPlugin extends JavaPlugin {
-
-    protected FilesKeys configName = File.CONFIG_YML;
-
-    // TODO: Add DarkWaterAPI version check for plugin. If the version is greater than 0.1.0, then warn the user about possible errors in the work.
 
     /**
      * Configuration
@@ -84,8 +82,8 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
     /**
      * Get configuration file name
      */
-    public FilesKeys getConfigurationFileName() {
-        return configName;
+    public @NotNull FilesKeys getConfigurationFileName() {
+        return File.CONFIG_YML;
     }
 
     /**
@@ -108,7 +106,8 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
      * Get an instance of DarkWaterAPI
      * @return {@link DarkWaterAPI}
      */
-    public DarkWaterAPI getDarkWaterAPI() {return DarkWaterAPI.getInstance();}
+    @Utility
+    public @NotNull DarkWaterAPI getDarkWaterAPI() {return DarkWaterAPI.getInstance();}
 
     /**
      * Plugin Restart (Performs actions on shutdown and then on)
@@ -133,7 +132,7 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
      * Default returns plugin version, API version, authors and description
      * @return JSONObject with data
      */
-    public JSONObject getPluginData() {
+    public @NotNull JSONObject getPluginData() {
         var description = this.getDescription();
         var map = new HashMap<String, String>();
         map.put("authors", String.valueOf(description.getAuthors()));
@@ -147,7 +146,7 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
      * Send logs to INFO level console
      * @param msg Message
      */
-    public void sendLog(String msg) {
+    public void sendLog(@NotNull String msg) {
         sendLog(Level.INFO, msg);
     }
 
@@ -156,7 +155,7 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
      * @param level Logging level
      * @param msg Message
      */
-    public void sendLog(Level level, String msg) {
+    public void sendLog(@NotNull Level level, @NotNull String msg) {
         if (level == Level.INFO) {
             sendConsole("&6[&b" + getName() + "&6]&a " + msg);
             return;
@@ -176,8 +175,9 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
      * Sending a message to the console
      * @param message Message
      */
-    public void sendConsole(String message) {
-        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+    @Utility
+    public void sendConsole(@NotNull String message) {
+        Bukkit.getServer().getConsoleSender().sendMessage(DarkWaterUtils.colorize(message));
     }
 
     /**

@@ -2,6 +2,8 @@ package kiinse.plugins.api.darkwaterapi.schedulers;
 
 import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.utilities.DarkWaterUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.logging.Level;
 
@@ -13,15 +15,15 @@ public abstract class Scheduler {
     private String name = null;
     private long delay = -1;
     private long period = -1;
-    protected final DarkWaterJavaPlugin plugin;
+    protected final @NotNull DarkWaterJavaPlugin plugin;
     private int schedulerID;
 
-    protected Scheduler(DarkWaterJavaPlugin plugin) {
+    protected Scheduler(@NotNull DarkWaterJavaPlugin plugin) {
         this.plugin = plugin;
     }
 
-    public Scheduler setName(String name) {
-        if (name == null || name.isBlank()) {
+    public @NotNull Scheduler setName(@Nullable String name) {
+        if (DarkWaterUtils.isStringEmpty(name)) {
             this.name = DarkWaterUtils.getRandomASCII(60);
         } else {
             this.name = name;
@@ -29,12 +31,12 @@ public abstract class Scheduler {
         return this;
     }
 
-    public Scheduler setDelay(long delay) {
+    public @NotNull Scheduler setDelay(long delay) {
         this.delay = delay;
         return this;
     }
 
-    public Scheduler setPeriod(long period) {
+    public @NotNull Scheduler setPeriod(long period) {
         this.period = period;
         return this;
     }
@@ -65,11 +67,11 @@ public abstract class Scheduler {
         return plugin.getServer().getScheduler().isCurrentlyRunning(schedulerID);
     }
 
-    public DarkWaterJavaPlugin getPlugin() {
+    public @NotNull DarkWaterJavaPlugin getPlugin() {
         return this.plugin;
     }
 
-    public String getName() {
+    public @Nullable String getName() {
         return name;
     }
 

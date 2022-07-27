@@ -1,15 +1,16 @@
 package kiinse.plugins.api.darkwaterapi.gui.interfaces;
 
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 public interface GuiItem {
 
     int slot();
 
-    ItemStack itemStack();
+    @NotNull ItemStack itemStack();
 
-    String name();
+    @NotNull String name();
 
-    GuiAction action();
+    @NotNull GuiAction action();
 }

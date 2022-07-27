@@ -1,8 +1,10 @@
 package kiinse.plugins.api.darkwaterapi.schedulers;
 
 import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
-import kiinse.plugins.api.darkwaterapi.schedulers.Scheduler;
+import kiinse.plugins.api.darkwaterapi.schedulers.exceptions.SchedulerException;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,34 +12,34 @@ import java.util.Objects;
 @SuppressWarnings("unused")
 public abstract class SchedulersManager {
 
-    private final List<Scheduler> schedulers = new ArrayList<>();
-    private final DarkWaterJavaPlugin plugin;
+    private final @NotNull List<Scheduler> schedulers = new ArrayList<>();
+    private final @NotNull DarkWaterJavaPlugin plugin;
 
-    protected SchedulersManager(DarkWaterJavaPlugin plugin) {
+    protected SchedulersManager(@NotNull DarkWaterJavaPlugin plugin) {
         this.plugin = plugin;
     }
 
-    public abstract void registerSchedule(Scheduler scheduler);
+    public abstract void registerSchedule(@NotNull Scheduler scheduler);
 
-    public void startScheduler(Scheduler scheduler) throws Exception {
+    public void startScheduler(@NotNull Scheduler scheduler) throws SchedulerException {
         for (var schedule : schedulers) {
             if (Objects.equals(schedule.getName(), scheduler.getName())) {
-                if (!schedule.isStarted()) {
-                    schedule.start();
+                if (schedule.isStarted()) {
+                    throw new SchedulerException("This scheduler '" + scheduler.getName() + "' already started!");
                 } else {
-                    throw new Exception("This scheduler '" + scheduler.getName() + "' already started!");
+                    schedule.start();
                 }
             }
         }
     }
 
-    public void stopScheduler(Scheduler scheduler) throws Exception {
+    public void stopScheduler(@NotNull Scheduler scheduler) throws SchedulerException {
         for (var schedule : schedulers) {
             if (Objects.equals(schedule.getName(), scheduler.getName())) {
-                if (schedule.isStarted()) {
-                    schedule.stop();
+                if (!schedule.isStarted()) {
+                    throw new SchedulerException("This scheduler '" + scheduler.getName() + "' already stopped!");
                 } else {
-                    throw new Exception("This scheduler '" + scheduler.getName() + "' already stopped!");
+                    schedule.stop();
                 }
             }
         }
@@ -49,7 +51,7 @@ public abstract class SchedulersManager {
         }
     }
 
-    public boolean hasScheduler(Scheduler scheduler) {
+    public boolean hasScheduler(@NotNull Scheduler scheduler) {
         for (var schedule : schedulers) {
             if (Objects.equals(schedule.getName(), scheduler.getName())) {
                 return true;
@@ -58,7 +60,7 @@ public abstract class SchedulersManager {
         return false;
     }
 
-    public Scheduler getSchedulerByName(String name) {
+    public @Nullable Scheduler getSchedulerByName(@NotNull String name) {
         for (var scheduler : schedulers) {
             if (Objects.equals(scheduler.getName(), name)) {
                 return scheduler;
@@ -67,9 +69,9 @@ public abstract class SchedulersManager {
         return null;
     }
 
-    public void unregister(Scheduler scheduler) throws Exception {
+    public void unregister(@NotNull Scheduler scheduler) throws SchedulerException {
         if (!hasScheduler(scheduler)) {
-            throw new Exception("This scheduler '" + scheduler.getName() + "' not found!");
+            throw new SchedulerException("This scheduler '" + scheduler.getName() + "' not found!");
         }
         var iterator = schedulers.listIterator();
         while (iterator.hasNext()) {
@@ -84,13 +86,13 @@ public abstract class SchedulersManager {
         plugin.sendLog("Scheduler '&b" + scheduler.getName() + "&a' by plugin '&b" + scheduler.getPlugin().getName() + "&a' has been unregistered!");
     }
 
-    protected void register(Scheduler scheduler) {
+    protected void register(@NotNull Scheduler scheduler) {
         schedulers.add(scheduler);
         plugin.sendLog("Scheduler '&b" + scheduler.getName() + "&a' by plugin '&b" + scheduler.getPlugin().getName() + "&a' has been registered!");
         scheduler.start();
     }
 
-    public List<Scheduler> getAllSchedulers() {
+    public @NotNull List<Scheduler> getAllSchedulers() {
         return new ArrayList<>(schedulers);
     }
 }

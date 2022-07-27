@@ -1,5 +1,6 @@
 package kiinse.plugins.api.darkwaterapi.utilities.cryptography.interfaces;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.math.BigInteger;
@@ -8,17 +9,17 @@ import java.security.PublicKey;
 @SuppressWarnings("UnusedReturnValue")
 public interface RSADarkWater {
 
-    RSADarkWater generateKeys() throws Exception;
+    @NotNull RSADarkWater generateKeys() throws Exception;
 
-    PublicKey getPublicKey();
+    @NotNull PublicKey getPublicKey();
 
-    JSONObject getPublicKeyJson();
+    @NotNull JSONObject getPublicKeyJson();
 
-    String decryptMessage(String encryptedText) throws Exception;
+    @NotNull String decryptMessage(@NotNull String encryptedText) throws Exception;
 
-    String encryptMessage(String plainText, PublicKey publicKey) throws Exception;
+    @NotNull String encryptMessage(@NotNull String plainText, @NotNull PublicKey publicKey) throws Exception;
 
-    PublicKey recreatePublicKey(String exponent, String modulus) throws Exception;
+    @NotNull PublicKey recreatePublicKey(@NotNull String exponent, @NotNull String modulus) throws Exception;
 
-    PublicKey recreatePublicKey(BigInteger exponent, BigInteger modulus) throws Exception;
+    @NotNull PublicKey recreatePublicKey(@NotNull BigInteger exponent, @NotNull BigInteger modulus) throws Exception;
 }

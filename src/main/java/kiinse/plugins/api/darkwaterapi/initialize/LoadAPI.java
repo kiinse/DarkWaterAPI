@@ -4,15 +4,16 @@ import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.placeholders.LocaleExpansion;
 import kiinse.plugins.api.darkwaterapi.placeholders.StatisticExpansion;
 import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.logging.Level;
 
 public class LoadAPI {
 
-    public LoadAPI(DarkWaterAPI darkWaterAPI) {
+    public LoadAPI(@NotNull DarkWaterAPI darkWaterAPI) {
         darkWaterAPI.sendLog("Registering PlaceHolderAPI...");
-        if (Bukkit.getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
             darkWaterAPI.sendLog(Level.WARNING, "PlaceHolderAPI not found! The indicators above the toolbar are &cdisabled&6.");
         } else {
             Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PlaceholderAPI")).getLogger().setLevel(Level.WARNING);

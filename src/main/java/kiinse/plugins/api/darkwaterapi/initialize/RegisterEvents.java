@@ -2,10 +2,11 @@ package kiinse.plugins.api.darkwaterapi.initialize;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.listeners.*;
+import org.jetbrains.annotations.NotNull;
 
 public class RegisterEvents {
 
-    public RegisterEvents(DarkWaterAPI darkWaterAPI){
+    public RegisterEvents(@NotNull DarkWaterAPI darkWaterAPI){
         darkWaterAPI.sendLog("Registering listeners...");
         var pluginManager = darkWaterAPI.getServer().getPluginManager();
         pluginManager.registerEvents(new EntityDeathListener(), darkWaterAPI);

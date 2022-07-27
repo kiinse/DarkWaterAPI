@@ -1,6 +1,7 @@
 package kiinse.plugins.api.darkwaterapi.commands.manager.interfaces;
 
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 public interface CommandClass {
@@ -10,6 +11,6 @@ public interface CommandClass {
      * @param sender Command sender
      * @param args Array of arguments
      */
-    void mainCommand(CommandSender sender, String[] args);
+    void mainCommand(@NotNull CommandSender sender, @NotNull String[] args);
 
 }

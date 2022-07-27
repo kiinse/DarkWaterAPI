@@ -2,17 +2,18 @@ package kiinse.plugins.api.darkwaterapi.gui.darkwatergui.items;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.files.locale.Locale;
-import kiinse.plugins.api.darkwaterapi.files.messages.utils.Message;
+import kiinse.plugins.api.darkwaterapi.files.messages.enums.Message;
 import kiinse.plugins.api.darkwaterapi.gui.interfaces.GuiAction;
 import kiinse.plugins.api.darkwaterapi.gui.interfaces.GuiItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class PreviousPageItem implements GuiItem {
     private final String name;
     private final GuiAction action;
 
-    public PreviousPageItem(DarkWaterAPI darkWaterAPI, Locale locale, GuiAction action) {
+    public PreviousPageItem(@NotNull DarkWaterAPI darkWaterAPI, @NotNull Locale locale, @NotNull GuiAction action) {
         this.name = darkWaterAPI.getMessages().getStringMessage(locale, Message.GUI_PREVIOUS_PAGE);
         this.action = action;
     }
@@ -23,17 +24,17 @@ public class PreviousPageItem implements GuiItem {
     }
 
     @Override
-    public ItemStack itemStack() {
+    public @NotNull ItemStack itemStack() {
         return new ItemStack(Material.SPECTRAL_ARROW);
     }
 
     @Override
-    public String name() {
+    public @NotNull String name() {
         return name;
     }
 
     @Override
-    public GuiAction action() {
+    public @NotNull GuiAction action() {
         return action;
     }
 }

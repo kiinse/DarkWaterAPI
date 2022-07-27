@@ -1,10 +1,11 @@
 package kiinse.plugins.api.darkwaterapi.rest.services;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
-import kiinse.plugins.api.darkwaterapi.files.config.utils.Config;
+import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
 import kiinse.plugins.api.darkwaterapi.rest.actions.*;
 import kiinse.plugins.api.darkwaterapi.utilities.cryptography.RSAEncrypt;
 import kiinse.plugins.api.darkwaterapi.utilities.cryptography.interfaces.RSADarkWater;
+import org.jetbrains.annotations.NotNull;
 import services.moleculer.service.Action;
 import services.moleculer.service.Service;
 
@@ -18,7 +19,7 @@ public class DarkWaterService extends Service {
     public final Action execute;
     public final Action code;
 
-    public DarkWaterService(String name, DarkWaterAPI darkWaterAPI) throws Exception {
+    public DarkWaterService(@NotNull String name, @NotNull DarkWaterAPI darkWaterAPI) throws Exception {
         RSADarkWater rsa = new RSAEncrypt();
         this.name = name;
         ping = new PingAction(darkWaterAPI);

@@ -1,4 +1,4 @@
-package kiinse.plugins.api.darkwaterapi.files.config.utils;
+package kiinse.plugins.api.darkwaterapi.files.config.enums;
 
 import kiinse.plugins.api.darkwaterapi.files.config.interfaces.ConfigKeys;
 

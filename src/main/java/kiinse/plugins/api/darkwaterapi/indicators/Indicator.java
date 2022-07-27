@@ -1,6 +1,7 @@
 package kiinse.plugins.api.darkwaterapi.indicators;
 
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -11,7 +12,7 @@ public abstract class Indicator {
     private final String name;
     private final Plugin plugin;
 
-    protected Indicator(Plugin plugin, String name, int position) {
+    protected Indicator(@NotNull Plugin plugin, @NotNull String name, int position) {
         this.position = position;
         this.name = name;
         this.plugin = plugin;
@@ -21,32 +22,15 @@ public abstract class Indicator {
         return position;
     }
 
-    public Plugin getPlugin() {
+    public @NotNull Plugin getPlugin() {
         return plugin;
     }
 
-    public String getName() {
+    public @NotNull String getName() {
         return name;
     }
 
-    /**
-     * Получение нового индикатора
-     * @param plugin Плагин
-     * @param name Индикатор (Placeholder)
-     * @param position Позиция
-     * @return Индикатор {@link Indicator}
-     * @throws IllegalArgumentException Если плагин или name null
-     * @throws IllegalArgumentException Если в name пусто
-     * @throws IllegalArgumentException Если name не начинается или не заканчивается на %
-     * @throws IllegalArgumentException Если позиция меньше нуля
-     */
-    public static Indicator valueOf(Plugin plugin, String name, int position) throws IllegalArgumentException {
-        if (plugin == null) {
-            throw new IllegalArgumentException("Plugin is null!");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("Indicator name is null!");
-        }
+    public static @NotNull Indicator valueOf(@NotNull Plugin plugin, @NotNull String name, int position) throws IllegalArgumentException {
         if (name.replace(" ", "").isEmpty()) {
             throw new IllegalArgumentException("Indicator name is empty!");
         }
@@ -59,11 +43,11 @@ public abstract class Indicator {
         return new Indicator(plugin, name, position) {};
     }
 
-    public boolean equals(Indicator indicator) {
+    public boolean equals(@NotNull Indicator indicator) {
         return Objects.equals(this.getName(), indicator.getName()) && this.getPosition() == indicator.getPosition();
     }
 
-    public static boolean equals(Indicator indicator1, Indicator indicator2) {
+    public static boolean equals(@NotNull Indicator indicator1, @NotNull Indicator indicator2) {
         return Objects.equals(indicator1.getName(), indicator2.getName()) && indicator1.getPosition() == indicator2.getPosition();
     }
 }

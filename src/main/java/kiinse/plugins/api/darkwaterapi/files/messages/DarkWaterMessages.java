@@ -2,15 +2,16 @@ package kiinse.plugins.api.darkwaterapi.files.messages;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.FilesManager;
-import kiinse.plugins.api.darkwaterapi.files.filemanager.utils.Directory;
+import kiinse.plugins.api.darkwaterapi.files.filemanager.enums.Directory;
 import kiinse.plugins.api.darkwaterapi.files.locale.Locale;
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.ComponentLabels;
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.Messages;
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.MessagesKeys;
-import kiinse.plugins.api.darkwaterapi.files.messages.utils.Message;
+import kiinse.plugins.api.darkwaterapi.files.messages.enums.Message;
 import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -29,7 +30,7 @@ public class DarkWaterMessages extends FilesManager implements Messages {
     private final DarkWaterJavaPlugin plugin;
     private final HashMap<String, JSONObject> messages = new HashMap<>();
 
-    public DarkWaterMessages(DarkWaterJavaPlugin plugin) throws IOException {
+    public DarkWaterMessages(@NotNull DarkWaterJavaPlugin plugin) throws IOException {
         super(plugin);
         this.plugin = plugin;
         var directoryName = Directory.MESSAGES;
@@ -82,46 +83,46 @@ public class DarkWaterMessages extends FilesManager implements Messages {
     }
 
     @Override
-    public String getStringMessage(Locale locale, MessagesKeys message) {
+    public @NotNull String getStringMessage(@NotNull Locale locale, @NotNull MessagesKeys message) {
         return colorize(getString(locale, message));
     }
 
     @Override
-    public Component getComponentMessage(Locale locale, MessagesKeys message) {
+    public @NotNull Component getComponentMessage(@NotNull Locale locale, @NotNull MessagesKeys message) {
         return componentLabels.parseMessage(colorize(getString(locale, message)));
     }
 
     @Override
-    public String getStringMessageWithPrefix(Locale locale, MessagesKeys message) {
+    public @NotNull String getStringMessageWithPrefix(@NotNull Locale locale, @NotNull MessagesKeys message) {
         return getPrefix(locale) + colorize(getString(locale, message));
     }
 
     @Override
-    public Component getComponentMessageWithPrefix(Locale locale, MessagesKeys message) {
+    public @NotNull Component getComponentMessageWithPrefix(@NotNull Locale locale, @NotNull MessagesKeys message) {
         return Component.text(getPrefix(locale)).append(componentLabels.parseMessage(colorize(getString(locale, message))));
     }
 
     @Override
-    public JSONObject getAllLocaleMessages(Locale locale) {
+    public @NotNull JSONObject getAllLocaleMessages(@NotNull Locale locale) {
         return messages.get(locale.toString());
     }
 
     @Override
-    public HashMap<String, JSONObject> getAllMessages() {
+    public @NotNull HashMap<String, JSONObject> getAllMessages() {
         return messages;
     }
 
     @Override
-    public String getPrefix(Locale locale) {
+    public @NotNull String getPrefix(@NotNull Locale locale) {
         return colorize(getString(locale, Message.PREFIX));
     }
 
     @Override
-    public String colorize(String message) {
+    public @NotNull String colorize(@NotNull String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
-    private String getString(Locale locale, MessagesKeys message) {
+    private @NotNull String getString(@NotNull Locale locale, @NotNull MessagesKeys message) {
         var json = getAllLocaleMessages(locale);
         var key = message.toString().toLowerCase();
         if (json.has(key)) {
@@ -130,7 +131,7 @@ public class DarkWaterMessages extends FilesManager implements Messages {
         return key;
     }
 
-    private JSONObject getJsonFromFile(File file) throws IOException {
+    private @NotNull JSONObject getJsonFromFile(@NotNull File file) throws IOException {
         try (var br = new BufferedReader(new FileReader(file.getAbsolutePath()))) {
             var line = br.readLine();
             if (line == null) {

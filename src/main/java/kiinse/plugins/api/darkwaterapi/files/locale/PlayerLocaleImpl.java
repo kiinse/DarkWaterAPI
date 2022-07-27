@@ -7,6 +7,7 @@ import kiinse.plugins.api.darkwaterapi.utilities.PlayerUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Level;
 
@@ -15,25 +16,25 @@ public class PlayerLocaleImpl implements PlayerLocale {
     private final DarkWaterAPI darkWaterAPI;
     private final LocaleStorage storage;
 
-    public PlayerLocaleImpl(DarkWaterAPI darkWaterAPI, LocaleStorage storage) {
+    public PlayerLocaleImpl(@NotNull DarkWaterAPI darkWaterAPI, @NotNull LocaleStorage storage) {
         this.darkWaterAPI = darkWaterAPI;
         this.storage = storage;
     }
 
     @Override
-    public boolean isPlayerLocalized(Player player) {
+    public boolean isPlayerLocalized(@NotNull Player player) {
         return storage.isLocalesDataContains(player);
     }
 
     @Override
-    public Locale getPlayerLocale(Player player) {
+    public @NotNull Locale getPlayerLocale(@NotNull Player player) {
         if (isPlayerLocalized(player)) {
             return storage.getLocalesData(player);
         } return storage.getDefaultLocale();
     }
 
     @Override
-    public Locale getPlayerLocale(CommandSender sender) {
+    public @NotNull Locale getPlayerLocale(@NotNull CommandSender sender) {
         if (sender instanceof ConsoleCommandSender) {
             return storage.getDefaultLocale();
         }
@@ -44,17 +45,17 @@ public class PlayerLocaleImpl implements PlayerLocale {
     }
 
     @Override
-    public void setPlayerLocale(Player player, Locale locale) {
+    public void setPlayerLocale(@NotNull Player player, @NotNull Locale locale) {
         if (isPlayerLocalized(player) && storage.removeLocalesData(player)) {
             darkWaterAPI.sendLog(Level.CONFIG, "Player '" + PlayerUtils.getPlayerName(player) + "' locale has been removed");
         }
         if (storage.putInLocalesData(player, storage.isAllowedLocale(locale) ? locale : storage.getDefaultLocale())) {
-            darkWaterAPI.sendLog(Level.CONFIG, "Player '" + PlayerUtils.getPlayerName(player)  + "' locale has been added. Locale: " + locale.toString());
+            darkWaterAPI.sendLog(Level.CONFIG, "Player '" + PlayerUtils.getPlayerName(player)  + "' locale has been added. Locale: " + locale);
         }
     }
 
     @Override
-    public Locale getPlayerInterfaceLocale(Player player) {
+    public @NotNull Locale getPlayerInterfaceLocale(@NotNull Player player) {
         return Locale.valueOf(player.locale().getLanguage());
     }
 }

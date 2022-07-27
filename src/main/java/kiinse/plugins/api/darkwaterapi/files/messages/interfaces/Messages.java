@@ -2,6 +2,7 @@ package kiinse.plugins.api.darkwaterapi.files.messages.interfaces;
 
 import kiinse.plugins.api.darkwaterapi.files.locale.Locale;
 import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ public interface Messages {
      * @param message Сообщение
      * @return Строка с сообщением на определённом языке. Если в сообщении были цвета (К примеру &6), то они уже отформатированы для отображения.
      */
-    String getStringMessage(Locale locale, MessagesKeys message);
+    @NotNull String getStringMessage(@NotNull Locale locale, @NotNull MessagesKeys message);
 
     /**
      * Получение сообщения из файла messages.json
@@ -29,7 +30,7 @@ public interface Messages {
      * @param message Сообщение
      * @return Компонент с сообщением на определённом языке. Если в сообщении были цвета (К примеру &6), то они уже отформатированы для отображения.
      */
-    Component getComponentMessage(Locale locale, MessagesKeys message);
+    @NotNull Component getComponentMessage(@NotNull Locale locale, @NotNull MessagesKeys message);
 
     /**
      * Получение сообщения из файла messages.json с префиксом перед ним
@@ -37,7 +38,7 @@ public interface Messages {
      * @param message Сообщение
      * @return Строка с сообщением на определённом языке. Если в сообщении были цвета (К примеру &6), то они уже отформатированы для отображения.
      */
-    String getStringMessageWithPrefix(Locale locale, MessagesKeys message);
+    @NotNull String getStringMessageWithPrefix(@NotNull Locale locale, @NotNull MessagesKeys message);
 
     /**
      * Получение сообщения из файла messages.json с префиксом перед ним
@@ -45,27 +46,27 @@ public interface Messages {
      * @param message Сообщение
      * @return Компонент с сообщением на определённом языке. Если в сообщении были цвета (К примеру &6), то они уже отформатированы для отображения.
      */
-    Component getComponentMessageWithPrefix(Locale locale, MessagesKeys message);
+    @NotNull Component getComponentMessageWithPrefix(@NotNull Locale locale, @NotNull MessagesKeys message);
 
     /**
      * Получения JSON объекта со всеми сообщениями
      * @param locale Язык сообщений
      * @return JSON объект со всеми сообщениями на указанном языке
      */
-    JSONObject getAllLocaleMessages(Locale locale);
+    @NotNull JSONObject getAllLocaleMessages(@NotNull Locale locale);
 
-    HashMap<String, JSONObject> getAllMessages();
+    @NotNull HashMap<String, JSONObject> getAllMessages();
 
     /**
      * Получение префикса из файла с сообщениями
      * @return Префикс
      */
-    String getPrefix(Locale locale);
+    @NotNull String getPrefix(@NotNull Locale locale);
 
     /**
      * Метод форматирования цветов для отображения
      * @param message Входящая строка с необработанными цветами (Начинаются на &)
      * @return Строка с отформатированными цветами
      */
-    String colorize(String message);
+    @NotNull String colorize(@NotNull String message);
 }

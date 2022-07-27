@@ -4,6 +4,7 @@ import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class LocaleExpansion extends PlaceholderExpansion {
 
@@ -12,7 +13,7 @@ public class LocaleExpansion extends PlaceholderExpansion {
     // %locale_player%
     // %locale_list%
 
-    public LocaleExpansion(DarkWaterAPI darkWaterAPI){
+    public LocaleExpansion(@NotNull DarkWaterAPI darkWaterAPI){
         this.darkWaterAPI = darkWaterAPI;
     }
 
@@ -39,7 +40,7 @@ public class LocaleExpansion extends PlaceholderExpansion {
     }
 
     @Override
-    public String onPlaceholderRequest(Player player, @NotNull String identifier){
+    public @Nullable String onPlaceholderRequest(@Nullable Player player, @NotNull String identifier){
         if(player == null){
             return "";
         }

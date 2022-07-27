@@ -2,6 +2,7 @@ package kiinse.plugins.api.darkwaterapi.files.filemanager;
 
 import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesKeys;
 import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -19,7 +20,7 @@ public class JsonFile extends FilesManager {
     private final DarkWaterJavaPlugin plugin;
     private final File file;
 
-    public JsonFile(DarkWaterJavaPlugin plugin, FilesKeys fileName) {
+    public JsonFile(@NotNull DarkWaterJavaPlugin plugin, @NotNull FilesKeys fileName) {
         super(plugin);
         this.plugin = plugin;
         if (isFileNotExists(fileName)) {
@@ -28,7 +29,7 @@ public class JsonFile extends FilesManager {
         this.file = getFile(fileName);
     }
 
-    public JSONObject getJsonFromFile() throws IOException {
+    public @NotNull JSONObject getJsonFromFile() throws IOException {
         try (var br = new BufferedReader(new FileReader(file.getAbsolutePath()))) {
             var line = br.readLine();
             if (line == null) {
@@ -40,7 +41,7 @@ public class JsonFile extends FilesManager {
         }
     }
 
-    public void saveJsonToFile(JSONObject json) throws IOException {
+    public void saveJsonToFile(@NotNull JSONObject json) throws IOException {
         if (!file.exists() && file.createNewFile()) {
             plugin.sendLog("File '&b" + file.getName() + "&a' created");
         }

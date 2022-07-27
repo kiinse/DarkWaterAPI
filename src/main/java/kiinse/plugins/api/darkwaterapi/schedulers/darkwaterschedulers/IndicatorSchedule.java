@@ -1,7 +1,7 @@
 package kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
-import kiinse.plugins.api.darkwaterapi.files.config.utils.Config;
+import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
 import kiinse.plugins.api.darkwaterapi.indicators.interfaces.IndicatorManager;
 import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.schedulers.Scheduler;
@@ -9,6 +9,7 @@ import kiinse.plugins.api.darkwaterapi.schedulers.annotation.SchedulerData;
 import kiinse.plugins.api.darkwaterapi.utilities.PlayerUtils;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
 
 @SchedulerData(
         name = "IndicatorSchedule"
@@ -16,13 +17,13 @@ import org.bukkit.Bukkit;
 public class IndicatorSchedule extends Scheduler {
     private final IndicatorManager indicators = DarkWaterAPI.getInstance().getIndicatorManager();
 
-    public IndicatorSchedule(DarkWaterJavaPlugin plugin) {
+    public IndicatorSchedule(@NotNull DarkWaterJavaPlugin plugin) {
         super(plugin);
     }
 
     @Override
     public boolean canStart() {
-        return plugin.getConfiguration().getBoolean(Config.ACTIONBAR_INDICATORS) && Bukkit.getServer().getPluginManager().getPlugin("PlaceholderAPI") != null;
+        return plugin.getConfiguration().getBoolean(Config.ACTIONBAR_INDICATORS) && Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
     }
 
     @Override

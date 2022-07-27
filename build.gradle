@@ -6,7 +6,7 @@ plugins {
 
 group = 'kiinse.plugins.api'
 description = 'DarkWaterAPI'
-version = '2.2.0'
+version = '2.3.0-beta.1'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -19,6 +19,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.vdurmont:semver4j:3.1.0'
     implementation 'commons-codec:commons-codec:1.15'
     implementation 'org.jooq:jooq:3.16.6'
     implementation 'org.jooq:jooq-meta:3.16.6'
@@ -35,6 +36,7 @@ dependencies {
     implementation 'org.springframework:spring-core:5.3.20'
     implementation 'com.auth0:java-jwt:4.0.0'
     implementation 'org.jetbrains:annotations:23.0.0'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
     compileOnly 'io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT'
     compileOnly 'me.clip:placeholderapi:2.10.9'
 }
@@ -68,4 +70,13 @@ tasks.withType(Jar) {
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand props
+    }
 }

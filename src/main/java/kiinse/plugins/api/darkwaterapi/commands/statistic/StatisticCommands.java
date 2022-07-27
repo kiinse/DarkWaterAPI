@@ -5,10 +5,11 @@ import kiinse.plugins.api.darkwaterapi.commands.manager.annotation.Command;
 import kiinse.plugins.api.darkwaterapi.commands.manager.interfaces.CommandClass;
 import kiinse.plugins.api.darkwaterapi.files.messages.SendMessagesImpl;
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.SendMessages;
-import kiinse.plugins.api.darkwaterapi.files.messages.utils.Message;
-import kiinse.plugins.api.darkwaterapi.files.messages.utils.Replace;
+import kiinse.plugins.api.darkwaterapi.files.messages.enums.Message;
+import kiinse.plugins.api.darkwaterapi.files.messages.enums.Replace;
 import kiinse.plugins.api.darkwaterapi.utilities.PlayerUtils;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 public class StatisticCommands implements CommandClass {
 
@@ -17,7 +18,7 @@ public class StatisticCommands implements CommandClass {
 
     @Override
     @Command(command = "/statistic", permission = "darkwater.statistic", disallowNonPlayer = true)
-    public void mainCommand(CommandSender sender, String[] args) {
+    public void mainCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         var stats = darkWaterAPI.getDarkWaterStatistic().getPlayerStatistic(PlayerUtils.getPlayer(sender)).getAllStatistic();
         String msg;
         if (!stats.isEmpty()) {

@@ -8,6 +8,7 @@ import kiinse.plugins.api.darkwaterapi.utilities.DarkWaterUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class SendMessagesImpl implements SendMessages {
 
@@ -15,137 +16,137 @@ public class SendMessagesImpl implements SendMessages {
     private final ComponentLabels componentLabels = new ParseComponentLabels();
     private final Messages messages;
 
-    public SendMessagesImpl(DarkWaterJavaPlugin plugin) {
+    public SendMessagesImpl(@NotNull DarkWaterJavaPlugin plugin) {
         messages = plugin.getMessages();
     }
 
     @Override
-    public void sendMessageToAll(MessagesKeys message) {
+    public void sendMessageToAll(@NotNull MessagesKeys message) {
         for (var player : Bukkit.getOnlinePlayers()) {
             execute(player, messages.getStringMessage(locale.getPlayerLocale(player), message));
         }
     }
 
     @Override
-    public void sendMessageWithPrefixToAll(MessagesKeys message) {
+    public void sendMessageWithPrefixToAll(@NotNull MessagesKeys message) {
         for (var player : Bukkit.getOnlinePlayers()) {
             execute(player, messages.getStringMessageWithPrefix(locale.getPlayerLocale(player), message));
         }
     }
 
     @Override
-    public void sendMessageToAllWithReplace(MessagesKeys message, String from, String to) {
+    public void sendMessageToAllWithReplace(@NotNull MessagesKeys message, @NotNull String from, @NotNull String to) {
         for (var player : Bukkit.getOnlinePlayers()) {
             execute(player, DarkWaterUtils.replaceWord(messages.getStringMessage(locale.getPlayerLocale(player), message), from, to));
         }
     }
 
     @Override
-    public void sendMessageToAllWithReplace(MessagesKeys message, ReplaceKeys from, String to) {
+    public void sendMessageToAllWithReplace(@NotNull MessagesKeys message, @NotNull ReplaceKeys from, @NotNull String to) {
         for (var player : Bukkit.getOnlinePlayers()) {
             execute(player, DarkWaterUtils.replaceWord(messages.getStringMessage(locale.getPlayerLocale(player), message), from, to));
         }
     }
 
     @Override
-    public void sendMessageWithPrefixToAllWithReplace(MessagesKeys message, String from, String to) {
+    public void sendMessageWithPrefixToAllWithReplace(@NotNull MessagesKeys message, @NotNull String from, @NotNull String to) {
         for (var player : Bukkit.getOnlinePlayers()) {
             execute(player, DarkWaterUtils.replaceWord(messages.getStringMessageWithPrefix(locale.getPlayerLocale(player), message), from, to));
         }
     }
 
     @Override
-    public void sendMessageWithPrefixToAllWithReplace(MessagesKeys message, ReplaceKeys from, String to) {
+    public void sendMessageWithPrefixToAllWithReplace(@NotNull MessagesKeys message, @NotNull ReplaceKeys from, @NotNull String to) {
         for (var player : Bukkit.getOnlinePlayers()) {
             execute(player, DarkWaterUtils.replaceWord(messages.getStringMessageWithPrefix(locale.getPlayerLocale(player), message), from, to));
         }
     }
 
     @Override
-    public void sendMessage(Player player, MessagesKeys message) {
+    public void sendMessage(@NotNull Player player, @NotNull MessagesKeys message) {
         execute(player, messages.getStringMessage(locale.getPlayerLocale(player), message));
     }
 
     @Override
-    public void sendMessageWithPrefix(Player player, MessagesKeys message) {
+    public void sendMessageWithPrefix(@NotNull Player player, @NotNull MessagesKeys message) {
         execute(player, messages.getStringMessageWithPrefix(locale.getPlayerLocale(player), message));
     }
 
     @Override
-    public void sendMessage(CommandSender player, MessagesKeys message) {
+    public void sendMessage(@NotNull CommandSender player, @NotNull MessagesKeys message) {
         execute(player, messages.getStringMessage(locale.getPlayerLocale(player), message));
     }
 
     @Override
-    public void sendMessageWithPrefix(CommandSender player, MessagesKeys message) {
+    public void sendMessageWithPrefix(@NotNull CommandSender player, @NotNull MessagesKeys message) {
         execute(player, messages.getStringMessageWithPrefix(locale.getPlayerLocale(player), message));
     }
 
     @Override
-    public void sendMessage(Player player, MessagesKeys message, String from, String to) {
+    public void sendMessage(@NotNull Player player, @NotNull MessagesKeys message, @NotNull String from, @NotNull String to) {
         execute(player, DarkWaterUtils.replaceWord(messages.getStringMessage(locale.getPlayerLocale(player), message), from, to));
     }
 
     @Override
-    public void sendMessage(Player player, MessagesKeys message, ReplaceKeys from, String to) {
+    public void sendMessage(@NotNull Player player, @NotNull MessagesKeys message, @NotNull ReplaceKeys from, @NotNull String to) {
         execute(player, DarkWaterUtils.replaceWord(messages.getStringMessage(locale.getPlayerLocale(player), message), from, to));
     }
 
     @Override
-    public void sendMessageWithPrefix(Player player, MessagesKeys message, String from, String to) {
+    public void sendMessageWithPrefix(@NotNull Player player, @NotNull MessagesKeys message, @NotNull String from, @NotNull String to) {
         execute(player, DarkWaterUtils.replaceWord(messages.getStringMessageWithPrefix(locale.getPlayerLocale(player), message), from, to));
     }
 
     @Override
-    public void sendMessageWithPrefix(Player player, MessagesKeys message, ReplaceKeys from, String to) {
+    public void sendMessageWithPrefix(@NotNull Player player, @NotNull MessagesKeys message, @NotNull ReplaceKeys from, @NotNull String to) {
         execute(player, DarkWaterUtils.replaceWord(messages.getStringMessageWithPrefix(locale.getPlayerLocale(player), message), from, to));
     }
 
     @Override
-    public void sendMessage(CommandSender player, MessagesKeys message, String from, String to) {
+    public void sendMessage(@NotNull CommandSender player, @NotNull MessagesKeys message, @NotNull String from, @NotNull String to) {
         execute(player, DarkWaterUtils.replaceWord(messages.getStringMessage(locale.getPlayerLocale(player), message), from, to));
     }
 
     @Override
-    public void sendMessage(CommandSender player, MessagesKeys message, ReplaceKeys from, String to) {
+    public void sendMessage(@NotNull CommandSender player, @NotNull MessagesKeys message, @NotNull ReplaceKeys from, @NotNull String to) {
         execute(player, DarkWaterUtils.replaceWord(messages.getStringMessage(locale.getPlayerLocale(player), message), from, to));
     }
 
     @Override
-    public void sendMessageWithPrefix(CommandSender player, MessagesKeys message, String from, String to) {
+    public void sendMessageWithPrefix(@NotNull CommandSender player, @NotNull MessagesKeys message, @NotNull String from, @NotNull String to) {
         execute(player, DarkWaterUtils.replaceWord(messages.getStringMessageWithPrefix(locale.getPlayerLocale(player), message), from, to));
     }
 
     @Override
-    public void sendMessageWithPrefix(CommandSender player, MessagesKeys message, ReplaceKeys from, String to) {
+    public void sendMessageWithPrefix(@NotNull CommandSender player, @NotNull MessagesKeys message, @NotNull ReplaceKeys from, @NotNull String to) {
         execute(player, DarkWaterUtils.replaceWord(messages.getStringMessageWithPrefix(locale.getPlayerLocale(player), message), from, to));
     }
 
     @Override
-    public void sendMessage(Player player, MessagesKeys message, String[] words) {
+    public void sendMessage(@NotNull Player player, @NotNull MessagesKeys message, @NotNull String[] words) {
         execute(player, DarkWaterUtils.replaceWord(messages.getStringMessage(locale.getPlayerLocale(player), message), words));
     }
 
     @Override
-    public void sendMessageWithPrefix(Player player, MessagesKeys message, String[] words) {
+    public void sendMessageWithPrefix(@NotNull Player player, @NotNull MessagesKeys message, @NotNull String[] words) {
         execute(player, DarkWaterUtils.replaceWord(messages.getStringMessageWithPrefix(locale.getPlayerLocale(player), message), words));
     }
 
     @Override
-    public void sendMessage(CommandSender player, MessagesKeys message, String[] words) {
+    public void sendMessage(@NotNull CommandSender player, @NotNull MessagesKeys message, @NotNull String[] words) {
         execute(player, DarkWaterUtils.replaceWord(messages.getStringMessage(locale.getPlayerLocale(player), message), words));
     }
 
     @Override
-    public void sendMessageWithPrefix(CommandSender player, MessagesKeys message, String[] words) {
+    public void sendMessageWithPrefix(@NotNull CommandSender player, @NotNull MessagesKeys message, @NotNull String[] words) {
         execute(player, DarkWaterUtils.replaceWord(messages.getStringMessageWithPrefix(locale.getPlayerLocale(player), message), words));
     }
 
-    private void execute(Player player, String msg) {
+    private void execute(@NotNull Player player, @NotNull String msg) {
         player.sendMessage(componentLabels.parseMessage(msg));
     }
 
-    private void execute(CommandSender player, String msg) {
+    private void execute(@NotNull CommandSender player, @NotNull String msg) {
         player.sendMessage(componentLabels.parseMessage(msg));
     }
 }

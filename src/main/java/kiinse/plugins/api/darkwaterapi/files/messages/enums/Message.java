@@ -1,4 +1,4 @@
-package kiinse.plugins.api.darkwaterapi.files.messages.utils;
+package kiinse.plugins.api.darkwaterapi.files.messages.enums;
 
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.MessagesKeys;
 
