@@ -1,5 +1,7 @@
 package kiinse.plugins.api.darkwaterapi.commands.manager;
 
+import org.jetbrains.annotations.NotNull;
+
 @SuppressWarnings("unused")
 public class CommandException extends Exception {
 
@@ -7,15 +9,15 @@ public class CommandException extends Exception {
         super();
     }
 
-    public CommandException(String message) {
+    public CommandException(@NotNull String message) {
         super(message);
     }
 
-    public CommandException(String message, Throwable cause) {
+    public CommandException(@NotNull String message, @NotNull Throwable cause) {
         super(message, cause);
     }
 
-    public CommandException(Throwable cause) {
+    public CommandException(@NotNull Throwable cause) {
         super(cause);
     }
 }

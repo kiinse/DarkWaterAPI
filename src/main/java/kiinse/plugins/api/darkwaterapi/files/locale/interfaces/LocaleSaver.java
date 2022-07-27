@@ -1,12 +1,13 @@
 package kiinse.plugins.api.darkwaterapi.files.locale.interfaces;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
 public interface LocaleSaver {
 
-    void saveLocaleStorage(JSONObject json) throws IOException;
+    void saveLocaleStorage(@NotNull JSONObject json) throws IOException;
 
-    JSONObject parseLocalesData(LocaleStorage storage);
+    @NotNull JSONObject parseLocalesData(@NotNull LocaleStorage storage);
 }

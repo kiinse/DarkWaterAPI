@@ -1,4 +1,4 @@
-package kiinse.plugins.api.darkwaterapi.files.filemanager.utils;
+package kiinse.plugins.api.darkwaterapi.files.filemanager.enums;
 
 import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.DirectoriesKeys;
 

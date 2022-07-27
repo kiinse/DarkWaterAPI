@@ -1,8 +1,10 @@
 package kiinse.plugins.api.darkwaterapi.commands.manager.interfaces;
 
-import kiinse.plugins.api.darkwaterapi.commands.manager.CommandManager;
+import kiinse.plugins.api.darkwaterapi.commands.manager.RegisteredCommand;
 import kiinse.plugins.api.darkwaterapi.commands.manager.reasons.CommandFailReason;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface CommandFailureHandler {
 
@@ -12,6 +14,6 @@ public interface CommandFailureHandler {
      * @param sender Command sender
      * @param command Command used
      */
-    void handleFailure(CommandFailReason reason, CommandSender sender, CommandManager.RegisteredCommand command);
+    void handleFailure(@NotNull CommandFailReason reason, @NotNull CommandSender sender, @Nullable RegisteredCommand command);
 
 }

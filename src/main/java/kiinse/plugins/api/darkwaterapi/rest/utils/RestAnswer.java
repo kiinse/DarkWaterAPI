@@ -1,17 +1,20 @@
 package kiinse.plugins.api.darkwaterapi.rest.utils;
 
+import kiinse.plugins.api.darkwaterapi.rest.enums.RestStatus;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.json.simple.JSONObject;
 
 @SuppressWarnings({"unchecked", "unused"})
-public class RestUtils {
+public class RestAnswer {
 
-    private RestUtils() {}
+    private RestAnswer() {}
 
-    public static JSONObject createAnswer(RestStatus status) {
+    public static @NotNull JSONObject createAnswer(@NotNull RestStatus status) {
         return createAnswer(status, (Exception) null);
     }
 
-    public static JSONObject createAnswer(RestStatus status, String data) {
+    public static @NotNull JSONObject createAnswer(@NotNull RestStatus status, @Nullable String data) {
         var json = createAnswer(status, (Exception) null);
         if (data != null) {
             json.put("data", data);
@@ -19,7 +22,7 @@ public class RestUtils {
         return json;
     }
 
-    public static JSONObject createAnswer(RestStatus status, JSONObject data) {
+    public static @NotNull JSONObject createAnswer(@NotNull RestStatus status, @Nullable JSONObject data) {
         var json = createAnswer(status, (Exception) null);
         if (data != null) {
             json.put("data", data);
@@ -27,7 +30,7 @@ public class RestUtils {
         return json;
     }
 
-    public static JSONObject createAnswer(RestStatus status, Exception message) {
+    public static @NotNull JSONObject createAnswer(@NotNull RestStatus status, @Nullable Exception message) {
         var json = new JSONObject();
         json.put("code", status.getCode());
         json.put("message", message == null ? status.getMessage() : message.getMessage());
@@ -35,19 +38,19 @@ public class RestUtils {
         return json;
     }
 
-    public static JSONObject createAnswer(RestStatus status, Exception message, String data) {
+    public static @NotNull JSONObject createAnswer(@NotNull RestStatus status, @Nullable Exception message, @Nullable String data) {
         var json = createAnswer(status, message);
         json.put("data", data);
         return json;
     }
 
-    public static JSONObject createAnswer(RestStatus status, Exception message, JSONObject data) {
+    public static @NotNull JSONObject createAnswer(@NotNull RestStatus status, @Nullable Exception message, @Nullable JSONObject data) {
         var json = createAnswer(status, message);
         json.put("data", data);
         return json;
     }
 
-    public static JSONObject createAnswer(RestStatus status, String message, String data) {
+    public static @NotNull JSONObject createAnswer(@NotNull RestStatus status, @NotNull String message, @NotNull String data) {
         var json = new JSONObject();
         json.put("code", status.getCode());
         json.put("message", message);
@@ -56,7 +59,7 @@ public class RestUtils {
         return json;
     }
 
-    public static JSONObject createAnswer(RestStatus status, String  message, JSONObject data) {
+    public static @NotNull JSONObject createAnswer(@NotNull RestStatus status, @NotNull String message, @NotNull JSONObject data) {
         var json = new JSONObject();
         json.put("code", status.getCode());
         json.put("message", message);

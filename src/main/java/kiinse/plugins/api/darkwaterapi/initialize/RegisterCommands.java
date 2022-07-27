@@ -8,12 +8,13 @@ import kiinse.plugins.api.darkwaterapi.commands.manager.CommandException;
 import kiinse.plugins.api.darkwaterapi.commands.manager.CommandManager;
 import kiinse.plugins.api.darkwaterapi.commands.statistic.StatisticCommands;
 import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 public class RegisterCommands {
 
-    public RegisterCommands(DarkWaterJavaPlugin plugin) throws NullPointerException, CommandException {
+    public RegisterCommands(@NotNull DarkWaterJavaPlugin plugin) throws NullPointerException, CommandException {
         plugin.sendLog("Registering commands...");
         var commandManager = new CommandManager(plugin);
         commandManager.registerCommands(new LocaleCommands());

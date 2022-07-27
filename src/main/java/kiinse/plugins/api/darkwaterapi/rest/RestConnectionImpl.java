@@ -1,12 +1,13 @@
 package kiinse.plugins.api.darkwaterapi.rest;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
-import kiinse.plugins.api.darkwaterapi.files.config.utils.Config;
+import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.YamlFile;
 import kiinse.plugins.api.darkwaterapi.rest.interfaces.RestConnection;
 import kiinse.plugins.api.darkwaterapi.rest.services.DarkWaterService;
-import kiinse.plugins.api.darkwaterapi.rest.utils.AuthTypes;
+import kiinse.plugins.api.darkwaterapi.rest.enums.AuthTypes;
 import kiinse.plugins.api.darkwaterapi.rest.utils.DarkWaterAuthProvider;
+import org.jetbrains.annotations.NotNull;
 import services.moleculer.ServiceBroker;
 import services.moleculer.web.ApiGateway;
 import services.moleculer.web.middleware.BasicAuthenticator;
@@ -20,7 +21,7 @@ public class RestConnectionImpl implements RestConnection {
     private final DarkWaterAPI darkWaterAPI;
     private ServiceBroker broker;
 
-    public RestConnectionImpl(DarkWaterAPI darkWaterAPI) throws Exception {
+    public RestConnectionImpl(@NotNull DarkWaterAPI darkWaterAPI) throws Exception {
         this.darkWaterAPI = darkWaterAPI;
         this.config = darkWaterAPI.getConfiguration();
         if (config.getBoolean(Config.REST_ENABLE)) {

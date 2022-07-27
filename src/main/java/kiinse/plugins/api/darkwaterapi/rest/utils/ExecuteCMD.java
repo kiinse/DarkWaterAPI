@@ -5,6 +5,7 @@ import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
+import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
@@ -17,11 +18,14 @@ import java.util.*;
 @SuppressWarnings("unused")
 public class ExecuteCMD implements ConsoleCommandSender {
 
-    String cmdOut = null;
+    private String cmdOut = null;
+    private boolean isOp;
+    private boolean fck;
     private final Server server;
 
-    public ExecuteCMD(Server server) {
+    public ExecuteCMD(@NotNull Server server) {
         this.server = server;
+        isOp = true;
     }
 
     @Override
@@ -29,7 +33,7 @@ public class ExecuteCMD implements ConsoleCommandSender {
         cmdOut = message;
     }
 
-    public String getOutput() {
+    public @NotNull String getOutput() {
         return cmdOut;
     }
 
@@ -63,7 +67,7 @@ public class ExecuteCMD implements ConsoleCommandSender {
     @NotNull
     @Override
     public Spigot spigot() {
-        return null;
+        return new Spigot();
     }
 
     @Override
@@ -78,6 +82,7 @@ public class ExecuteCMD implements ConsoleCommandSender {
 
     @Override
     public void acceptConversationInput(@NotNull String input) {
+        fck = true;
     }
 
     @Override
@@ -87,22 +92,22 @@ public class ExecuteCMD implements ConsoleCommandSender {
 
     @Override
     public void abandonConversation(@NotNull Conversation conversation) {
-
+        fck = true;
     }
 
     @Override
     public void abandonConversation(@NotNull Conversation conversation, @NotNull ConversationAbandonedEvent details) {
-
+        fck = true;
     }
 
     @Override
     public void sendRawMessage(@NotNull String message) {
-
+        fck = true;
     }
 
     @Override
     public void sendRawMessage(@Nullable UUID sender, @NotNull String message) {
-
+        fck = true;
     }
 
     @Override
@@ -128,13 +133,13 @@ public class ExecuteCMD implements ConsoleCommandSender {
     @NotNull
     @Override
     public PermissionAttachment addAttachment(@NotNull Plugin plugin, @NotNull String name, boolean value) {
-        return null;
+        return new PermissionAttachment(plugin, Permissible.class.cast(Permissible.class));
     }
 
     @NotNull
     @Override
     public PermissionAttachment addAttachment(@NotNull Plugin plugin) {
-        return null;
+        return new PermissionAttachment(plugin, Permissible.class.cast(Permissible.class));
     }
 
     @Nullable
@@ -151,12 +156,12 @@ public class ExecuteCMD implements ConsoleCommandSender {
 
     @Override
     public void removeAttachment(@NotNull PermissionAttachment attachment) {
-
+        fck = true;
     }
 
     @Override
     public void recalculatePermissions() {
-
+        fck = true;
     }
 
     @NotNull
@@ -181,19 +186,17 @@ public class ExecuteCMD implements ConsoleCommandSender {
             @NotNull
             @Override
             public Iterator<PermissionAttachmentInfo> iterator() {
-                return null;
+                return Collections.emptyIterator();
             }
 
-            @NotNull
             @Override
             public Object[] toArray() {
                 return new Object[0];
             }
 
-            @NotNull
             @Override
-            public <T> T[] toArray(@NotNull T[] a) {
-                return null;
+            public <T> T[] toArray(T @NotNull [] a) {
+                return a;
             }
 
             @Override
@@ -218,27 +221,28 @@ public class ExecuteCMD implements ConsoleCommandSender {
 
             @Override
             public boolean retainAll(@NotNull Collection<?> c) {
-                return false;
+                return fck;
             }
 
             @Override
             public boolean removeAll(@NotNull Collection<?> c) {
-                return false;
+                return fck;
             }
 
             @Override
             public void clear() {
-
+                cmdOut = null;
             }
         };
     }
 
     @Override
     public boolean isOp() {
-        return true;
+        return isOp;
     }
 
     @Override
     public void setOp(boolean value) {
+        isOp = value;
     }
 }

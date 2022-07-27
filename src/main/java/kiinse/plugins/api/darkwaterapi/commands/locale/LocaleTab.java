@@ -3,7 +3,7 @@ package kiinse.plugins.api.darkwaterapi.commands.locale;
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.LocaleStorage;
 import kiinse.plugins.api.darkwaterapi.utilities.PlayerUtils;
-import kiinse.plugins.api.darkwaterapi.utilities.utils.Permission;
+import kiinse.plugins.api.darkwaterapi.utilities.enums.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -19,7 +19,7 @@ public class LocaleTab implements TabCompleter {
 
     private final LocaleStorage storage = DarkWaterAPI.getInstance().getLocaleStorage();
 
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String commandLabel, String[] args) {
+    public @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String commandLabel, @NotNull String[] args) {
         var list = new ArrayList<String>();
         if (sender instanceof Player && cmd.getName().equalsIgnoreCase("locale")) {
             if (args.length == 1) {

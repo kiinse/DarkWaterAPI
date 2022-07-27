@@ -8,16 +8,18 @@ import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.utilities.DarkWaterUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class FailureHandler implements CommandFailureHandler {
     private final SendMessages sendMessages;
 
-    public FailureHandler(DarkWaterJavaPlugin plugin) {
+    public FailureHandler(@NotNull DarkWaterJavaPlugin plugin) {
         this.sendMessages = new SendMessagesImpl(plugin.getDarkWaterAPI());
     }
 
     @Override
-    public void handleFailure(CommandFailReason reason, CommandSender sender, CommandManager.RegisteredCommand command) {
+    public void handleFailure(@NotNull CommandFailReason reason, @NotNull CommandSender sender, @Nullable RegisteredCommand command) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(DarkWaterUtils.colorize("&cYou cannot execute this command outside of the game!"));
         } else {

@@ -5,15 +5,17 @@ import kiinse.plugins.api.darkwaterapi.commands.manager.annotation.Command;
 import kiinse.plugins.api.darkwaterapi.commands.manager.interfaces.CommandClass;
 import kiinse.plugins.api.darkwaterapi.files.messages.SendMessagesImpl;
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.SendMessages;
-import kiinse.plugins.api.darkwaterapi.files.messages.utils.Message;
-import kiinse.plugins.api.darkwaterapi.files.messages.utils.Replace;
+import kiinse.plugins.api.darkwaterapi.files.messages.enums.Message;
+import kiinse.plugins.api.darkwaterapi.files.messages.enums.Replace;
 import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkPluginManager;
 import kiinse.plugins.api.darkwaterapi.utilities.PlayerUtils;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Level;
 
+@SuppressWarnings("unused")
 public class DarkWaterCommands implements CommandClass {
 
     private final DarkWaterAPI darkWaterAPI = DarkWaterAPI.getInstance();
@@ -22,7 +24,7 @@ public class DarkWaterCommands implements CommandClass {
 
     @Override
     @Command(command = "/darkwater reload", permission = "darkwater.reload", parameters = 1)
-    public void mainCommand(CommandSender sender, String[] args) {
+    public void mainCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         if (hasPlugin(sender, args[0])) {
             try {
                 pluginManager.reloadPlugin(args[0]);
@@ -36,7 +38,7 @@ public class DarkWaterCommands implements CommandClass {
     }
 
     @Command(command = "/darkwater enable", permission = "darkwater.enable", parameters = 1)
-    public void enable(CommandSender sender, String[] args) {
+    public void enable(@NotNull CommandSender sender, @NotNull String[] args) {
         if (hasPlugin(sender, args[0])) {
             try {
                 pluginManager.enablePlugin(args[0]);
@@ -50,7 +52,7 @@ public class DarkWaterCommands implements CommandClass {
     }
 
     @Command(command = "/darkwater disable", permission = "darkwater.disable", parameters = 1)
-    public void disable(CommandSender sender, String[] args) {
+    public void disable(@NotNull CommandSender sender, @NotNull String[] args) {
         if (hasPlugin(sender, args[0])) {
             try {
                 pluginManager.disablePlugin(args[0]);
@@ -63,7 +65,7 @@ public class DarkWaterCommands implements CommandClass {
         }
     }
 
-    private boolean hasPlugin(CommandSender sender, String plugin) {
+    private boolean hasPlugin(@NotNull CommandSender sender, @NotNull String plugin) {
         if (!pluginManager.hasPlugin(plugin)) {
             sendMessages.sendMessageWithPrefix(sender, Message.PLUGIN_NOT_FOUND, Replace.PLUGIN, plugin);
             PlayerUtils.playSound(sender, Sound.ENTITY_PLAYER_ATTACK_NODAMAGE);

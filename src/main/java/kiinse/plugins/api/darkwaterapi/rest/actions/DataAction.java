@@ -1,9 +1,10 @@
 package kiinse.plugins.api.darkwaterapi.rest.actions;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
-import kiinse.plugins.api.darkwaterapi.rest.utils.RestStatus;
-import kiinse.plugins.api.darkwaterapi.rest.utils.RestUtils;
+import kiinse.plugins.api.darkwaterapi.rest.enums.RestStatus;
+import kiinse.plugins.api.darkwaterapi.rest.utils.RestAnswer;
 import org.bukkit.Server;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 import services.moleculer.context.Context;
 import services.moleculer.service.Action;
@@ -15,12 +16,12 @@ public class DataAction implements Action {
 
     private final DarkWaterAPI darkWaterAPI;
 
-    public DataAction(DarkWaterAPI darkWaterAPI) {
+    public DataAction(@NotNull DarkWaterAPI darkWaterAPI) {
         this.darkWaterAPI = darkWaterAPI;
     }
 
     @Override
-    public Object handler(Context context) {
+    public @NotNull Object handler(@NotNull Context context) {
         var server = darkWaterAPI.getServer();
         var json = new JSONObject();
         json.put("tps", server.getTPS());
@@ -42,10 +43,10 @@ public class DataAction implements Action {
         json.put("name", server.getName());
         json.put("onlineMode", server.getOnlineMode());
         json.put("worldType", server.getWorldType());
-        return RestUtils.createAnswer(RestStatus.SUCCESS, json);
+        return RestAnswer.createAnswer(RestStatus.SUCCESS, json);
     }
 
-    private JSONObject getWorlds(Server server) {
+    private @NotNull JSONObject getWorlds(@NotNull Server server) {
         var map = new HashMap<String, JSONObject>();
         for (var world : server.getWorlds()) {
             var info = new JSONObject();

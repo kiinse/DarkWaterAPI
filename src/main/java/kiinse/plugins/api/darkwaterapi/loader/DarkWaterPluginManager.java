@@ -3,6 +3,8 @@ package kiinse.plugins.api.darkwaterapi.loader;
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkPluginManager;
 import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,17 +15,17 @@ public class DarkWaterPluginManager implements DarkPluginManager {
     private final List<DarkWaterJavaPlugin> plugins = new ArrayList<>();
     private final DarkWaterAPI darkWaterAPI;
 
-    public DarkWaterPluginManager(DarkWaterAPI darkWaterAPI) {
+    public DarkWaterPluginManager(@NotNull DarkWaterAPI darkWaterAPI) {
         this.darkWaterAPI = darkWaterAPI;
     }
 
     @Override
-    public boolean hasPlugin(DarkWaterJavaPlugin plugin) {
+    public boolean hasPlugin(@NotNull DarkWaterJavaPlugin plugin) {
         return hasPlugin(plugin.getName());
     }
 
     @Override
-    public boolean hasPlugin(String plugin) {
+    public boolean hasPlugin(@NotNull String plugin) {
         for (var plug : plugins) {
             if (plug.getName().equals(plugin)) {
                 return true;
@@ -33,11 +35,11 @@ public class DarkWaterPluginManager implements DarkPluginManager {
     }
 
     @Override
-    public List<DarkWaterJavaPlugin> getPluginsList() {
+    public @NotNull List<DarkWaterJavaPlugin> getPluginsList() {
         return new ArrayList<>(plugins);
     }
 
-    private DarkWaterJavaPlugin getPlugin(String plugin) {
+    private @Nullable DarkWaterJavaPlugin getPlugin(@NotNull String plugin) {
         for (var plug : plugins) {
             if (plug.getName().equals(plugin)) {
                 return plug;
@@ -46,11 +48,11 @@ public class DarkWaterPluginManager implements DarkPluginManager {
         return null;
     }
 
-    private void remove(DarkWaterJavaPlugin plugin) throws Exception {
+    private void remove(@NotNull DarkWaterJavaPlugin plugin) throws Exception {
         remove(plugin.getName());
     }
 
-    private void remove(String plugin) throws Exception {
+    private void remove(@NotNull String plugin) throws Exception {
         var iterator = plugins.listIterator();
         while (iterator.hasNext()) {
             var plug = iterator.next();
@@ -62,10 +64,7 @@ public class DarkWaterPluginManager implements DarkPluginManager {
     }
 
     @Override
-    public void registerPlugin(DarkWaterJavaPlugin plugin) throws IllegalArgumentException {
-        if (plugin == null) {
-            throw new IllegalArgumentException("Plugin is null!");
-        }
+    public void registerPlugin(@NotNull DarkWaterJavaPlugin plugin) throws IllegalArgumentException {
         if (!hasPlugin(plugin)) {
             plugins.add(plugin);
             this.darkWaterAPI.sendLog("Plugin '&b" + plugin.getName() + "&a' registered");
@@ -75,10 +74,7 @@ public class DarkWaterPluginManager implements DarkPluginManager {
     }
 
     @Override
-    public void unregisterPlugin(DarkWaterJavaPlugin plugin) throws Exception {
-        if (plugin == null) {
-            throw new IllegalArgumentException("Plugin is null!");
-        }
+    public void unregisterPlugin(@NotNull DarkWaterJavaPlugin plugin) throws Exception {
         if (!hasPlugin(plugin)) {
             throw new IllegalArgumentException("This plugin '" + plugin.getName() + "' not registered!");
         }
@@ -87,7 +83,7 @@ public class DarkWaterPluginManager implements DarkPluginManager {
     }
 
     @Override
-    public void enablePlugin(String plugin) throws IllegalArgumentException {
+    public void enablePlugin(@NotNull String plugin) throws IllegalArgumentException {
         var plug = getPlugin(plugin);
         if (!hasPlugin(plugin)|| plug == null) {
             throw new IllegalArgumentException("This plugin '" + plugin + "' not found!");
@@ -100,7 +96,7 @@ public class DarkWaterPluginManager implements DarkPluginManager {
     }
 
     @Override
-    public void disablePlugin(String plugin) throws IllegalArgumentException {
+    public void disablePlugin(@NotNull String plugin) throws IllegalArgumentException {
         var plug = getPlugin(plugin);
         if (!hasPlugin(plugin) || plug == null) {
             throw new IllegalArgumentException("This plugin '" + plugin + "' not found!");
@@ -113,7 +109,7 @@ public class DarkWaterPluginManager implements DarkPluginManager {
     }
 
     @Override
-    public void reloadPlugin(String plugin) {
+    public void reloadPlugin(@NotNull String plugin) {
         var plug = getPlugin(plugin);
         if (!hasPlugin(plugin) || plug == null) {
             throw new IllegalArgumentException("This plugin '" + plugin + "' not found!");

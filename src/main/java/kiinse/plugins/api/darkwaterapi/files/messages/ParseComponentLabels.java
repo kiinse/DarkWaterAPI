@@ -1,16 +1,17 @@
 package kiinse.plugins.api.darkwaterapi.files.messages;
 
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.ComponentLabels;
-import kiinse.plugins.api.darkwaterapi.files.messages.utils.ComponentAction;
+import kiinse.plugins.api.darkwaterapi.files.messages.enums.ComponentAction;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.ChatColor;
+import org.jetbrains.annotations.NotNull;
 
 public class ParseComponentLabels implements ComponentLabels {
 
     @Override
-    public Component parseMessage(String msg) {
+    public @NotNull Component parseMessage(@NotNull String msg) {
         var result = Component.text(msg);
         if (hasTextEndLabels(msg)) {
             result = Component.text("");
@@ -32,7 +33,7 @@ public class ParseComponentLabels implements ComponentLabels {
         return result;
     }
 
-    private boolean hasTextLabels(String msg) {
+    private boolean hasTextLabels(@NotNull String msg) {
         for (var action : ComponentAction.values()) {
             if (msg.contains(action + "=")) {
                 return true;
@@ -41,7 +42,7 @@ public class ParseComponentLabels implements ComponentLabels {
         return false;
     }
 
-    private boolean hasTextEndLabels(String msg) {
+    private boolean hasTextEndLabels(@NotNull String msg) {
         for (var action : ComponentAction.values()) {
             if (msg.contains("/" + action + ">")) {
                 return true;
@@ -50,7 +51,7 @@ public class ParseComponentLabels implements ComponentLabels {
         return false;
     }
 
-    private Component getComponent(String text, String click, ComponentAction action) {
+    private @NotNull Component getComponent(@NotNull String text, @NotNull String click, @NotNull ComponentAction action) {
         var message = click.split("::");
         return switch (action) {
             case CMD -> Component.text(text).clickEvent(ClickEvent.runCommand(message[0])).hoverEvent(HoverEvent.showText(getHoverText(message)));
@@ -60,7 +61,7 @@ public class ParseComponentLabels implements ComponentLabels {
         };
     }
 
-    private Component getHoverText(String[] text) {
+    private @NotNull Component getHoverText(@NotNull String[] text) {
         return Component.text(ChatColor.translateAlternateColorCodes('&', text.length > 1 ? text[1] : text[0]));
     }
 

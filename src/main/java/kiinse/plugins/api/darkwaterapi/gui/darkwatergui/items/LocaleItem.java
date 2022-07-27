@@ -3,6 +3,7 @@ package kiinse.plugins.api.darkwaterapi.gui.darkwatergui.items;
 import kiinse.plugins.api.darkwaterapi.gui.interfaces.GuiAction;
 import kiinse.plugins.api.darkwaterapi.gui.interfaces.GuiItem;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class LocaleItem implements GuiItem {
 
@@ -11,7 +12,7 @@ public class LocaleItem implements GuiItem {
     private final ItemStack stack;
     private final GuiAction action;
 
-    public LocaleItem(int slot, String name, ItemStack stack, GuiAction action) {
+    public LocaleItem(int slot, @NotNull String name, @NotNull ItemStack stack, @NotNull GuiAction action) {
         this.slot = slot;
         this.name = name;
         this.stack = stack;
@@ -24,17 +25,17 @@ public class LocaleItem implements GuiItem {
     }
 
     @Override
-    public ItemStack itemStack() {
+    public @NotNull ItemStack itemStack() {
         return stack;
     }
 
     @Override
-    public String name() {
+    public @NotNull String name() {
         return name;
     }
 
     @Override
-    public GuiAction action() {
+    public @NotNull GuiAction action() {
         return action;
     }
 }

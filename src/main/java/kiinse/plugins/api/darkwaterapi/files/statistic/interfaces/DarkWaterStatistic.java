@@ -2,34 +2,35 @@ package kiinse.plugins.api.darkwaterapi.files.statistic.interfaces;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public interface DarkWaterStatistic {
 
-    DarkWaterStatistic save() throws IOException;
+    @NotNull DarkWaterStatistic save() throws IOException;
 
-    DarkWaterStatistic reload() throws IOException;
+    @NotNull DarkWaterStatistic reload() throws IOException;
 
-    Statistic getPlayerStatistic(Player player);
+    @NotNull Statistic getPlayerStatistic(@NotNull Player player);
 
-    Statistic getPlayerStatistic(UUID player);
+    @NotNull Statistic getPlayerStatistic(@NotNull UUID player);
 
-    DarkWaterStatistic setPlayerStatistic(Player player, Statistic statistic);
+    @NotNull DarkWaterStatistic setPlayerStatistic(@NotNull Player player, @NotNull Statistic statistic);
 
-    DarkWaterStatistic setPlayerStatistic(UUID player, Statistic statistic);
+    @NotNull DarkWaterStatistic setPlayerStatistic(@NotNull UUID player, @NotNull Statistic statistic);
 
-    DarkWaterStatistic addStatistic(Player player, EntityType type);
+    @NotNull DarkWaterStatistic addStatistic(@NotNull Player player, @NotNull EntityType type);
 
-    DarkWaterStatistic addStatistic(UUID player, EntityType type);
+    @NotNull DarkWaterStatistic addStatistic(@NotNull UUID player, @NotNull EntityType type);
 
-    DarkWaterStatistic updatePlayer(Player player, JSONObject stats);
+    @NotNull DarkWaterStatistic updatePlayer(@NotNull Player player, @NotNull JSONObject stats);
 
-    DarkWaterStatistic updatePlayer(UUID player, JSONObject stats);
+    @NotNull DarkWaterStatistic updatePlayer(@NotNull UUID player, @NotNull JSONObject stats);
 
-    HashMap<UUID, Statistic> getAllPlayerStatistic();
+    @NotNull HashMap<UUID, Statistic> getAllPlayerStatistic();
 }

@@ -6,6 +6,7 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class StatisticExpansion extends PlaceholderExpansion {
 
@@ -14,7 +15,7 @@ public class StatisticExpansion extends PlaceholderExpansion {
 
     // %statistic_MOB%
 
-    public StatisticExpansion(DarkWaterAPI darkWaterAPI){
+    public StatisticExpansion(@NotNull DarkWaterAPI darkWaterAPI){
         this.darkWaterStatistic = darkWaterAPI.getDarkWaterStatistic();
         this.darkWaterAPI = darkWaterAPI;
     }
@@ -41,7 +42,7 @@ public class StatisticExpansion extends PlaceholderExpansion {
     }
 
     @Override
-    public String onPlaceholderRequest(Player player, @NotNull String identifier){
+    public @NotNull String onPlaceholderRequest(@Nullable Player player, @NotNull String identifier){
         if(player == null){
             return "";
         }

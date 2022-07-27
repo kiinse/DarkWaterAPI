@@ -3,6 +3,7 @@ package kiinse.plugins.api.darkwaterapi.files.locale.interfaces;
 import kiinse.plugins.api.darkwaterapi.files.locale.Locale;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 public interface PlayerLocale {
@@ -12,33 +13,33 @@ public interface PlayerLocale {
      * @param player Игрок
      * @return true если есть
      */
-    boolean isPlayerLocalized(Player player);
+    boolean isPlayerLocalized(@NotNull Player player);
 
     /**
      * Получение локализации игрока
      * @param player Игрок
      * @return Locale игрока. Если игрок не локализирован, то возвращает default Locale, указанный в locales.yml DarkWaterAPI {@link Locale}
      */
-    Locale getPlayerLocale(Player player);
+    @NotNull Locale getPlayerLocale(@NotNull Player player);
 
     /**
      * Получение локализации игрока
      * @param sender Игрок
      * @return Locale игрока. Если игрок не локализирован, то возвращает default Locale, указанный в locales.yml DarkWaterAPI {@link Locale}
      */
-    Locale getPlayerLocale(CommandSender sender);
+    @NotNull Locale getPlayerLocale(@NotNull CommandSender sender);
 
     /**
      * Установка локализации игрока
      * @param player Игрок
      * @param locale Locale {@link Locale}
      */
-    void setPlayerLocale(Player player, Locale locale);
+    void setPlayerLocale(@NotNull Player player, @NotNull Locale locale);
 
     /**
      * Получение языка интерфейса у игрока
      * @param player Игрок
      * @return Locale интерфейса {@link Locale}
      */
-    Locale getPlayerInterfaceLocale(Player player);
+    @NotNull Locale getPlayerInterfaceLocale(@NotNull Player player);
 }

@@ -3,6 +3,7 @@ package kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers;
 import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.schedulers.Scheduler;
 import kiinse.plugins.api.darkwaterapi.schedulers.annotation.SchedulerData;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +17,7 @@ public class MoveSchedule extends Scheduler {
 
     private final Map<UUID, Integer> notMovingMap = new HashMap<>();
 
-    public MoveSchedule(DarkWaterJavaPlugin plugin) {
+    public MoveSchedule(@NotNull DarkWaterJavaPlugin plugin) {
         super(plugin);
     }
 
@@ -27,7 +28,7 @@ public class MoveSchedule extends Scheduler {
         }
     }
 
-    public Map<UUID, Integer> getNotMovingMap() {
+    public @NotNull Map<UUID, Integer> getNotMovingMap() {
         return notMovingMap;
     }
 }

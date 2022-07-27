@@ -1,26 +1,27 @@
 package kiinse.plugins.api.darkwaterapi.loader.interfaces;
 
 import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted"})
 public interface DarkPluginManager {
 
-    boolean hasPlugin(DarkWaterJavaPlugin plugin);
+    boolean hasPlugin(@NotNull DarkWaterJavaPlugin plugin);
 
-    boolean hasPlugin(String plugin);
+    boolean hasPlugin(@NotNull String plugin);
 
-    List<DarkWaterJavaPlugin> getPluginsList();
+    @NotNull List<DarkWaterJavaPlugin> getPluginsList();
 
-    void registerPlugin(DarkWaterJavaPlugin plugin) throws IllegalArgumentException;
+    void registerPlugin(@NotNull DarkWaterJavaPlugin plugin) throws IllegalArgumentException;
 
-    void unregisterPlugin(DarkWaterJavaPlugin plugin) throws Exception;
+    void unregisterPlugin(@NotNull DarkWaterJavaPlugin plugin) throws Exception;
 
-    void enablePlugin(String plugin) throws IllegalArgumentException;
+    void enablePlugin(@NotNull String plugin) throws IllegalArgumentException;
 
-    void disablePlugin(String plugin) throws IllegalArgumentException;
+    void disablePlugin(@NotNull String plugin) throws IllegalArgumentException;
 
-    void reloadPlugin(String plugin);
+    void reloadPlugin(@NotNull String plugin);
 
 }

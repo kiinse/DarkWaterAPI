@@ -1,9 +1,10 @@
 package kiinse.plugins.api.darkwaterapi.rest.actions;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
-import kiinse.plugins.api.darkwaterapi.rest.utils.RestStatus;
-import kiinse.plugins.api.darkwaterapi.rest.utils.RestUtils;
+import kiinse.plugins.api.darkwaterapi.rest.enums.RestStatus;
+import kiinse.plugins.api.darkwaterapi.rest.utils.RestAnswer;
 import org.bukkit.Server;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 import services.moleculer.context.Context;
 import services.moleculer.service.Action;
@@ -15,12 +16,12 @@ public class PluginsAction implements Action {
 
     private final Server server;
 
-    public PluginsAction(DarkWaterAPI darkWaterAPI) {
+    public PluginsAction(@NotNull DarkWaterAPI darkWaterAPI) {
         this.server = darkWaterAPI.getServer();
     }
 
     @Override
-    public Object handler(Context context) {
+    public @NotNull Object handler(@NotNull Context context) {
         var map = new HashMap<String, JSONObject>();
         for (var plugin : server.getPluginManager().getPlugins()) {
             var info = new JSONObject();
@@ -35,6 +36,6 @@ public class PluginsAction implements Action {
             info.put("description", description.getDescription());
             map.put(plugin.getName(), info);
         }
-        return RestUtils.createAnswer(RestStatus.SUCCESS, new JSONObject(map));
+        return RestAnswer.createAnswer(RestStatus.SUCCESS, new JSONObject(map));
     }
 }

@@ -4,6 +4,8 @@ import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.DirectoriesK
 import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesKeys;
 import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
 import org.apache.commons.io.FileUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
@@ -17,18 +19,18 @@ public abstract class FilesManager {
 
     private final DarkWaterJavaPlugin plugin;
 
-    protected FilesManager(DarkWaterJavaPlugin plugin) {
+    protected FilesManager(@NotNull DarkWaterJavaPlugin plugin) {
         this.plugin = plugin;
     }
 
-    public void createFile(FilesKeys file) throws IOException {
+    public void createFile(@NotNull FilesKeys file) throws IOException {
         var destFile = getFile(file);
         if (destFile.createNewFile()) {
             plugin.sendLog(Level.CONFIG, "File '&d" + destFile.getName() + "&6' created");
         }
     }
 
-    public void createDirectory(DirectoriesKeys directory) throws SecurityException {
+    public void createDirectory(@NotNull DirectoriesKeys directory) throws SecurityException {
         var destDirectory = getFile(directory);
         if (destDirectory.exists()) {
             deleteFile(directory);
@@ -38,15 +40,15 @@ public abstract class FilesManager {
         }
     }
 
-    public void copyFile(FilesKeys file) {
+    public void copyFile(@NotNull FilesKeys file) {
         copyFileMethod(file, file);
     }
 
-    public void copyFile(FilesKeys oldFile, FilesKeys newFile) {
+    public void copyFile(@NotNull FilesKeys oldFile, @NotNull FilesKeys newFile) {
         copyFileMethod(oldFile, newFile);
     }
 
-    private void copyFileMethod(FilesKeys oldFile, FilesKeys newFile) {
+    private void copyFileMethod(@NotNull FilesKeys oldFile, @NotNull FilesKeys newFile) {
         var destFile = getFile(newFile);
         if (!destFile.exists()) {
             var inputStream = accessFile(oldFile);
@@ -68,13 +70,13 @@ public abstract class FilesManager {
         }
     }
 
-    public void copyFile(DirectoriesKeys directory) {
+    public void copyFile(@NotNull DirectoriesKeys directory) {
         var destDirectory = getFile(directory);
         if (!destDirectory.exists() || listFilesInDirectory(directory).isEmpty()) {
             try {
                 createDirectory(directory);
                 for (var file : getFilesInDirectoryInJar(directory)) {
-                    FileUtils.copyInputStreamToFile(accessFile(getFileName(directory) + "/" + file), new File(getDataFolder() + getFileName(directory) + File.separator + file));
+                    FileUtils.copyInputStreamToFile(Objects.requireNonNull(accessFile(getFileName(directory) + "/" + file)), new File(getDataFolder() + getFileName(directory) + File.separator + file));
                 }
             } catch (Exception e) {
                 plugin.sendLog(Level.WARNING, "Error on copying directory '&c" + destDirectory.getName() + "&6'! Message: " + e.getMessage());
@@ -83,17 +85,13 @@ public abstract class FilesManager {
         }
     }
 
-    public List<File> listFilesInDirectory(DirectoriesKeys directory) {
-        var folder = getFile(directory);
+    public @NotNull List<File> listFilesInDirectory(@NotNull DirectoriesKeys directory) {
         var list = new ArrayList<File>();
-        if (folder == null) {
-            return list;
-        }
-        Collections.addAll(list, Objects.requireNonNull(folder.listFiles()));
+        Collections.addAll(list, Objects.requireNonNull(getFile(directory).listFiles()));
         return list;
     }
 
-    public void copyFileInFolder(FilesKeys file1, FilesKeys file2) throws IOException {
+    public void copyFileInFolder(@NotNull FilesKeys file1, @NotNull FilesKeys file2) throws IOException {
         var file = getFile(file2);
         var oldFile = getFile(file1);
         if (!file.exists()) {
@@ -102,15 +100,15 @@ public abstract class FilesManager {
         }
     }
 
-    public File getFile(FilesKeys file) {
+    public @NotNull File getFile(@NotNull FilesKeys file) {
         return new File(getDataFolder() + getFileName(file));
     }
 
-    public File getFile(DirectoriesKeys directory) {
+    public @NotNull File getFile(@NotNull DirectoriesKeys directory) {
         return new File(getDataFolder() + getFileName(directory));
     }
 
-    public InputStream accessFile(FilesKeys file) {
+    public @org.jetbrains.annotations.Nullable InputStream accessFile(@NotNull FilesKeys file) {
         var input = plugin.getClass().getResourceAsStream(getFileName(file));
         if (input == null) {
             input = plugin.getClass().getClassLoader().getResourceAsStream(getFileName(file));
@@ -118,7 +116,7 @@ public abstract class FilesManager {
         return input;
     }
 
-    private InputStream accessFile(String file) {
+    private @org.jetbrains.annotations.Nullable InputStream accessFile(@NotNull String file) {
         var input = plugin.getClass().getResourceAsStream(file);
         if (input == null) {
             input = plugin.getClass().getClassLoader().getResourceAsStream(file);
@@ -126,7 +124,7 @@ public abstract class FilesManager {
         return input;
     }
 
-    public List<String> getFilesInDirectoryInJar(DirectoriesKeys directory) throws Exception {
+    public @NotNull List<String> getFilesInDirectoryInJar(@NotNull DirectoriesKeys directory) throws Exception {
         var list = new ArrayList<String>();
         for (var file : getResourceUrls("classpath:/" + getFileName(directory) + "/*.*")) {
             var split = file.split("/");
@@ -135,7 +133,7 @@ public abstract class FilesManager {
         return list;
     }
 
-    private List<String> getResourceUrls(String locationPattern) throws IOException {
+    private @NotNull List<String> getResourceUrls(@NotNull String locationPattern) throws IOException {
         var resolver = new PathMatchingResourcePatternResolver(plugin.getClass().getClassLoader());
         return Arrays.stream(resolver.getResources(locationPattern))
                 .map(this::toURL)
@@ -143,44 +141,41 @@ public abstract class FilesManager {
                 .toList();
     }
 
-    private String toURL(Resource r) {
+    private @Nullable String toURL(@NotNull Resource r) {
         try {
-            if (r == null) {
-                return null;
-            }
             return r.getURL().toExternalForm();
         } catch (IOException e) {
             return null;
         }
     }
 
-    public boolean isFileNotExists(FilesKeys file) {
+    public boolean isFileNotExists(@NotNull FilesKeys file) {
         return !getFile(file).exists();
     }
 
-    public boolean isFileNotExists(DirectoriesKeys file) {
+    public boolean isFileNotExists(@NotNull DirectoriesKeys file) {
         return !getFile(file).exists();
     }
 
-    public String getDataFolder() {
+    public @NotNull String getDataFolder() {
         return plugin.getDataFolder() + File.separator;
     }
 
-    public String getFileName(FilesKeys key) {
+    public @NotNull String getFileName(@NotNull FilesKeys key) {
         return key.toString().toLowerCase().replace("_", ".");
     }
 
-    public String getFileName(DirectoriesKeys directory) {
+    public @NotNull String getFileName(@NotNull DirectoriesKeys directory) {
         return directory.toString().toLowerCase();
     }
 
-    public void deleteFile(FilesKeys file) {
+    public void deleteFile(@NotNull FilesKeys file) {
         if (getFile(file).delete()) {
             plugin.sendLog(Level.CONFIG, "File '&d" + getFile(file).getName() + "&6' deleted");
         }
     }
 
-    public void deleteFile(DirectoriesKeys file) {
+    public void deleteFile(@NotNull DirectoriesKeys file) {
         if (getFile(file).delete()) {
             plugin.sendLog(Level.CONFIG, "File '&d" + getFile(file).getName() + "&6' deleted");
         }

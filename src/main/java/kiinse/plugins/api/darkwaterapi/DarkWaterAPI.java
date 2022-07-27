@@ -24,14 +24,14 @@ import kiinse.plugins.api.darkwaterapi.schedulers.SchedulersManager;
 import kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers.IndicatorSchedule;
 import kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers.JumpSchedule;
 import kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers.MoveSchedule;
+import kiinse.plugins.api.darkwaterapi.utilities.versioning.Versioning;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 
 import java.util.logging.Level;
 
 @SuppressWarnings({"unused", "unchecked"})
 public final class DarkWaterAPI extends DarkWaterJavaPlugin {
-
-    // TODO: Add DarkWaterAPI version check.
 
     private static DarkWaterAPI instance;
     private DarkPluginManager pluginManager;
@@ -50,8 +50,9 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
             getLogger().setLevel(Level.CONFIG);
             sendLog("Loading " + getName() + "...");
             onStart();
-            getDarkWaterAPI().getPluginManager().registerPlugin(this);
+            getPluginManager().registerPlugin(this);
             sendInfo();
+            checkForUpdates();
         } catch (Exception e) {
             sendLog(Level.SEVERE, "Error on loading " + getName() + "! Message: " + e.getMessage());
         }
@@ -112,7 +113,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
      * @return JSONObject with info
      */
     @Override
-    public JSONObject getPluginData() {
+    public @NotNull JSONObject getPluginData() {
         var json = new JSONObject();
         json.put("indicators", getIndicators());
         json.put("locales", localeStorage.getAllowedLocalesListString());
@@ -122,7 +123,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
         return json;
     }
 
-    private JSONObject getIndicators() {
+    private @NotNull JSONObject getIndicators() {
         var indicators = new JSONObject();
         for (var indicator : indicatorManager.getIndicatorsList()) {
             var indicatorJson = new JSONObject();
@@ -133,7 +134,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
         return indicators;
     }
 
-    private JSONObject getSchedulers() {
+    private @NotNull JSONObject getSchedulers() {
         var schedulers = new JSONObject();
         for (var scheduler : schedulersManager.getAllSchedulers()) {
             var schedulerJson = new JSONObject();
@@ -144,7 +145,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
         return schedulers;
     }
 
-    private JSONObject getStatisticData() {
+    private @NotNull JSONObject getStatisticData() {
         var json = new JSONObject();
         for (var player : getServer().getOfflinePlayers()) {
             json.put(player.getName(), darkWaterStatistic.getPlayerStatistic(player.getUniqueId()).toJSONObject().toMap());
@@ -152,7 +153,25 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
         return json;
     }
 
-    public LocaleStorage getLocaleStorage() {
+    private void checkForUpdates() {
+        try {
+            var latest = Versioning.getLatestGithubVersion("https://github.com/kiinse/DarkWaterAPI");
+            if (!latest.isGreaterThan(Versioning.getCurrentDarkWaterVersion())) {
+                sendLog("Latest version of DarkWaterAPI installed, no new versions found =3");
+            } else {
+                sendConsole(" &c|====================================UPDATE====================================");
+                sendConsole(" &c| ");
+                sendConsole(" &c| &6New version of DarkWaterAPI found: '&b" + latest.getOriginalValue() + "&6'! Your version is '&b" + getDescription().getVersion() + "&6'");
+                sendConsole(" &c| &6You can download it at &bhttps://github.com/kiinse/DarkWaterAPI/releases");
+                sendConsole(" &c| ");
+                sendConsole(" &c|==============================================================================");
+            }
+        } catch (NullPointerException e) {
+            sendLog(Level.WARNING, e.getMessage());
+        }
+    }
+
+    public @NotNull LocaleStorage getLocaleStorage() {
         return localeStorage;
     }
 
@@ -160,7 +179,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
      * Getting a class to work with player languages
      * @return {@link PlayerLocale}
      */
-    public PlayerLocale getLocales() {
+    public @NotNull PlayerLocale getLocales() {
         return locales;
     }
 
@@ -168,7 +187,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
      * Getting a class to work with player statistics
      * @return {@link DarkWaterStatistic}
      */
-    public DarkWaterStatistic getDarkWaterStatistic() {
+    public @NotNull DarkWaterStatistic getDarkWaterStatistic() {
         return darkWaterStatistic;
     }
 
@@ -176,7 +195,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
      * Получение менеджера плагинов
      * @return {@link DarkPluginManager}
      */
-    public DarkPluginManager getPluginManager() {
+    public @NotNull DarkPluginManager getPluginManager() {
         return pluginManager;
     }
 
@@ -184,7 +203,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
      * Getting the plugin manager
      * @return {@link DarkPluginManager}
      */
-    public IndicatorManager getIndicatorManager() {
+    public @NotNull IndicatorManager getIndicatorManager() {
         return indicatorManager;
     }
 
@@ -192,15 +211,15 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
      * Getting scheduler manager
      * @return {@link SchedulersManager}
      */
-    public SchedulersManager getSchedulersManager() {
+    public @NotNull SchedulersManager getSchedulersManager() {
         return schedulersManager;
     }
 
-    public MoveSchedule getMoveSchedule() {
+    public @NotNull MoveSchedule getMoveSchedule() {
         return moveSchedule;
     }
 
-    public JumpSchedule getJumpSchedule() {
+    public @NotNull JumpSchedule getJumpSchedule() {
         return jumpSchedule;
     }
 
@@ -208,5 +227,5 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
      * Getting DarkWaterAPI instance
      * @return {@link DarkWaterAPI}
      */
-    public static DarkWaterAPI getInstance() {return instance;}
+    public static @NotNull DarkWaterAPI getInstance() {return instance;}
 }

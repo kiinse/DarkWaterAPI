@@ -3,9 +3,12 @@ package kiinse.plugins.api.darkwaterapi.rest.utils;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import io.datatree.Tree;
-import kiinse.plugins.api.darkwaterapi.files.config.utils.Config;
+import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.YamlFile;
 import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.utilities.DarkWaterUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import services.moleculer.web.RequestProcessor;
 import services.moleculer.web.WebRequest;
 import services.moleculer.web.WebResponse;
@@ -28,13 +31,13 @@ public class DarkWaterAuthProvider extends HttpMiddleware implements HttpConstan
     private final HashMap<String, String> users;
     private final HashMap<String, String> tokens = new HashMap<>();
 
-    public DarkWaterAuthProvider(DarkWaterJavaPlugin plugin) {
+    public DarkWaterAuthProvider(@NotNull DarkWaterJavaPlugin plugin) {
         this.config = plugin.getConfiguration();
         this.plugin = plugin;
         this.users = getUsers();
     }
 
-    private HashMap<String, String> getUsers() {
+    private @NotNull HashMap<String, String> getUsers() {
         var map = new HashMap<String, String>();
         for (var value : config.getStringList(Config.REST_BEARER_USERS)) {
             var split = value.split(":");
@@ -43,7 +46,7 @@ public class DarkWaterAuthProvider extends HttpMiddleware implements HttpConstan
         return map;
     }
 
-    public RequestProcessor install(final RequestProcessor next, Tree config) {
+    public @NotNull RequestProcessor install(final RequestProcessor next, Tree config) {
         return new AbstractRequestProcessor(next) {
             public void service(WebRequest req, WebResponse rsp) throws Exception {
                 var authorization = req.getHeader("Authorization");
@@ -80,7 +83,7 @@ public class DarkWaterAuthProvider extends HttpMiddleware implements HttpConstan
         };
     }
 
-    protected void sendUnauthorized(WebResponse rsp) {
+    protected void sendUnauthorized(@NotNull WebResponse rsp) {
         try {
             rsp.setStatus(401);
             rsp.setHeader("Status", "401");
@@ -89,7 +92,7 @@ public class DarkWaterAuthProvider extends HttpMiddleware implements HttpConstan
         }
     }
 
-    protected void sendToken(WebResponse rsp, String token) {
+    protected void sendToken(@NotNull WebResponse rsp, @NotNull String token) {
         try {
             rsp.setStatus(200);
             rsp.setHeader("Token_type", "bearer");
@@ -100,7 +103,7 @@ public class DarkWaterAuthProvider extends HttpMiddleware implements HttpConstan
         }
     }
 
-    protected String generateToken(String user, String password) {
+    protected @Nullable String generateToken(@NotNull String user, @NotNull String password) {
         if (tokens.containsKey(user) && !new Date().before(JWT.decode(tokens.get(user)).getExpiresAt())) {
             tokens.remove(user);
         }
@@ -115,7 +118,7 @@ public class DarkWaterAuthProvider extends HttpMiddleware implements HttpConstan
         return null;
     }
 
-    protected boolean isTokenRegistered(String token) {
+    protected boolean isTokenRegistered(@NotNull String token) {
         for (var entry : tokens.entrySet()) {
             if (Objects.equals(entry.getValue(), token)) {
                 return true;
@@ -124,17 +127,17 @@ public class DarkWaterAuthProvider extends HttpMiddleware implements HttpConstan
         return false;
     }
 
-    protected boolean authenticate(String token) {
+    protected boolean authenticate(@NotNull String token) {
         var tkn = token.split(" ")[1];
         return isBearerAuth(token) && isTokenNotExpired(tkn) && isTokenRegistered(tkn);
     }
 
-    protected boolean isBearerAuth(String token) {
+    protected boolean isBearerAuth(@Nullable String token) {
         return token != null && !token.isBlank() && token.startsWith("Bearer");
     }
 
-    protected boolean isTokenNotExpired(String token) {
-        if (token == null || token.isBlank()) {
+    protected boolean isTokenNotExpired(@Nullable String token) {
+        if (DarkWaterUtils.isStringEmpty(token)) {
             return false;
         }
         var tkn = JWT.decode(token);

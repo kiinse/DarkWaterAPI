@@ -4,11 +4,12 @@ import kiinse.plugins.api.darkwaterapi.gui.GUI;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class CloseInventoryListener implements Listener {
 
     @EventHandler
-    public void closeInventory(InventoryCloseEvent event) {
+    public void closeInventory(@NotNull InventoryCloseEvent event) {
         var player = event.getPlayer();
         var inventoryUUID = GUI.getOpenInventories().get(player.getUniqueId());
         if (inventoryUUID != null) {

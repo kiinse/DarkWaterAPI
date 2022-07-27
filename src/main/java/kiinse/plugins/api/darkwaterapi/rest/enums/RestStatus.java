@@ -1,4 +1,6 @@
-package kiinse.plugins.api.darkwaterapi.rest.utils;
+package kiinse.plugins.api.darkwaterapi.rest.enums;
+
+import org.jetbrains.annotations.NotNull;
 
 public enum RestStatus {
     ERROR_AUTHENTICATION( 401, "An error occurred during authentication."),
@@ -13,17 +15,17 @@ public enum RestStatus {
     NOT_FOUND(404, "Player not found!");
 
     private final int code;
-    private final String message;
+    private final @NotNull String message;
 
     public int getCode() {
         return code;
     }
 
-    public String getMessage() {
+    public @NotNull String getMessage() {
         return message;
     }
 
-    RestStatus(int code, String message) {
+    RestStatus(int code, @NotNull String message) {
         this.code = code;
         this.message = message;
     }

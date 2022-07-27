@@ -1,4 +1,4 @@
-package kiinse.plugins.api.darkwaterapi.utilities.utils;
+package kiinse.plugins.api.darkwaterapi.utilities.enums;
 
 import kiinse.plugins.api.darkwaterapi.utilities.interfaces.PermissionsKeys;
 
