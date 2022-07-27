@@ -51,16 +51,16 @@ Please **don't** open an issue just for the sake of questions.
 
 ## Features
 
-* Simple and convenient plugin localization system
-* Easily create interactive text in messages
-* Improved command work
-* Player stats tracking
-* The 'isWalking(player)' and 'isJumping(player)' methods. Really useful stuff =)
-* Easy management bukkit scheduler's
-* Easily manage files and data in them
-* Checking the config version
-* Enabling, disabling and reloading plugins that use this library
-* And much more
+- Simple and convenient plugin localization system
+- Easily create interactive text in messages
+- Improved command work
+- Player stats tracking
+- The 'isWalking(player)' and 'isJumping(player)' methods. Really useful stuff =)
+- Easy management bukkit scheduler's
+- Easily manage files and data in them
+- Checking the config version
+- Enabling, disabling and reloading plugins that use this library
+- And much more
 
 ## Download
 
@@ -104,11 +104,13 @@ dependencies {
 
 <b>For all examples and more detailed explanation check out the [Wiki](https://github.com/kiinse/DarkWaterAPI/wiki).</b>
 
-#### Since all examples are on WIKI, I will give a small example of working with messages here.
+----
+
+<b>Since all examples are on WIKI, I will give a small example of working with messages here.</b>
 
 In the resources folder, we create a "messages" folder, where we also create several localization files. For example en.json and ru.json. We get the following structure:
 
-```
+```txt
   |--resources
      |--messages
         |--en.json
