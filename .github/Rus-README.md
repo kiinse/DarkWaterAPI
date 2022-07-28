@@ -108,10 +108,11 @@ dependencies {
 В папке ресурсов создаем папку «messages», где так же создаем несколько файлов локализации. Например en.json и ru.json. Получаем следующую структуру:
 
 ```txt
-  |--resources
-     |--messages
-        |--en.json
-        |--ru.json
+.
+└── resources
+    └── messages
+        ├── en.json
+        └── ru.json
 ```
 
 После запуска плагина, содержащего главный класс, унаследованный от "DarkWaterJavaPlugin" - эти файлы появятся в папке плагина на сервере.
@@ -162,25 +163,25 @@ public final class TestPlugin extends DarkWaterJavaPlugin { // Main class
 
 ## Команды
 
-```
-- /locale change                  | (Permission: locale.change)          | Открывает GUI для выбора языка
-- /locale help                    | (Permission: locale.help)            | Команад помощи
-- /locale set [locale]            | (Permission: locale.change)          | Устанавливает язык без открытия GUI
-- /locale list                    | (Permission: locale.list)            | Список языков, доступных для установки
-- /locale get [player]            | (Permission: locale.get)             | Просмотр языка игрока
-- /darkwater reload [plugin]      | (Permission: darkwater.reload)       | Перезагрузка плагина, который использует DarkWaterAPI
-- /darkwater disable [plugin]     | (Permission: darkwater.disable)      | Выключение плагина, который использует DarkWaterAPI
-- /darkwater enable [plugin]      | (Permission: darkwater.enable)       | Включение плагина, который использует DarkWaterAPI
-- /statistic                      | (Permission: darkwater.statistic)    | Просмотр статистики по количеству убитых мобов
-```
+| Команда                       | Права                 | Описание                                                  |
+|  -------------                | -------------         | -------------                                             |
+| /locale change                | locale.change         | Открывает GUI для выбора языка                            |
+| /locale help                  | locale.help           | Команад помощи                                            |
+| /locale set [locale]          | locale.change         | Устанавливает язык без открытия GUI                       |
+| /locale list                  | locale.list           | Список языков, доступных для установки                    |
+| /locale get [player]          | locale.get            | Просмотр языка игрока                                     |
+| /darkwater reload [plugin]    | darkwater.reload      | Перезагрузка плагина, который использует DarkWaterAPI     |
+| /darkwater disable [plugin]   | darkwater.disable     | Выключение плагина, который использует DarkWaterAPI       |
+| /darkwater enable [plugin]    | darkwater.enable      | Включение плагина, который использует DarkWaterAPI        |
+| /statistic                    | darkwater.statistic   | Просмотр статистики по количеству убитых мобов            |
 
 ## Placeholders
 
-```
-- %statistic_ЗДЕСЬ-УКАЗАТЬ-МОБА% (К примеру: %statistic_CREEPER%)  | Отображает количество убитого моба
-- %locale_player%                                                  | Отображает выбранный язык
-- %locale_list%                                                    | Отображает список всех языков, доступных для выбора
-```
+| Placeholder                                              | Описание                                                |
+|  -------------                                           | -------------                                           |
+| %statistic_PUT-HERE-MOB% (Example: %statistic_CREEPER%)  | Отображает количество убитого моба                      |
+| %locale_player%                                          | Отображает выбранный язык                               |
+| %locale_list%                                            | Отображает список всех языков, доступных для выбора     |
 
 ## Конфиг
 
