@@ -1,4 +1,4 @@
-package kiinse.plugins.api.darkwaterapi.utilities.versioning;
+package kiinse.plugins.api.darkwaterapi.utilities;
 
 import com.vdurmont.semver4j.Semver;
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 @SuppressWarnings("unused")
-public class Versioning {
+public class VersionUtils {
 
     public static @NotNull Semver getLatestGithubVersion(@NotNull String url) throws VersioningException {
         try {
@@ -37,5 +37,5 @@ public class Versioning {
         return new Semver(plugin.getDescription().getVersion());
     }
 
-    private Versioning() {}
+    private VersionUtils() {}
 }

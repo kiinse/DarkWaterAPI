@@ -3,12 +3,12 @@ package kiinse.plugins.api.darkwaterapi.rest.actions;
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.YamlFile;
-import kiinse.plugins.api.darkwaterapi.files.messages.SendMessagesImpl;
+import kiinse.plugins.api.darkwaterapi.files.messages.MessagesUtilsImpl;
 import kiinse.plugins.api.darkwaterapi.files.messages.enums.Message;
 import kiinse.plugins.api.darkwaterapi.files.messages.enums.Replace;
-import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.SendMessages;
+import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.MessagesUtils;
 import kiinse.plugins.api.darkwaterapi.rest.enums.RestStatus;
-import kiinse.plugins.api.darkwaterapi.rest.utils.RestAnswer;
+import kiinse.plugins.api.darkwaterapi.rest.utils.RestUtils;
 import kiinse.plugins.api.darkwaterapi.utilities.DarkWaterUtils;
 import kiinse.plugins.api.darkwaterapi.utilities.PlayerUtils;
 import kiinse.plugins.api.darkwaterapi.utilities.cryptography.interfaces.RSADarkWater;
@@ -39,11 +39,11 @@ public class SendCodeAction implements Action {
     public @NotNull Object handler(@NotNull Context context) {
 
         if (!config.getBoolean(Config.REST_SERVICE_CODE)) {
-            return RestAnswer.createAnswer(RestStatus.ERROR_SERVICE_DISABLED);
+            return RestUtils.createAnswer(RestStatus.ERROR_SERVICE_DISABLED);
         }
 
         if (!config.getBoolean(Config.REST_AUTH_ENABLE)) {
-            return RestAnswer.createAnswer(RestStatus.ERROR_AUTHENTICATION_DISABLED);
+            return RestUtils.createAnswer(RestStatus.ERROR_AUTHENTICATION_DISABLED);
         }
 
         var exponent = context.params.get("exponent", "");
@@ -62,22 +62,22 @@ public class SendCodeAction implements Action {
                     }
                 } catch (Exception e) {
                     darkWaterAPI.sendLog(Level.SEVERE, "Error on sending code to player! Message:\n" + e.getMessage());
-                    return RestAnswer.createAnswer(RestStatus.ERROR, e);
+                    return RestUtils.createAnswer(RestStatus.ERROR, e);
                 }
             } else {
-                return RestAnswer.createAnswer(RestStatus.ERROR_RSA_EMPTY);
+                return RestUtils.createAnswer(RestStatus.ERROR_RSA_EMPTY);
             }
         }
         var json = new JSONObject();
         json.put("publicKey", new JSONObject(rsa.getPublicKeyJson().toMap()));
-        return RestAnswer.createAnswer(RestStatus.SUCCESS, json);
+        return RestUtils.createAnswer(RestStatus.SUCCESS, json);
     }
 
     private @NotNull JSONObject sendCodeToPlayer(@Nullable Player player, @NotNull String exponent, @NotNull String modulus) throws Exception {
         if (player != null && player.isOnline()) {
-            SendMessages sendMessages = new SendMessagesImpl(darkWaterAPI);
+            MessagesUtils messagesUtils = new MessagesUtilsImpl(darkWaterAPI);
             var randomCode = DarkWaterUtils.getRandomASCII(120);
-            sendMessages.sendMessage(player, Message.GENERATED_CODE, Replace.CODE, randomCode);
+            messagesUtils.sendMessage(player, Message.GENERATED_CODE, Replace.CODE, randomCode);
             PlayerUtils.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
             var json = new JSONObject();
             var pl = new JSONObject();
@@ -85,8 +85,8 @@ public class SendCodeAction implements Action {
             pl.put("uuid", player.getUniqueId().toString());
             json.put("player", pl);
             json.put("code", rsa.encryptMessage(randomCode, rsa.recreatePublicKey(exponent, modulus)));
-            return RestAnswer.createAnswer(RestStatus.SUCCESS, json);
+            return RestUtils.createAnswer(RestStatus.SUCCESS, json);
         }
-        return RestAnswer.createAnswer(RestStatus.NOT_FOUND);
+        return RestUtils.createAnswer(RestStatus.NOT_FOUND);
     }
 }

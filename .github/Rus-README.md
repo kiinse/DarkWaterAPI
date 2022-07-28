@@ -133,8 +133,8 @@ public final class TestPlugin extends DarkWaterJavaPlugin { // Main class
     }
 
     private void sendMessageToPlayer(Player player) {
-        SendMessages sendMessages = new SendMessagesImpl(this);
-        sendMessages.sendMessageWithPrefix(player, Message.MESSAGE_HELLO); // Отправляем игроку строку "message_hello" из json файлов с локализациями.
+        MessagesUtils messagesUtils = new MessagesUtilsImpl(this);
+        messagesUtils.sendMessageWithPrefix(player, Message.MESSAGE_HELLO); // Отправляем игроку строку "message_hello" из json файлов с локализациями.
         // Определение языка игрока и из какого файла будет использована строка с текстом определяется автоматически.
     }
 }
@@ -163,25 +163,25 @@ public final class TestPlugin extends DarkWaterJavaPlugin { // Main class
 
 ## Команды
 
-| Команда                       | Права                 | Описание                                                  |
-|  -------------                | -------------         | -------------                                             |
-| /locale change                | locale.change         | Открывает GUI для выбора языка                            |
-| /locale help                  | locale.help           | Команад помощи                                            |
-| /locale set [locale]          | locale.change         | Устанавливает язык без открытия GUI                       |
-| /locale list                  | locale.list           | Список языков, доступных для установки                    |
-| /locale get [player]          | locale.get            | Просмотр языка игрока                                     |
-| /darkwater reload [plugin]    | darkwater.reload      | Перезагрузка плагина, который использует DarkWaterAPI     |
-| /darkwater disable [plugin]   | darkwater.disable     | Выключение плагина, который использует DarkWaterAPI       |
-| /darkwater enable [plugin]    | darkwater.enable      | Включение плагина, который использует DarkWaterAPI        |
-| /statistic                    | darkwater.statistic   | Просмотр статистики по количеству убитых мобов            |
+| Команда                     | Права               | Описание                                              |
+|-----------------------------|---------------------|-------------------------------------------------------|
+| /locale change              | locale.change       | Открывает GUI для выбора языка                        |
+| /locale help                | locale.help         | Команад помощи                                        |
+| /locale set [locale]        | locale.change       | Устанавливает язык без открытия GUI                   |
+| /locale list                | locale.list         | Список языков, доступных для установки                |
+| /locale get [player]        | locale.get          | Просмотр языка игрока                                 |
+| /darkwater reload [plugin]  | darkwater.reload    | Перезагрузка плагина, который использует DarkWaterAPI |
+| /darkwater disable [plugin] | darkwater.disable   | Выключение плагина, который использует DarkWaterAPI   |
+| /darkwater enable [plugin]  | darkwater.enable    | Включение плагина, который использует DarkWaterAPI    |
+| /statistic                  | darkwater.statistic | Просмотр статистики по количеству убитых мобов        |
 
 ## Placeholders
 
-| Placeholder                                              | Описание                                                |
-|  -------------                                           | -------------                                           |
-| %statistic_PUT-HERE-MOB% (Example: %statistic_CREEPER%)  | Отображает количество убитого моба                      |
-| %locale_player%                                          | Отображает выбранный язык                               |
-| %locale_list%                                            | Отображает список всех языков, доступных для выбора     |
+| Placeholder                                             | Описание                                            |
+|---------------------------------------------------------|-----------------------------------------------------|
+| %statistic_PUT-HERE-MOB% (Example: %statistic_CREEPER%) | Отображает количество убитого моба                  |
+| %locale_player%                                         | Отображает выбранный язык                           |
+| %locale_list%                                           | Отображает список всех языков, доступных для выбора |
 
 ## Конфиг
 

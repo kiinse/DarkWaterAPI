@@ -9,8 +9,6 @@ import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.LocaleStorage;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
-import java.io.IOException;
-
 public class LocaleSaverImpl implements LocaleSaver {
 
     private final JsonFile jsonFile;

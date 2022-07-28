@@ -1,14 +1,14 @@
 package kiinse.plugins.api.darkwaterapi.files.messages;
 
 import kiinse.plugins.api.darkwaterapi.files.messages.enums.ComponentAction;
-import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.ComponentLabels;
+import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.ComponentTags;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
 
-public class ParseComponentLabels implements ComponentLabels {
+public class ParseComponentTags implements ComponentTags {
 
     @Override
     public @NotNull Component parseMessage(@NotNull String msg) {

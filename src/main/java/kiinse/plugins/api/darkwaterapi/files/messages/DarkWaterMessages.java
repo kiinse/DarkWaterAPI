@@ -6,7 +6,7 @@ import kiinse.plugins.api.darkwaterapi.files.filemanager.enums.Directory;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesManager;
 import kiinse.plugins.api.darkwaterapi.files.locale.Locale;
 import kiinse.plugins.api.darkwaterapi.files.messages.enums.Message;
-import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.ComponentLabels;
+import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.ComponentTags;
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.Messages;
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.MessagesKeys;
 import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
@@ -27,7 +27,7 @@ import java.util.logging.Level;
 
 public class DarkWaterMessages extends FilesManager implements Messages {
 
-    private final ComponentLabels componentLabels = new ParseComponentLabels();
+    private final ComponentTags componentTags = new ParseComponentTags();
     private final DarkWaterJavaPlugin plugin;
     private final HashMap<String, JSONObject> messages = new HashMap<>();
 
@@ -90,7 +90,7 @@ public class DarkWaterMessages extends FilesManager implements Messages {
 
     @Override
     public @NotNull Component getComponentMessage(@NotNull Locale locale, @NotNull MessagesKeys message) {
-        return componentLabels.parseMessage(colorize(getString(locale, message)));
+        return componentTags.parseMessage(colorize(getString(locale, message)));
     }
 
     @Override
@@ -100,7 +100,7 @@ public class DarkWaterMessages extends FilesManager implements Messages {
 
     @Override
     public @NotNull Component getComponentMessageWithPrefix(@NotNull Locale locale, @NotNull MessagesKeys message) {
-        return Component.text(getPrefix(locale)).append(componentLabels.parseMessage(colorize(getString(locale, message))));
+        return Component.text(getPrefix(locale)).append(componentTags.parseMessage(colorize(getString(locale, message))));
     }
 
     @Override

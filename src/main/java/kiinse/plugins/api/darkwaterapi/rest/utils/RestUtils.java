@@ -6,9 +6,9 @@ import org.jetbrains.annotations.Nullable;
 import org.json.simple.JSONObject;
 
 @SuppressWarnings({"unchecked", "unused"})
-public class RestAnswer {
+public class RestUtils {
 
-    private RestAnswer() {}
+    private RestUtils() {}
 
     public static @NotNull JSONObject createAnswer(@NotNull RestStatus status) {
         return createAnswer(status, (Exception) null);

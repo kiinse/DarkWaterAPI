@@ -1,8 +1,8 @@
 package kiinse.plugins.api.darkwaterapi.files.config.enums;
 
-import kiinse.plugins.api.darkwaterapi.files.config.interfaces.ConfigKeys;
+import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.YamlKeys;
 
-public enum Config implements ConfigKeys {
+public enum Config implements YamlKeys {
     FIRST_JOIN_MESSAGE,
     ACTIONBAR_INDICATORS,
     LOCALE_DEFAULT,

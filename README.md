@@ -136,8 +136,8 @@ public final class TestPlugin extends DarkWaterJavaPlugin { // Main class
     }
 
     private void sendMessageToPlayer(Player player) {
-        SendMessages sendMessages = new SendMessagesImpl(this);
-        sendMessages.sendMessageWithPrefix(player, Message.MESSAGE_HELLO); // We send to player the message "message_hello" from the json file.
+        MessagesUtils messagesUtils = new MessagesUtilsImpl(this);
+        messagesUtils.sendMessageWithPrefix(player, Message.MESSAGE_HELLO); // We send to player the message "message_hello" from the json file.
         // This text will correspond to the selected localization of the player.
     }
 }
@@ -166,25 +166,25 @@ File "ru.json":
 
 ## Commands
 
-| Command                       | Permission            | Description                                    |
-|  -------------                | -------------         | -------------                                  |
-| /locale change                | locale.change         | Opens a GUI to change the selected language    |
-| /locale help                  | locale.help           | Help command                                   |
-| /locale set [locale]          | locale.change         | Setting the language without opening the GUI   |
-| /locale list                  | locale.list           | List of languages available for selection      |
-| /locale get [player]          | locale.get            | View player's language                         |
-| /darkwater reload [plugin]    | darkwater.reload      | Reloading a plugin using DarkWaterAPI          |
-| /darkwater disable [plugin]   | darkwater.disable     | Disabling a plugin using DarkWaterAPI          |
-| /darkwater enable [plugin]    | darkwater.enable      | Enabling a plugin using DarkWaterAPI           |
-| /statistic                    | darkwater.statistic   | View statistics on the number of killed mobs.  |
+| Command                     | Permission          | Description                                   |
+|-----------------------------|---------------------|-----------------------------------------------|
+| /locale change              | locale.change       | Opens a GUI to change the selected language   |
+| /locale help                | locale.help         | Help command                                  |
+| /locale set [locale]        | locale.change       | Setting the language without opening the GUI  |
+| /locale list                | locale.list         | List of languages available for selection     |
+| /locale get [player]        | locale.get          | View player's language                        |
+| /darkwater reload [plugin]  | darkwater.reload    | Reloading a plugin using DarkWaterAPI         |
+| /darkwater disable [plugin] | darkwater.disable   | Disabling a plugin using DarkWaterAPI         |
+| /darkwater enable [plugin]  | darkwater.enable    | Enabling a plugin using DarkWaterAPI          |
+| /statistic                  | darkwater.statistic | View statistics on the number of killed mobs. |
 
 ## Placeholders
 
-| Placeholder                                              | Description                                             |
-|  -------------                                           | -------------                                           |
-| %statistic_PUT-HERE-MOB% (Example: %statistic_CREEPER%)  | Display the number of killed mob                        |
-| %locale_player%                                          | Language display                                        |
-| %locale_list%                                            | Displaying a list of languages available for selection  |
+| Placeholder                                             | Description                                            |
+|---------------------------------------------------------|--------------------------------------------------------|
+| %statistic_PUT-HERE-MOB% (Example: %statistic_CREEPER%) | Display the number of killed mob                       |
+| %locale_player%                                         | Language display                                       |
+| %locale_list%                                           | Displaying a list of languages available for selection |
 
 ## Config
 

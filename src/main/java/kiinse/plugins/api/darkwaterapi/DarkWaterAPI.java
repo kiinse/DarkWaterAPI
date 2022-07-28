@@ -4,9 +4,9 @@ import kiinse.plugins.api.darkwaterapi.exceptions.PluginException;
 import kiinse.plugins.api.darkwaterapi.exceptions.VersioningException;
 import kiinse.plugins.api.darkwaterapi.files.config.Configuration;
 import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
-import kiinse.plugins.api.darkwaterapi.files.locale.PlayerLocaleImpl;
+import kiinse.plugins.api.darkwaterapi.files.locale.PlayerLocalesImpl;
 import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.LocaleStorage;
-import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.PlayerLocale;
+import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.PlayerLocales;
 import kiinse.plugins.api.darkwaterapi.files.locale.utils.LocaleLoaderImpl;
 import kiinse.plugins.api.darkwaterapi.files.locale.utils.LocaleSaverImpl;
 import kiinse.plugins.api.darkwaterapi.files.messages.DarkWaterMessages;
@@ -27,7 +27,7 @@ import kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers.IndicatorS
 import kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers.JumpSchedule;
 import kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers.MoveSchedule;
 import kiinse.plugins.api.darkwaterapi.schedulers.interfaces.SchedulersManager;
-import kiinse.plugins.api.darkwaterapi.utilities.versioning.Versioning;
+import kiinse.plugins.api.darkwaterapi.utilities.VersionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 
@@ -39,7 +39,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
     private static DarkWaterAPI instance;
     private DarkPluginManager pluginManager;
     private LocaleStorage localeStorage;
-    private PlayerLocale locales;
+    private PlayerLocales locales;
     private DarkWaterStatistic darkWaterStatistic;
     private IndicatorManager indicatorManager;
     private SchedulersManager schedulersManager;
@@ -67,7 +67,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
         super.configuration = new Configuration(this);
         new LoadAPI(this);
         localeStorage = new LocaleLoaderImpl(this).getLocaleStorage();
-        locales = new PlayerLocaleImpl(this, localeStorage);
+        locales = new PlayerLocalesImpl(this, localeStorage);
         super.messages = new DarkWaterMessages(this);
         darkWaterStatistic = new DarkWaterStatsImpl(this);
         indicatorManager = new IndicatorManagerImpl(this);
@@ -101,7 +101,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
             getMessages().reload();
             getConfiguration().reload();
             localeStorage = new LocaleLoaderImpl(this).getLocaleStorage();
-            locales = new PlayerLocaleImpl(this, localeStorage);
+            locales = new PlayerLocalesImpl(this, localeStorage);
             darkWaterStatistic = new DarkWaterStatsImpl(this);
             rest = new RestConnectionImpl(this);
             sendLog(getName() + " reloaded!");
@@ -159,8 +159,8 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
     private void checkForUpdates() {
         if (!getConfiguration().getBoolean(Config.DISABLE_VERSION_CHECK)) {
             try {
-                var latest = Versioning.getLatestGithubVersion("https://github.com/kiinse/DarkWaterAPI");
-                if (!latest.isGreaterThan(Versioning.getCurrentDarkWaterVersion())) {
+                var latest = VersionUtils.getLatestGithubVersion("https://github.com/kiinse/DarkWaterAPI");
+                if (!latest.isGreaterThan(VersionUtils.getCurrentDarkWaterVersion())) {
                     sendLog("Latest version of DarkWaterAPI installed, no new versions found =3");
                 } else {
                     sendConsole(" &c|====================================UPDATE====================================");
@@ -184,9 +184,9 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
 
     /**
      * Getting a class to work with player languages
-     * @return {@link PlayerLocale}
+     * @return {@link PlayerLocales}
      */
-    public @NotNull PlayerLocale getLocales() {
+    public @NotNull PlayerLocales getPlayerLocales() {
         return locales;
     }
 

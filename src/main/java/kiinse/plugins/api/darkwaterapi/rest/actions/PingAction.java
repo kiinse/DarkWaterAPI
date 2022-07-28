@@ -2,7 +2,7 @@ package kiinse.plugins.api.darkwaterapi.rest.actions;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.rest.enums.RestStatus;
-import kiinse.plugins.api.darkwaterapi.rest.utils.RestAnswer;
+import kiinse.plugins.api.darkwaterapi.rest.utils.RestUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 import services.moleculer.context.Context;
@@ -29,13 +29,13 @@ public class PingAction implements Action {
             var map = new HashMap<String,String>();
             if (inet.isReachable(5000)){
                 map.put("ping", String.valueOf(new GregorianCalendar().getTimeInMillis() - start));
-                return RestAnswer.createAnswer(RestStatus.SUCCESS, new JSONObject(map));
+                return RestUtils.createAnswer(RestStatus.SUCCESS, new JSONObject(map));
             }
             map.put("ping", "unreachable");
-            return RestAnswer.createAnswer(RestStatus.ERROR_PING_RECEIVE, new JSONObject(map));
+            return RestUtils.createAnswer(RestStatus.ERROR_PING_RECEIVE, new JSONObject(map));
         } catch (Exception e) {
             darkWaterAPI.sendLog(Level.WARNING, "An error occurred while receiving a ping: " + e.getMessage());
-            return RestAnswer.createAnswer(RestStatus.ERROR_PING_RECEIVE, e);
+            return RestUtils.createAnswer(RestStatus.ERROR_PING_RECEIVE, e);
         }
     }
 

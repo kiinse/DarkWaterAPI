@@ -2,7 +2,7 @@ package kiinse.plugins.api.darkwaterapi.rest.actions;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.rest.enums.RestStatus;
-import kiinse.plugins.api.darkwaterapi.rest.utils.RestAnswer;
+import kiinse.plugins.api.darkwaterapi.rest.utils.RestUtils;
 import org.bukkit.Server;
 import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
@@ -43,7 +43,7 @@ public class DataAction implements Action {
         json.put("name", server.getName());
         json.put("onlineMode", server.getOnlineMode());
         json.put("worldType", server.getWorldType());
-        return RestAnswer.createAnswer(RestStatus.SUCCESS, json);
+        return RestUtils.createAnswer(RestStatus.SUCCESS, json);
     }
 
     private @NotNull JSONObject getWorlds(@NotNull Server server) {

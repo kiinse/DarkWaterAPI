@@ -2,7 +2,7 @@ package kiinse.plugins.api.darkwaterapi.rest.actions;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.rest.enums.RestStatus;
-import kiinse.plugins.api.darkwaterapi.rest.utils.RestAnswer;
+import kiinse.plugins.api.darkwaterapi.rest.utils.RestUtils;
 import org.bukkit.Server;
 import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
@@ -36,6 +36,6 @@ public class PluginsAction implements Action {
             info.put("description", description.getDescription());
             map.put(plugin.getName(), info);
         }
-        return RestAnswer.createAnswer(RestStatus.SUCCESS, new JSONObject(map));
+        return RestUtils.createAnswer(RestStatus.SUCCESS, new JSONObject(map));
     }
 }

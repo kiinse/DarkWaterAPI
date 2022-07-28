@@ -4,11 +4,11 @@ import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.YamlFile;
 import kiinse.plugins.api.darkwaterapi.files.locale.Locale;
-import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.PlayerLocale;
-import kiinse.plugins.api.darkwaterapi.files.messages.SendMessagesImpl;
+import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.PlayerLocales;
+import kiinse.plugins.api.darkwaterapi.files.messages.MessagesUtilsImpl;
 import kiinse.plugins.api.darkwaterapi.files.messages.enums.Message;
 import kiinse.plugins.api.darkwaterapi.files.messages.enums.Replace;
-import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.SendMessages;
+import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.MessagesUtils;
 import kiinse.plugins.api.darkwaterapi.utilities.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -23,9 +23,9 @@ import java.util.logging.Level;
 public class OnJoinListener implements Listener {
 
     private final DarkWaterAPI darkWaterAPI = DarkWaterAPI.getInstance();
-    private final PlayerLocale locale = darkWaterAPI.getLocales();
+    private final PlayerLocales locale = darkWaterAPI.getPlayerLocales();
     private final YamlFile config = darkWaterAPI.getConfiguration();
-    private final SendMessages sendMessages = new SendMessagesImpl(darkWaterAPI);
+    private final MessagesUtils messagesUtils = new MessagesUtilsImpl(darkWaterAPI);
 
     @EventHandler
     public void onJoin(@NotNull PlayerJoinEvent event) {
@@ -37,7 +37,7 @@ public class OnJoinListener implements Listener {
         if (!locale.isPlayerLocalized(player)) {
             locale.setPlayerLocale(player, Locale.valueOf(interfaceLocale));
             if (config.getBoolean(Config.FIRST_JOIN_MESSAGE)) {
-                sendMessages.sendMessage(player, Message.FIRST_JOIN, Replace.LOCALE, interfaceLocale);
+                messagesUtils.sendMessage(player, Message.FIRST_JOIN, Replace.LOCALE, interfaceLocale);
                 PlayerUtils.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
             }
             darkWaterAPI.sendLog(Level.CONFIG, "The player &d" + PlayerUtils.getPlayerName(player) + "&6 has been added to the plugin. His language is defined as " + interfaceLocale);

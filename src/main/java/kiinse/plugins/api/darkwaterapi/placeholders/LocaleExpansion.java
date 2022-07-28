@@ -45,7 +45,7 @@ public class LocaleExpansion extends PlaceholderExpansion {
             return "";
         }
         return switch (identifier) {
-            case "player" -> darkWaterAPI.getLocales().getPlayerLocale(player).toString();
+            case "player" -> darkWaterAPI.getPlayerLocales().getPlayerLocale(player).toString();
             case "list" -> darkWaterAPI.getLocaleStorage().getAllowedLocalesString();
             default -> null;
         };

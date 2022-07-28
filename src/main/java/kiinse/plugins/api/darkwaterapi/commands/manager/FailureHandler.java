@@ -2,8 +2,8 @@ package kiinse.plugins.api.darkwaterapi.commands.manager;
 
 import kiinse.plugins.api.darkwaterapi.commands.manager.interfaces.CommandFailureHandler;
 import kiinse.plugins.api.darkwaterapi.commands.manager.reasons.CommandFailReason;
-import kiinse.plugins.api.darkwaterapi.files.messages.SendMessagesImpl;
-import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.SendMessages;
+import kiinse.plugins.api.darkwaterapi.files.messages.MessagesUtilsImpl;
+import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.MessagesUtils;
 import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.utilities.DarkWaterUtils;
 import org.bukkit.command.CommandSender;
@@ -12,10 +12,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class FailureHandler implements CommandFailureHandler {
-    private final SendMessages sendMessages;
+    private final MessagesUtils messagesUtils;
 
     public FailureHandler(@NotNull DarkWaterJavaPlugin plugin) {
-        this.sendMessages = new SendMessagesImpl(plugin.getDarkWaterAPI());
+        this.messagesUtils = new MessagesUtilsImpl(plugin.getDarkWaterAPI());
     }
 
     @Override
@@ -23,7 +23,7 @@ public class FailureHandler implements CommandFailureHandler {
         if (!(sender instanceof Player)) {
             sender.sendMessage(DarkWaterUtils.colorize("&cYou cannot execute this command outside of the game!"));
         } else {
-            sendMessages.sendMessageWithPrefix(sender, reason);
+            messagesUtils.sendMessageWithPrefix(sender, reason);
         }
     }
 }

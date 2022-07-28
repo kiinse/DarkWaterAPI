@@ -2,7 +2,7 @@ package kiinse.plugins.api.darkwaterapi.files.filemanager;
 
 import kiinse.plugins.api.darkwaterapi.exceptions.YamlFileException;
 import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
-import kiinse.plugins.api.darkwaterapi.files.config.interfaces.ConfigKeys;
+import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.YamlKeys;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.enums.File;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesKeys;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesManager;
@@ -63,32 +63,32 @@ public class YamlFile extends FilesManager {
         this.file = YamlConfiguration.loadConfiguration(getFile(fileName));
     }
 
-    public @NotNull String getString(@NotNull ConfigKeys key) {
+    public @NotNull String getString(@NotNull YamlKeys key) {
         var string = file.getString(getKeyString(key));
         return string != null ? string : "";
     }
 
-    public boolean getBoolean(@NotNull ConfigKeys key) {
+    public boolean getBoolean(@NotNull YamlKeys key) {
         return file.getBoolean(getKeyString(key));
     }
 
-    public double getDouble(@NotNull ConfigKeys key) {
+    public double getDouble(@NotNull YamlKeys key) {
         return file.getDouble(getKeyString(key));
     }
 
-    public int getInt(@NotNull ConfigKeys key) {
+    public int getInt(@NotNull YamlKeys key) {
         return file.getInt(getKeyString(key));
     }
 
-    public @Nullable ItemStack getItemStack(@NotNull ConfigKeys key) {
+    public @Nullable ItemStack getItemStack(@NotNull YamlKeys key) {
         return file.getItemStack(getKeyString(key));
     }
 
-    public @NotNull List<String> getStringList(@NotNull ConfigKeys key) {
+    public @NotNull List<String> getStringList(@NotNull YamlKeys key) {
         return file.getStringList(getKeyString(key));
     }
 
-    private @NotNull String getKeyString(@NotNull ConfigKeys key) {
+    private @NotNull String getKeyString(@NotNull YamlKeys key) {
         return key.toString().toLowerCase().replace("_", ".");
     }
 

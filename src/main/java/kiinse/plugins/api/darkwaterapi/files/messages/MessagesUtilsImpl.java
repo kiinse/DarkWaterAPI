@@ -1,7 +1,7 @@
 package kiinse.plugins.api.darkwaterapi.files.messages;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
-import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.PlayerLocale;
+import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.PlayerLocales;
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.*;
 import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.utilities.DarkWaterUtils;
@@ -10,13 +10,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class SendMessagesImpl implements SendMessages {
+public class MessagesUtilsImpl implements MessagesUtils {
 
-    private final PlayerLocale locale = DarkWaterAPI.getInstance().getLocales();
-    private final ComponentLabels componentLabels = new ParseComponentLabels();
+    private final PlayerLocales locale = DarkWaterAPI.getInstance().getPlayerLocales();
+    private final ComponentTags componentTags = new ParseComponentTags();
     private final Messages messages;
 
-    public SendMessagesImpl(@NotNull DarkWaterJavaPlugin plugin) {
+    public MessagesUtilsImpl(@NotNull DarkWaterJavaPlugin plugin) {
         messages = plugin.getMessages();
     }
 
@@ -143,10 +143,10 @@ public class SendMessagesImpl implements SendMessages {
     }
 
     private void execute(@NotNull Player player, @NotNull String msg) {
-        player.sendMessage(componentLabels.parseMessage(msg));
+        player.sendMessage(componentTags.parseMessage(msg));
     }
 
     private void execute(@NotNull CommandSender player, @NotNull String msg) {
-        player.sendMessage(componentLabels.parseMessage(msg));
+        player.sendMessage(componentTags.parseMessage(msg));
     }
 }

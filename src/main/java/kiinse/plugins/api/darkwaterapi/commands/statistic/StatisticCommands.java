@@ -3,10 +3,10 @@ package kiinse.plugins.api.darkwaterapi.commands.statistic;
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.commands.manager.annotation.Command;
 import kiinse.plugins.api.darkwaterapi.commands.manager.interfaces.CommandClass;
-import kiinse.plugins.api.darkwaterapi.files.messages.SendMessagesImpl;
+import kiinse.plugins.api.darkwaterapi.files.messages.MessagesUtilsImpl;
 import kiinse.plugins.api.darkwaterapi.files.messages.enums.Message;
 import kiinse.plugins.api.darkwaterapi.files.messages.enums.Replace;
-import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.SendMessages;
+import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.MessagesUtils;
 import kiinse.plugins.api.darkwaterapi.utilities.PlayerUtils;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 public class StatisticCommands implements CommandClass {
 
     private final DarkWaterAPI darkWaterAPI = DarkWaterAPI.getInstance();
-    private final SendMessages sendMessages = new SendMessagesImpl(darkWaterAPI);
+    private final MessagesUtils messagesUtils = new MessagesUtilsImpl(darkWaterAPI);
 
     @Override
     @Command(command = "/statistic", permission = "darkwater.statistic", disallowNonPlayer = true)
@@ -30,6 +30,6 @@ public class StatisticCommands implements CommandClass {
         } else {
             msg = "&a&lN/A";
         }
-        sendMessages.sendMessage(sender, Message.STATISTIC, Replace.STATISTIC, msg);
+        messagesUtils.sendMessage(sender, Message.STATISTIC, Replace.STATISTIC, msg);
     }
 }

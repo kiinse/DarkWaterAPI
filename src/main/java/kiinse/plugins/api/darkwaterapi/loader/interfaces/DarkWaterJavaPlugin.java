@@ -165,15 +165,15 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
      * @param msg Message
      */
     public void sendLog(@NotNull Level level, @NotNull String msg) {
-        if (level == Level.INFO) {
+        if (level.equals(Level.INFO)) {
             sendConsole("&6[&b" + getName() + "&6]&a " + msg);
             return;
         }
-        if (level == Level.WARNING) {
+        if (level.equals(Level.WARNING)) {
             sendConsole("&6[&b" + getName() + "&f/&cWARN&6] " + msg);
             return;
         }
-        if (level == Level.CONFIG && getDarkWaterAPI().getConfiguration() != null && getDarkWaterAPI().getConfiguration().getBoolean(Config.DEBUG)) {
+        if (level.equals(Level.CONFIG) && getDarkWaterAPI().getConfiguration() != null && getDarkWaterAPI().getConfiguration().getBoolean(Config.DEBUG)) {
             sendConsole("&6[&b" + getName() + "&f/&dDEBUG&6] " + msg);
             return;
         }

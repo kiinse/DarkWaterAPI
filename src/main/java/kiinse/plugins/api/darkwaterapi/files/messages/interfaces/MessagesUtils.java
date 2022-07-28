@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
-public interface SendMessages {
+public interface MessagesUtils {
 
     /**
      * Send message to all players

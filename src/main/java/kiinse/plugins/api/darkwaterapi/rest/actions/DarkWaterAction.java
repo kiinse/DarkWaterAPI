@@ -4,7 +4,7 @@ import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.YamlFile;
 import kiinse.plugins.api.darkwaterapi.rest.enums.RestStatus;
-import kiinse.plugins.api.darkwaterapi.rest.utils.RestAnswer;
+import kiinse.plugins.api.darkwaterapi.rest.utils.RestUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 import services.moleculer.context.Context;
@@ -28,8 +28,8 @@ public class DarkWaterAction implements Action {
             for (var plugin : darkWaterAPI.getPluginManager().getPluginsList()) {
                 json.put(plugin.getName(), plugin.getPluginData());
             }
-            return RestAnswer.createAnswer(RestStatus.SUCCESS, json);
+            return RestUtils.createAnswer(RestStatus.SUCCESS, json);
         }
-        return RestAnswer.createAnswer(RestStatus.ERROR_AUTHENTICATION);
+        return RestUtils.createAnswer(RestStatus.ERROR_AUTHENTICATION);
     }
 }

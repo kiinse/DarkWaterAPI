@@ -106,7 +106,7 @@ public abstract class FilesManager {
         return new File(getDataFolder() + getFileName(directory));
     }
 
-    public @org.jetbrains.annotations.Nullable InputStream accessFile(@NotNull FilesKeys file) {
+    public @Nullable InputStream accessFile(@NotNull FilesKeys file) {
         var input = plugin.getClass().getResourceAsStream(getFileName(file));
         if (input == null) {
             input = plugin.getClass().getClassLoader().getResourceAsStream(getFileName(file));
@@ -114,7 +114,7 @@ public abstract class FilesManager {
         return input;
     }
 
-    private @org.jetbrains.annotations.Nullable InputStream accessFile(@NotNull String file) {
+    private @Nullable InputStream accessFile(@NotNull String file) {
         var input = plugin.getClass().getResourceAsStream(file);
         if (input == null) {
             input = plugin.getClass().getClassLoader().getResourceAsStream(file);

@@ -2,7 +2,7 @@ package kiinse.plugins.api.darkwaterapi.files.locale;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.LocaleStorage;
-import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.PlayerLocale;
+import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.PlayerLocales;
 import kiinse.plugins.api.darkwaterapi.utilities.PlayerUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -11,12 +11,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Level;
 
-public class PlayerLocaleImpl implements PlayerLocale {
+public class PlayerLocalesImpl implements PlayerLocales {
 
     private final DarkWaterAPI darkWaterAPI;
     private final LocaleStorage storage;
 
-    public PlayerLocaleImpl(@NotNull DarkWaterAPI darkWaterAPI, @NotNull LocaleStorage storage) {
+    public PlayerLocalesImpl(@NotNull DarkWaterAPI darkWaterAPI, @NotNull LocaleStorage storage) {
         this.darkWaterAPI = darkWaterAPI;
         this.storage = storage;
     }
