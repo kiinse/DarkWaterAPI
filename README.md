@@ -111,10 +111,11 @@ dependencies {
 In the resources folder, we create a "messages" folder, where we also create several localization files. For example en.json and ru.json. We get the following structure:
 
 ```txt
-  |--resources
-     |--messages
-        |--en.json
-        |--ru.json
+.
+└── resources
+    └── messages
+        ├── en.json
+        └── ru.json
 ```
 
 After running the plugin containing the main class, which was inherited from "DarkWaterJavaPlugin" - These files will appear in the plugin folder on the server.
@@ -165,25 +166,25 @@ File "ru.json":
 
 ## Commands
 
-```
-- /locale change                  | (Permission: locale.change)          | Opens a GUI to change the selected language
-- /locale help                    | (Permission: locale.help)            | Help command
-- /locale set [locale]            | (Permission: locale.change)          | Setting the language without opening the GUI
-- /locale list                    | (Permission: locale.list)            | List of languages available for selection
-- /locale get [player]            | (Permission: locale.get)             | View player's language
-- /darkwater reload [plugin]      | (Permission: darkwater.reload)       | Reloading a plugin using DarkWaterAPI
-- /darkwater disable [plugin]     | (Permission: darkwater.disable)      | Disabling a plugin using DarkWaterAPI
-- /darkwater enable [plugin]      | (Permission: darkwater.enable)       | Enabling a plugin using DarkWaterAPI
-- /statistic                      | (Permission: darkwater.statistic)    | View statistics on the number of killed mobs.
-```
+| Command                       | Permission            | Description                                    |
+|  -------------                | -------------         | -------------                                  |
+| /locale change                | locale.change         | Opens a GUI to change the selected language    |
+| /locale help                  | locale.help           | Help command                                   |
+| /locale set [locale]          | locale.change         | Setting the language without opening the GUI   |
+| /locale list                  | locale.list           | List of languages available for selection      |
+| /locale get [player]          | locale.get            | View player's language                         |
+| /darkwater reload [plugin]    | darkwater.reload      | Reloading a plugin using DarkWaterAPI          |
+| /darkwater disable [plugin]   | darkwater.disable     | Disabling a plugin using DarkWaterAPI          |
+| /darkwater enable [plugin]    | darkwater.enable      | Enabling a plugin using DarkWaterAPI           |
+| /statistic                    | darkwater.statistic   | View statistics on the number of killed mobs.  |
 
 ## Placeholders
 
-```
-- %statistic_PUT-HERE-MOB% (Example: %statistic_CREEPER%)  | Display the number of killed mob
-- %locale_player%                                          | Language display
-- %locale_list%                                            | Displaying a list of languages available for selection
-```
+| Placeholder                                              | Description                                             |
+|  -------------                                           | -------------                                           |
+| %statistic_PUT-HERE-MOB% (Example: %statistic_CREEPER%)  | Display the number of killed mob                        |
+| %locale_player%                                          | Language display                                        |
+| %locale_list%                                            | Displaying a list of languages available for selection  |
 
 ## Config
 
