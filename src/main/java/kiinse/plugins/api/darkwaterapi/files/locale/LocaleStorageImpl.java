@@ -1,7 +1,7 @@
 package kiinse.plugins.api.darkwaterapi.files.locale;
 
 import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.LocaleStorage;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,7 +1,7 @@
 package kiinse.plugins.api.darkwaterapi.databases;
 
 import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
@@ -21,20 +21,24 @@ public abstract class Postgresql {
 
     private final DarkWaterJavaPlugin plugin;
 
-    protected Postgresql(@NotNull DarkWaterJavaPlugin plugin) throws Exception {
+    protected Postgresql(@NotNull DarkWaterJavaPlugin plugin) throws SQLException {
         connect();
         this.plugin = plugin;
     }
 
-    public void connect() throws Exception {
+    public void connect() throws SQLException {
         if (!isConnected()) {
-            plugin.sendLog("Connecting to database...");
-            System.getProperties().setProperty("org.jooq.no-logo", "true");
-            System.getProperties().setProperty("org.jooq.no-tips", "true");
-            connection = registerConnection(getSettings(plugin));
-            context = DSL.using(connection, SQLDialect.POSTGRES);
-            createDataBases(context);
-            plugin.sendLog("Database connected.");
+            try {
+                plugin.sendLog("Connecting to database...");
+                System.getProperties().setProperty("org.jooq.no-logo", "true");
+                System.getProperties().setProperty("org.jooq.no-tips", "true");
+                connection = registerConnection(getSettings(plugin));
+                context = DSL.using(connection, SQLDialect.POSTGRES);
+                createDataBases(context);
+                plugin.sendLog("Database connected.");
+            } catch (Exception e) {
+                throw new SQLException(e);
+            }
         } else {
             throw new SQLException("Database already connected!");
         }

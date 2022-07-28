@@ -1,6 +1,7 @@
 package kiinse.plugins.api.darkwaterapi.files.locale.utils;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
+import kiinse.plugins.api.darkwaterapi.exceptions.JsonFileException;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.JsonFile;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.enums.File;
 import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.LocaleSaver;
@@ -20,12 +21,12 @@ public class LocaleSaverImpl implements LocaleSaver {
         this.storage = darkWaterAPI.getLocaleStorage();
     }
 
-    public void saveLocaleStorage() throws IOException {
+    public void saveLocaleStorage() throws JsonFileException {
         saveLocaleStorage(parseLocalesData(storage));
     }
 
     @Override
-    public void saveLocaleStorage(@NotNull JSONObject json) throws IOException {
+    public void saveLocaleStorage(@NotNull JSONObject json) throws JsonFileException {
         jsonFile.saveJsonToFile(json);
     }
 

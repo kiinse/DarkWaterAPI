@@ -1,6 +1,6 @@
 package kiinse.plugins.api.darkwaterapi.loader.interfaces;
 
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.exceptions.PluginException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -14,14 +14,14 @@ public interface DarkPluginManager {
 
     @NotNull List<DarkWaterJavaPlugin> getPluginsList();
 
-    void registerPlugin(@NotNull DarkWaterJavaPlugin plugin) throws IllegalArgumentException;
+    void registerPlugin(@NotNull DarkWaterJavaPlugin plugin);
 
-    void unregisterPlugin(@NotNull DarkWaterJavaPlugin plugin) throws Exception;
+    void unregisterPlugin(@NotNull DarkWaterJavaPlugin plugin) throws PluginException;
 
-    void enablePlugin(@NotNull String plugin) throws IllegalArgumentException;
+    void enablePlugin(@NotNull String plugin) throws PluginException;
 
-    void disablePlugin(@NotNull String plugin) throws IllegalArgumentException;
+    void disablePlugin(@NotNull String plugin) throws PluginException;
 
-    void reloadPlugin(@NotNull String plugin);
+    void reloadPlugin(@NotNull String plugin) throws PluginException;
 
 }

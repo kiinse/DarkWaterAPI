@@ -1,19 +1,20 @@
 package kiinse.plugins.api.darkwaterapi.files.locale.utils;
 
+import kiinse.plugins.api.darkwaterapi.exceptions.JsonFileException;
+import kiinse.plugins.api.darkwaterapi.exceptions.LocaleException;
 import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.JsonFile;
-import kiinse.plugins.api.darkwaterapi.files.filemanager.FilesManager;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.enums.Directory;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.enums.File;
+import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesManager;
 import kiinse.plugins.api.darkwaterapi.files.locale.Locale;
 import kiinse.plugins.api.darkwaterapi.files.locale.LocaleStorageImpl;
 import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.LocaleLoader;
 import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.LocaleStorage;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -31,7 +32,7 @@ public class LocaleLoaderImpl extends FilesManager implements LocaleLoader {
     }
 
     @Override
-    public @NotNull LocaleStorage getLocaleStorage() throws IOException {
+    public @NotNull LocaleStorage getLocaleStorage() throws LocaleException, JsonFileException {
         var allowedLocales = parseAllowedLocales(Arrays.stream(Objects.requireNonNull(getFile(Directory.MESSAGES).listFiles())).toList());
         var localesData = parseLocalesData(new JsonFile(plugin, File.DATA_JSON).getJsonFromFile());
         var defaultLocale = parseDefaultLocale(plugin.getConfiguration().getString(Config.LOCALE_DEFAULT));
@@ -39,7 +40,7 @@ public class LocaleLoaderImpl extends FilesManager implements LocaleLoader {
     }
 
     @Override
-    public @NotNull List<Locale> parseAllowedLocales(@NotNull List<java.io.File> locales) throws IllegalArgumentException {
+    public @NotNull List<Locale> parseAllowedLocales(@NotNull List<java.io.File> locales) throws LocaleException {
         var list = new ArrayList<Locale>();
         for (var file : locales) {
             var fileName = file.getName().split("\\.");
@@ -53,16 +54,16 @@ public class LocaleLoaderImpl extends FilesManager implements LocaleLoader {
             }
         }
         if (list.isEmpty()) {
-            throw new IllegalArgumentException("Allowed locales is empty!");
+            throw new LocaleException("Allowed locales is empty!");
         }
         return list;
     }
 
     @Override
-    public @NotNull Locale parseDefaultLocale(@NotNull String locale) throws IllegalArgumentException {
+    public @NotNull Locale parseDefaultLocale(@NotNull String locale) throws LocaleException {
         var loc = locale.replace(" ", "");
         if (loc.isEmpty()) {
-            throw new IllegalArgumentException("Default locale is empty!");
+            throw new LocaleException("Default locale is empty!");
         }
         return Locale.valueOf(loc);
     }

@@ -1,6 +1,9 @@
 package kiinse.plugins.api.darkwaterapi;
 
+import kiinse.plugins.api.darkwaterapi.exceptions.PluginException;
+import kiinse.plugins.api.darkwaterapi.exceptions.VersioningException;
 import kiinse.plugins.api.darkwaterapi.files.config.Configuration;
+import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
 import kiinse.plugins.api.darkwaterapi.files.locale.PlayerLocaleImpl;
 import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.LocaleStorage;
 import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.PlayerLocale;
@@ -14,16 +17,16 @@ import kiinse.plugins.api.darkwaterapi.indicators.interfaces.IndicatorManager;
 import kiinse.plugins.api.darkwaterapi.initialize.LoadAPI;
 import kiinse.plugins.api.darkwaterapi.initialize.RegisterCommands;
 import kiinse.plugins.api.darkwaterapi.initialize.RegisterEvents;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.loader.DarkWaterPluginManager;
 import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkPluginManager;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.rest.RestConnectionImpl;
 import kiinse.plugins.api.darkwaterapi.rest.interfaces.RestConnection;
 import kiinse.plugins.api.darkwaterapi.schedulers.SchedulersManagerImpl;
-import kiinse.plugins.api.darkwaterapi.schedulers.SchedulersManager;
 import kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers.IndicatorSchedule;
 import kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers.JumpSchedule;
 import kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers.MoveSchedule;
+import kiinse.plugins.api.darkwaterapi.schedulers.interfaces.SchedulersManager;
 import kiinse.plugins.api.darkwaterapi.utilities.versioning.Versioning;
 import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
@@ -45,7 +48,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
     private MoveSchedule moveSchedule;
 
     @Override
-    protected void start() {
+    protected void start() throws PluginException {
         try {
             getLogger().setLevel(Level.CONFIG);
             sendLog("Loading " + getName() + "...");
@@ -54,7 +57,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
             sendInfo();
             checkForUpdates();
         } catch (Exception e) {
-            sendLog(Level.SEVERE, "Error on loading " + getName() + "! Message: " + e.getMessage());
+            throw new PluginException(e);
         }
     }
 
@@ -154,20 +157,24 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
     }
 
     private void checkForUpdates() {
-        try {
-            var latest = Versioning.getLatestGithubVersion("https://github.com/kiinse/DarkWaterAPI");
-            if (!latest.isGreaterThan(Versioning.getCurrentDarkWaterVersion())) {
-                sendLog("Latest version of DarkWaterAPI installed, no new versions found =3");
-            } else {
-                sendConsole(" &c|====================================UPDATE====================================");
-                sendConsole(" &c| ");
-                sendConsole(" &c| &6New version of DarkWaterAPI found: '&b" + latest.getOriginalValue() + "&6'! Your version is '&b" + getDescription().getVersion() + "&6'");
-                sendConsole(" &c| &6You can download it at &bhttps://github.com/kiinse/DarkWaterAPI/releases");
-                sendConsole(" &c| ");
-                sendConsole(" &c|==============================================================================");
+        if (!getConfiguration().getBoolean(Config.DISABLE_VERSION_CHECK)) {
+            try {
+                var latest = Versioning.getLatestGithubVersion("https://github.com/kiinse/DarkWaterAPI");
+                if (!latest.isGreaterThan(Versioning.getCurrentDarkWaterVersion())) {
+                    sendLog("Latest version of DarkWaterAPI installed, no new versions found =3");
+                } else {
+                    sendConsole(" &c|====================================UPDATE====================================");
+                    sendConsole(" &c| ");
+                    sendConsole(" &c| &6New version of DarkWaterAPI found: '&b" + latest.getOriginalValue() + "&6'! Your version is '&b" + getDescription().getVersion() + "&6'");
+                    sendConsole(" &c| &6You can download it at &bhttps://github.com/kiinse/DarkWaterAPI/releases");
+                    sendConsole(" &c| ");
+                    sendConsole(" &c| &6You can &cdisable&6 DarkWaterAPI version checking by entering the line '&bdisable.version.check: true&6' in the &bconfig");
+                    sendConsole(" &c| ");
+                    sendConsole(" &c|==============================================================================");
+                }
+            } catch (VersioningException e) {
+                sendLog(Level.WARNING, "Error checking DarkWaterAPI version! Message: " + e.getMessage());
             }
-        } catch (NullPointerException e) {
-            sendLog(Level.WARNING, e.getMessage());
         }
     }
 

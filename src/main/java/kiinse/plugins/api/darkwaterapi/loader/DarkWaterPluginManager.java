@@ -1,7 +1,9 @@
 package kiinse.plugins.api.darkwaterapi.loader;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
+import kiinse.plugins.api.darkwaterapi.exceptions.PluginException;
 import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkPluginManager;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -48,23 +50,27 @@ public class DarkWaterPluginManager implements DarkPluginManager {
         return null;
     }
 
-    private void remove(@NotNull DarkWaterJavaPlugin plugin) throws Exception {
+    private void remove(@NotNull DarkWaterJavaPlugin plugin) throws PluginException {
         remove(plugin.getName());
     }
 
-    private void remove(@NotNull String plugin) throws Exception {
+    private void remove(@NotNull String plugin) throws PluginException {
         var iterator = plugins.listIterator();
         while (iterator.hasNext()) {
             var plug = iterator.next();
             if (Objects.equals(plug.getName(), plugin)) {
-                plug.onStop();
-                iterator.remove();
+                try {
+                    plug.onStop();
+                    iterator.remove();
+                } catch (Exception e) {
+                    throw new PluginException(e);
+                }
             }
         }
     }
 
     @Override
-    public void registerPlugin(@NotNull DarkWaterJavaPlugin plugin) throws IllegalArgumentException {
+    public void registerPlugin(@NotNull DarkWaterJavaPlugin plugin) {
         if (!hasPlugin(plugin)) {
             plugins.add(plugin);
             this.darkWaterAPI.sendLog("Plugin '&b" + plugin.getName() + "&a' registered");
@@ -74,45 +80,45 @@ public class DarkWaterPluginManager implements DarkPluginManager {
     }
 
     @Override
-    public void unregisterPlugin(@NotNull DarkWaterJavaPlugin plugin) throws Exception {
+    public void unregisterPlugin(@NotNull DarkWaterJavaPlugin plugin) throws PluginException {
         if (!hasPlugin(plugin)) {
-            throw new IllegalArgumentException("This plugin '" + plugin.getName() + "' not registered!");
+            throw new PluginException("This plugin '" + plugin.getName() + "' not registered!");
         }
         remove(plugin);
         this.darkWaterAPI.sendLog("Plugin '&b" + plugin.getName() + "&a' unregistered");
     }
 
     @Override
-    public void enablePlugin(@NotNull String plugin) throws IllegalArgumentException {
+    public void enablePlugin(@NotNull String plugin) throws PluginException {
         var plug = getPlugin(plugin);
         if (!hasPlugin(plugin)|| plug == null) {
-            throw new IllegalArgumentException("This plugin '" + plugin + "' not found!");
+            throw new PluginException("This plugin '" + plugin + "' not found!");
         }
         if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
-            throw new IllegalArgumentException("This plugin '" + plugin + "' already enabled!");
+            throw new PluginException("This plugin '" + plugin + "' already enabled!");
         }
         Bukkit.getPluginManager().enablePlugin(plug);
         this.darkWaterAPI.sendLog("Plugin '&b" + plug.getName() + "&a' started");
     }
 
     @Override
-    public void disablePlugin(@NotNull String plugin) throws IllegalArgumentException {
+    public void disablePlugin(@NotNull String plugin) throws PluginException {
         var plug = getPlugin(plugin);
         if (!hasPlugin(plugin) || plug == null) {
-            throw new IllegalArgumentException("This plugin '" + plugin + "' not found!");
+            throw new PluginException("This plugin '" + plugin + "' not found!");
         }
         if (!Bukkit.getPluginManager().isPluginEnabled(plugin)) {
-            throw new IllegalArgumentException("This plugin '" + plugin + "' already disabled!");
+            throw new PluginException("This plugin '" + plugin + "' already disabled!");
         }
         Bukkit.getPluginManager().disablePlugin(plug);
         this.darkWaterAPI.sendLog("Plugin '&b" + plug.getName() + "&a' stopped");
     }
 
     @Override
-    public void reloadPlugin(@NotNull String plugin) {
+    public void reloadPlugin(@NotNull String plugin) throws PluginException {
         var plug = getPlugin(plugin);
         if (!hasPlugin(plugin) || plug == null) {
-            throw new IllegalArgumentException("This plugin '" + plugin + "' not found!");
+            throw new PluginException("This plugin '" + plugin + "' not found!");
         }
         plug.restart();
         this.darkWaterAPI.sendLog("Plugin '&b" + plug.getName() + "&a' restarted");

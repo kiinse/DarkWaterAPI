@@ -1,8 +1,6 @@
-package kiinse.plugins.api.darkwaterapi.files.filemanager;
+package kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces;
 
-import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.DirectoriesKeys;
-import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesKeys;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

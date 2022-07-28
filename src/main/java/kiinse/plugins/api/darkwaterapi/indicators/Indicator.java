@@ -1,5 +1,7 @@
 package kiinse.plugins.api.darkwaterapi.indicators;
 
+import kiinse.plugins.api.darkwaterapi.exceptions.IndicatorException;
+import kiinse.plugins.api.darkwaterapi.utilities.DarkWaterUtils;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,15 +32,15 @@ public abstract class Indicator {
         return name;
     }
 
-    public static @NotNull Indicator valueOf(@NotNull Plugin plugin, @NotNull String name, int position) throws IllegalArgumentException {
-        if (name.replace(" ", "").isEmpty()) {
-            throw new IllegalArgumentException("Indicator name is empty!");
+    public static @NotNull Indicator valueOf(@NotNull Plugin plugin, @NotNull String name, int position) throws IndicatorException {
+        if (DarkWaterUtils.isStringEmpty(name)) {
+            throw new IndicatorException("Indicator name is empty!");
         }
         if (!name.startsWith("%") || !name.endsWith("%")) {
-            throw new IllegalArgumentException("Invalid indicator format! Please, user placeholder %indicator%!");
+            throw new IndicatorException("Invalid indicator format! Please, user placeholder %indicator%!");
         }
         if (position < 0) {
-            throw new IllegalArgumentException("Position can't be < 0!");
+            throw new IndicatorException("Position can't be < 0!");
         }
         return new Indicator(plugin, name, position) {};
     }

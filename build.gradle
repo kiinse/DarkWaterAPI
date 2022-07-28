@@ -6,7 +6,7 @@ plugins {
 
 group = 'kiinse.plugins.api'
 description = 'DarkWaterAPI'
-version = '2.3.0-beta.1'
+version = '2.3.0-beta.2'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -37,7 +37,7 @@ dependencies {
     implementation 'com.auth0:java-jwt:4.0.0'
     implementation 'org.jetbrains:annotations:23.0.0'
     implementation 'org.apache.httpcomponents:httpclient:4.5.13'
-    compileOnly 'io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT'
+    compileOnly 'io.papermc.paper:paper-api:1.19.1-R0.1-SNAPSHOT'
     compileOnly 'me.clip:placeholderapi:2.10.9'
 }
 
@@ -45,7 +45,7 @@ publishing {
     repositories {
         maven {
             name = "KiinseRepository"
-            url = "https://repo.kiinse.me/snapshots"
+            url = version.contains("beta") ? "https://repo.kiinse.me/snapshots" : "https://repo.kiinse.me/releases"
             credentials {
                 username System.getenv("USERNAME")
                 password System.getenv("TOKEN")

@@ -1,11 +1,12 @@
-package kiinse.plugins.api.darkwaterapi.loader;
+package kiinse.plugins.api.darkwaterapi.loader.interfaces;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
+import kiinse.plugins.api.darkwaterapi.exceptions.PluginException;
 import kiinse.plugins.api.darkwaterapi.files.config.Configuration;
 import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.YamlFile;
-import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesKeys;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.enums.File;
+import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesKeys;
 import kiinse.plugins.api.darkwaterapi.files.messages.DarkWaterMessages;
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.Messages;
 import kiinse.plugins.api.darkwaterapi.utilities.DarkWaterUtils;
@@ -35,15 +36,23 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        start();
+        try {
+            start();
+        } catch (PluginException e) {
+            sendLog(Level.SEVERE, "Error on loading " + getName() + "! Message: " + e.getMessage());
+        }
     }
 
     @Override
     public void onDisable() {
-        stop();
+        try {
+            stop();
+        } catch (PluginException e) {
+            sendLog(Level.SEVERE, "Error on disabling " + getName() + "! Message: " + e.getMessage());
+        }
     }
 
-    protected void start() {
+    protected void start() throws PluginException {
         try {
             getLogger().setLevel(Level.CONFIG);
             sendLog("Loading " + getName() + "...");
@@ -53,11 +62,11 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
             getDarkWaterAPI().getPluginManager().registerPlugin(this);
             sendInfo();
         } catch (Exception e) {
-            sendLog(Level.SEVERE, "Error on loading " + getName() + "! Message: " + e.getMessage());
+            throw new PluginException(e);
         }
     }
 
-    protected void stop() {
+    protected void stop() throws PluginException {
         try {
             sendLog("Disabling " + getName() + "...");
             onStop();
@@ -65,7 +74,7 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
             sendConsole(" &6|  &f" + getName() + " &cdisabled!");
             sendConsole(" &6|==============================");
         } catch (Exception e) {
-            sendLog(Level.SEVERE, "Error on disabling " + getName() + "! Message: " + e.getMessage());
+            throw new PluginException(e);
         }
     }
 
@@ -110,7 +119,7 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
     public @NotNull DarkWaterAPI getDarkWaterAPI() {return DarkWaterAPI.getInstance();}
 
     /**
-     * Plugin Restart (Performs actions on shutdown and then on)
+     * Plugin Restart (Performs actions on shutdown and then actions on startup)
      */
     public void restart() {
         try {

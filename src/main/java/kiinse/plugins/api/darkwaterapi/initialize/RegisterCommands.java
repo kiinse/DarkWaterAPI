@@ -7,7 +7,7 @@ import kiinse.plugins.api.darkwaterapi.commands.locale.LocaleTab;
 import kiinse.plugins.api.darkwaterapi.commands.manager.CommandException;
 import kiinse.plugins.api.darkwaterapi.commands.manager.CommandManager;
 import kiinse.plugins.api.darkwaterapi.commands.statistic.StatisticCommands;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;

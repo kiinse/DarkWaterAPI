@@ -1,6 +1,6 @@
 package kiinse.plugins.api.darkwaterapi.schedulers;
 
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.utilities.DarkWaterUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

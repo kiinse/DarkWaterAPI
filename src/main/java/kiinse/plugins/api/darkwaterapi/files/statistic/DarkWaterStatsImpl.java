@@ -1,16 +1,15 @@
 package kiinse.plugins.api.darkwaterapi.files.statistic;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
+import kiinse.plugins.api.darkwaterapi.exceptions.JsonFileException;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.JsonFile;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.enums.File;
 import kiinse.plugins.api.darkwaterapi.files.statistic.interfaces.DarkWaterStatistic;
-import kiinse.plugins.api.darkwaterapi.files.statistic.interfaces.Statistic;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -19,7 +18,7 @@ public class DarkWaterStatsImpl extends JsonFile implements DarkWaterStatistic {
 
     private final HashMap<UUID, Statistic> statistic = new HashMap<>();
 
-    public DarkWaterStatsImpl(@NotNull DarkWaterAPI darkWaterAPI) throws IOException {
+    public DarkWaterStatsImpl(@NotNull DarkWaterAPI darkWaterAPI) throws JsonFileException {
         super(darkWaterAPI, File.STATISTIC_JSON);
         load(getJsonFromFile());
     }
@@ -51,7 +50,7 @@ public class DarkWaterStatsImpl extends JsonFile implements DarkWaterStatistic {
     }
 
     @Override
-    public @NotNull DarkWaterStatistic save() throws IOException {
+    public @NotNull DarkWaterStatistic save() throws JsonFileException {
         var json = new JSONObject();
         for (var key : statistic.entrySet()) {
             json.put(key.getKey().toString(), key.getValue().toJSONObject());
@@ -61,7 +60,7 @@ public class DarkWaterStatsImpl extends JsonFile implements DarkWaterStatistic {
     }
 
     @Override
-    public @NotNull DarkWaterStatistic reload() throws IOException {
+    public @NotNull DarkWaterStatistic reload() throws JsonFileException {
         load(getJsonFromFile());
         return this;
     }

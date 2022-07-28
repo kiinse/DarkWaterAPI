@@ -1,7 +1,7 @@
 package kiinse.plugins.api.darkwaterapi.files.messages;
 
-import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.ComponentLabels;
 import kiinse.plugins.api.darkwaterapi.files.messages.enums.ComponentAction;
+import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.ComponentLabels;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;

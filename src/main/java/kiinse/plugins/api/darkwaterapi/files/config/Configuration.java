@@ -1,7 +1,7 @@
 package kiinse.plugins.api.darkwaterapi.files.config;
 
 import kiinse.plugins.api.darkwaterapi.files.filemanager.YamlFile;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class Configuration extends YamlFile {

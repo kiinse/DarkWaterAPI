@@ -1,7 +1,9 @@
 package kiinse.plugins.api.darkwaterapi.schedulers;
 
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.exceptions.SchedulerException;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.schedulers.annotation.SchedulerData;
+import kiinse.plugins.api.darkwaterapi.schedulers.interfaces.SchedulersManager;
 import org.jetbrains.annotations.NotNull;
 
 public class SchedulersManagerImpl extends SchedulersManager {
@@ -11,10 +13,10 @@ public class SchedulersManagerImpl extends SchedulersManager {
     }
 
     @Override
-    public void registerSchedule(@NotNull Scheduler scheduler) throws IllegalArgumentException {
+    public void registerSchedule(@NotNull Scheduler scheduler) throws SchedulerException {
         var schedule = checkSchedulerData(scheduler);
         if (hasScheduler(schedule)) {
-            throw new IllegalArgumentException("Scheduler with same name '" + schedule.getName() + "' already exist!");
+            throw new SchedulerException("Scheduler with same name '" + schedule.getName() + "' already exist!");
         }
         register(schedule);
     }

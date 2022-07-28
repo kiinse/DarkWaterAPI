@@ -1,7 +1,8 @@
-package kiinse.plugins.api.darkwaterapi.schedulers;
+package kiinse.plugins.api.darkwaterapi.schedulers.interfaces;
 
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
-import kiinse.plugins.api.darkwaterapi.schedulers.exceptions.SchedulerException;
+import kiinse.plugins.api.darkwaterapi.exceptions.SchedulerException;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.schedulers.Scheduler;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -19,7 +20,7 @@ public abstract class SchedulersManager {
         this.plugin = plugin;
     }
 
-    public abstract void registerSchedule(@NotNull Scheduler scheduler);
+    public abstract void registerSchedule(@NotNull Scheduler scheduler) throws SchedulerException;
 
     public void startScheduler(@NotNull Scheduler scheduler) throws SchedulerException {
         for (var schedule : schedulers) {

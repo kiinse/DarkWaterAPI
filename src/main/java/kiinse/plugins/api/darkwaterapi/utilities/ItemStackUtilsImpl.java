@@ -1,6 +1,6 @@
 package kiinse.plugins.api.darkwaterapi.utilities;
 
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.utilities.interfaces.ItemStackUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;

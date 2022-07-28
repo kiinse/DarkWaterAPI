@@ -25,5 +25,6 @@ public enum Config implements ConfigKeys {
     REST_ENCRYPTED_DATA,
     REST_SERVICE_COMMANDS,
     REST_SERVICE_CODE,
-    CONFIG_VERSION
+    CONFIG_VERSION,
+    DISABLE_VERSION_CHECK
 }

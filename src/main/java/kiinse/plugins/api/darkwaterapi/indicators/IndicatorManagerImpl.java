@@ -1,8 +1,9 @@
 package kiinse.plugins.api.darkwaterapi.indicators;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
+import kiinse.plugins.api.darkwaterapi.exceptions.IndicatorException;
 import kiinse.plugins.api.darkwaterapi.indicators.interfaces.IndicatorManager;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,12 +24,12 @@ public class IndicatorManagerImpl implements IndicatorManager {
     }
 
     @Override
-    public @NotNull IndicatorManager registerIndicator(@NotNull DarkWaterJavaPlugin plugin, @NotNull Indicator indicator) {
+    public @NotNull IndicatorManager registerIndicator(@NotNull DarkWaterJavaPlugin plugin, @NotNull Indicator indicator) throws IndicatorException {
         if (hasIndicator(indicator)) {
-            throw new IllegalArgumentException("Indicator '" + indicator.getName() + "' already registered by '" + indicators.get(indicator.getName()).getPlugin().getName() + "'");
+            throw new IndicatorException("Indicator '" + indicator.getName() + "' already registered by '" + indicators.get(indicator.getName()).getPlugin().getName() + "'");
         }
         if (!indicator.getName().startsWith("%") || !indicator.getName().endsWith("%")) {
-            throw new IllegalArgumentException("The '" + indicator.getName() + "' indicator must be a placeholder, i.e. start and end with % ");
+            throw new IndicatorException("The '" + indicator.getName() + "' indicator must be a placeholder, i.e. start and end with % ");
         }
         if (hasPosition(indicator)) {
             var pos = getMaxPosition() + 1;

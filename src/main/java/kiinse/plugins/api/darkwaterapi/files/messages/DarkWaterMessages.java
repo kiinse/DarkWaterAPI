@@ -1,14 +1,15 @@
 package kiinse.plugins.api.darkwaterapi.files.messages;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
-import kiinse.plugins.api.darkwaterapi.files.filemanager.FilesManager;
+import kiinse.plugins.api.darkwaterapi.exceptions.JsonFileException;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.enums.Directory;
+import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesManager;
 import kiinse.plugins.api.darkwaterapi.files.locale.Locale;
+import kiinse.plugins.api.darkwaterapi.files.messages.enums.Message;
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.ComponentLabels;
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.Messages;
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.MessagesKeys;
-import kiinse.plugins.api.darkwaterapi.files.messages.enums.Message;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +31,7 @@ public class DarkWaterMessages extends FilesManager implements Messages {
     private final DarkWaterJavaPlugin plugin;
     private final HashMap<String, JSONObject> messages = new HashMap<>();
 
-    public DarkWaterMessages(@NotNull DarkWaterJavaPlugin plugin) throws IOException {
+    public DarkWaterMessages(@NotNull DarkWaterJavaPlugin plugin) throws JsonFileException {
         super(plugin);
         this.plugin = plugin;
         var directoryName = Directory.MESSAGES;
@@ -41,11 +42,11 @@ public class DarkWaterMessages extends FilesManager implements Messages {
     }
 
     @Override
-    public void reload() throws IOException {
+    public void reload() throws JsonFileException {
         load();
     }
 
-    private void load() throws IOException {
+    private void load() throws JsonFileException {
         var locales = DarkWaterAPI.getInstance().getLocaleStorage().getAllowedLocalesListString();
         for (var file : listFilesInDirectory(Directory.MESSAGES)) {
             var locale = file.getName().split("\\.")[0];
@@ -131,7 +132,7 @@ public class DarkWaterMessages extends FilesManager implements Messages {
         return key;
     }
 
-    private @NotNull JSONObject getJsonFromFile(@NotNull File file) throws IOException {
+    private @NotNull JSONObject getJsonFromFile(@NotNull File file) throws JsonFileException {
         try (var br = new BufferedReader(new FileReader(file.getAbsolutePath()))) {
             var line = br.readLine();
             if (line == null) {
@@ -140,6 +141,8 @@ public class DarkWaterMessages extends FilesManager implements Messages {
             var json = new JSONObject(Files.readString(Paths.get(file.getAbsolutePath())));
             plugin.sendLog("Messages '&b" + file.getName() + "&a' loaded");
             return json;
+        } catch (IOException e) {
+            throw new JsonFileException(e);
         }
     }
 }

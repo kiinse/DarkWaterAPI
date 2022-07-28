@@ -1,20 +1,21 @@
 package kiinse.plugins.api.darkwaterapi.files.statistic.interfaces;
 
+import kiinse.plugins.api.darkwaterapi.exceptions.JsonFileException;
+import kiinse.plugins.api.darkwaterapi.files.statistic.Statistic;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public interface DarkWaterStatistic {
 
-    @NotNull DarkWaterStatistic save() throws IOException;
+    @NotNull DarkWaterStatistic save() throws JsonFileException;
 
-    @NotNull DarkWaterStatistic reload() throws IOException;
+    @NotNull DarkWaterStatistic reload() throws JsonFileException;
 
     @NotNull Statistic getPlayerStatistic(@NotNull Player player);
 

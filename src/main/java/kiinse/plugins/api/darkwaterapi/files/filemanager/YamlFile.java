@@ -1,10 +1,12 @@
 package kiinse.plugins.api.darkwaterapi.files.filemanager;
 
-import kiinse.plugins.api.darkwaterapi.files.config.interfaces.ConfigKeys;
+import kiinse.plugins.api.darkwaterapi.exceptions.YamlFileException;
 import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
-import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesKeys;
+import kiinse.plugins.api.darkwaterapi.files.config.interfaces.ConfigKeys;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.enums.File;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesKeys;
+import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesManager;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -26,11 +28,15 @@ public class YamlFile extends FilesManager {
         }
         this.fileName = fileName;
         this.file = YamlConfiguration.loadConfiguration(getFile(fileName));
-        checkVersion(plugin);
+        try {
+            checkVersion(plugin);
+        } catch (YamlFileException e) {
+            plugin.sendLog(Level.WARNING, "An error occurred while copying the new version of the file '&c" + getFile(fileName).getName() + "&6'! Message: " + e.getMessage());
+        }
         plugin.sendLog("File '&b" + getFileName(fileName) + "&a' loaded");
     }
 
-    private void checkVersion(@NotNull DarkWaterJavaPlugin plugin) {
+    private void checkVersion(@NotNull DarkWaterJavaPlugin plugin) throws YamlFileException {
         var cfgVersion = getDouble(Config.CONFIG_VERSION);
         var tmpCfg = File.CONFIG_TMP_YML;
         deleteFile(tmpCfg);
@@ -47,7 +53,7 @@ public class YamlFile extends FilesManager {
                 var cfgName = getFile(fileName).getName();
                 plugin.sendLog(Level.WARNING, "Version mismatch found for file '&c" + cfgName + "&6'. This file has been renamed to '&c" + getFile(oldCfg).getName() + "&6' and a new file '&c" + cfgName + "&6' has been created");
             } catch (Exception e) {
-                plugin.sendLog(Level.WARNING, "An error occurred while copying the new version of the file '&c" + getFile(fileName).getName() + "&6'! Message: " + e.getMessage());
+                throw new YamlFileException(e);
             }
         }
         deleteFile(tmpCfg);

@@ -1,4 +1,4 @@
-package kiinse.plugins.api.darkwaterapi.files.statistic.interfaces;
+package kiinse.plugins.api.darkwaterapi.files.statistic;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;

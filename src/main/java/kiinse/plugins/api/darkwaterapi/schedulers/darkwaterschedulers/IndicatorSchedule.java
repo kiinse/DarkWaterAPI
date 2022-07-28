@@ -3,7 +3,7 @@ package kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers;
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
 import kiinse.plugins.api.darkwaterapi.indicators.interfaces.IndicatorManager;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.schedulers.Scheduler;
 import kiinse.plugins.api.darkwaterapi.schedulers.annotation.SchedulerData;
 import kiinse.plugins.api.darkwaterapi.utilities.PlayerUtils;

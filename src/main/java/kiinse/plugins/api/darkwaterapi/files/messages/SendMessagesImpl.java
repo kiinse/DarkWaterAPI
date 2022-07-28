@@ -3,7 +3,7 @@ package kiinse.plugins.api.darkwaterapi.files.messages;
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.PlayerLocale;
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.*;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.utilities.DarkWaterUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;

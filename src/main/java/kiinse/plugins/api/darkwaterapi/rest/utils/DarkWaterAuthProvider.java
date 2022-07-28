@@ -5,7 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import io.datatree.Tree;
 import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.YamlFile;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.utilities.DarkWaterUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

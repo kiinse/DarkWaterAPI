@@ -5,7 +5,7 @@ import kiinse.plugins.api.darkwaterapi.commands.manager.annotation.Command;
 import kiinse.plugins.api.darkwaterapi.commands.manager.interfaces.CommandClass;
 import kiinse.plugins.api.darkwaterapi.commands.manager.interfaces.CommandFailureHandler;
 import kiinse.plugins.api.darkwaterapi.commands.manager.reasons.CommandFailReason;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

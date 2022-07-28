@@ -3,7 +3,7 @@ package kiinse.plugins.api.darkwaterapi.utilities;
 import com.google.common.base.Strings;
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.ReplaceKeys;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.utilities.enums.TaskType;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.bukkit.Bukkit;
@@ -74,6 +74,12 @@ public class DarkWaterUtils {
         } else {
             return Bukkit.getScheduler().runTask(plugin, task);
         }
+    }
+
+    public static long getTaskSpeed(@NotNull Runnable task) {
+        var prevTime = System.currentTimeMillis();
+        task.run();
+        return System.currentTimeMillis() - prevTime;
     }
 
     public static @NotNull String formatReplaceKeys(@NotNull ReplaceKeys key) {
