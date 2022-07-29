@@ -6,7 +6,7 @@ plugins {
 
 group = 'kiinse.plugins.api'
 description = 'DarkWaterAPI'
-version = '2.3.0-rc.1'
+version = '2.3.0'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {

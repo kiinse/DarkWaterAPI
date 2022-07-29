@@ -28,19 +28,98 @@ import kiinse.plugins.api.darkwaterapi.schedulers.annotation.SchedulerData;
 import kiinse.plugins.api.darkwaterapi.schedulers.interfaces.SchedulersManager;
 import org.jetbrains.annotations.NotNull;
 
-public class SchedulersManagerImpl extends SchedulersManager {
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+public class SchedulersManagerImpl implements SchedulersManager {
+
+    private final @NotNull List<Scheduler> schedulers = new ArrayList<>();
+    private final @NotNull DarkWaterJavaPlugin plugin;
 
     public SchedulersManagerImpl(@NotNull DarkWaterJavaPlugin plugin) {
-        super(plugin);
+        this.plugin = plugin;
     }
 
-    @Override
-    public void registerSchedule(@NotNull Scheduler scheduler) throws SchedulerException {
+    public @NotNull SchedulersManager register(@NotNull Scheduler scheduler) throws SchedulerException {
         var schedule = checkSchedulerData(scheduler);
         if (hasScheduler(schedule)) {
             throw new SchedulerException("Scheduler with same name '" + schedule.getName() + "' already exist!");
         }
-        register(schedule);
+        schedulers.add(scheduler);
+        plugin.sendLog("Scheduler '&b" + scheduler.getName() + "&a' by plugin '&b" + scheduler.getPlugin().getName() + "&a' has been registered!");
+        scheduler.start();
+        return this;
+    }
+
+    public @NotNull SchedulersManager startScheduler(@NotNull Scheduler scheduler) throws SchedulerException {
+        for (var schedule : schedulers) {
+            if (Objects.equals(schedule.getName(), scheduler.getName())) {
+                if (schedule.isStarted()) {
+                    throw new SchedulerException("This scheduler '" + scheduler.getName() + "' already started!");
+                } else {
+                    schedule.start();
+                }
+            }
+        }
+        return this;
+    }
+
+    public @NotNull SchedulersManager stopScheduler(@NotNull Scheduler scheduler) throws SchedulerException {
+        for (var schedule : schedulers) {
+            if (Objects.equals(schedule.getName(), scheduler.getName())) {
+                if (!schedule.isStarted()) {
+                    throw new SchedulerException("This scheduler '" + scheduler.getName() + "' already stopped!");
+                } else {
+                    schedule.stop();
+                }
+            }
+        }
+        return this;
+    }
+
+    public @NotNull SchedulersManager stopSchedulers() {
+        for (var scheduler : schedulers) {
+            scheduler.stop();
+        }
+        return this;
+    }
+
+    public boolean hasScheduler(@NotNull Scheduler scheduler) {
+        for (var schedule : schedulers) {
+            if (Objects.equals(schedule.getName(), scheduler.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public @Nullable Scheduler getSchedulerByName(@NotNull String name) {
+        for (var scheduler : schedulers) {
+            if (Objects.equals(scheduler.getName(), name)) {
+                return scheduler;
+            }
+        }
+        return null;
+    }
+
+    public @NotNull SchedulersManager unregister(@NotNull Scheduler scheduler) throws SchedulerException {
+        if (!hasScheduler(scheduler)) {
+            throw new SchedulerException("This scheduler '" + scheduler.getName() + "' not found!");
+        }
+        var iterator = schedulers.listIterator();
+        while (iterator.hasNext()) {
+            var schedule = iterator.next();
+            if (Objects.equals(schedule.getName(), scheduler.getName())) {
+                if (schedule.isStarted()) {
+                    schedule.stop();
+                }
+                iterator.remove();
+            }
+        }
+        plugin.sendLog("Scheduler '&b" + scheduler.getName() + "&a' by plugin '&b" + scheduler.getPlugin().getName() + "&a' has been unregistered!");
+        return this;
     }
 
     private @NotNull Scheduler checkSchedulerData(@NotNull Scheduler scheduler) {
@@ -56,5 +135,9 @@ public class SchedulersManagerImpl extends SchedulersManager {
             schedule = schedule.setPeriod(annotations.period());
         }
         return schedule;
+    }
+
+    public @NotNull List<Scheduler> getAllSchedulers() {
+        return new ArrayList<>(schedulers);
     }
 }

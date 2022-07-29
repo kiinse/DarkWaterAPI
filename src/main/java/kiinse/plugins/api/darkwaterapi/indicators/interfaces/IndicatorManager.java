@@ -33,7 +33,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface IndicatorManager {
 
-    @NotNull IndicatorManager registerIndicator(@NotNull DarkWaterJavaPlugin plugin, @NotNull Indicator indicator) throws IndicatorException;
+    @NotNull IndicatorManager register(@NotNull DarkWaterJavaPlugin plugin, @NotNull Indicator indicator) throws IndicatorException;
 
     void setIndicatorListToConsole();
 

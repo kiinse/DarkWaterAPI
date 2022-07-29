@@ -29,6 +29,7 @@ import kiinse.plugins.api.darkwaterapi.files.messages.MessagesUtilsImpl;
 import kiinse.plugins.api.darkwaterapi.files.messages.enums.Message;
 import kiinse.plugins.api.darkwaterapi.files.messages.enums.Replace;
 import kiinse.plugins.api.darkwaterapi.files.messages.interfaces.MessagesUtils;
+import kiinse.plugins.api.darkwaterapi.utilities.DarkWaterUtils;
 import kiinse.plugins.api.darkwaterapi.utilities.PlayerUtils;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -52,6 +53,6 @@ public class StatisticCommands implements CommandClass {
         } else {
             msg = "&a&lN/A";
         }
-        messagesUtils.sendMessage(sender, Message.STATISTIC, Replace.STATISTIC, msg);
+        messagesUtils.sendMessage(sender, Message.STATISTIC, Replace.STATISTIC, DarkWaterUtils.colorize(msg));
     }
 }

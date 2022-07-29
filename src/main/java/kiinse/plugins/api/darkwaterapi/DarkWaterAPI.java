@@ -93,9 +93,10 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
         pluginManager = new DarkWaterPluginManager(this);
         jumpSchedule = new JumpSchedule(this);
         moveSchedule = new MoveSchedule(this);
-        schedulersManager.registerSchedule(jumpSchedule);
-        schedulersManager.registerSchedule(moveSchedule);
-        schedulersManager.registerSchedule(new IndicatorSchedule(this));
+        schedulersManager
+                .register(jumpSchedule)
+                .register(moveSchedule)
+                .register(new IndicatorSchedule(this));
         new RegisterCommands(this);
         new RegisterEvents(this);
     }
@@ -104,7 +105,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
     public void onStop() throws Exception {
         new LocaleSaverImpl(this).saveLocaleStorage();
         darkWaterStatistic.save();
-        schedulersManager.stopSchedules();
+        schedulersManager.stopSchedulers();
     }
 
     @Override

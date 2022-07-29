@@ -46,7 +46,7 @@ public class IndicatorManagerImpl implements IndicatorManager {
     }
 
     @Override
-    public @NotNull IndicatorManager registerIndicator(@NotNull DarkWaterJavaPlugin plugin, @NotNull Indicator indicator) throws IndicatorException {
+    public @NotNull IndicatorManager register(@NotNull DarkWaterJavaPlugin plugin, @NotNull Indicator indicator) throws IndicatorException {
         if (hasIndicator(indicator)) {
             throw new IndicatorException("Indicator '" + indicator.getName() + "' already registered by '" + indicators.get(indicator.getName()).getPlugin().getName() + "'");
         }
@@ -56,11 +56,11 @@ public class IndicatorManagerImpl implements IndicatorManager {
         if (hasPosition(indicator)) {
             var pos = getMaxPosition() + 1;
             plugin.sendLog(Level.WARNING, "Indicator position &c" + indicator.getPosition() + " is already used by '&b" + Objects.requireNonNull(getIndicatorByPosition(indicator.getPosition())).getPlugin().getName() + "&6'\nUsing last position: &b" + pos);
-            register(plugin, Indicator.valueOf(indicator.getPlugin(), indicator.getName(), pos));
+            registerIndicator(plugin, Indicator.valueOf(indicator.getPlugin(), indicator.getName(), pos));
             setIndicatorListToConsole();
             return this;
         }
-        register(plugin, indicator);
+        registerIndicator(plugin, indicator);
         setIndicatorListToConsole();
         return this;
     }
@@ -99,7 +99,7 @@ public class IndicatorManagerImpl implements IndicatorManager {
         return list;
     }
 
-    private void register(@NotNull DarkWaterJavaPlugin plugin, @NotNull Indicator indicator) {
+    private void registerIndicator(@NotNull DarkWaterJavaPlugin plugin, @NotNull Indicator indicator) {
         indicators.put(indicator.getName(), indicator);
         plugin.sendLog("Registered indicator '&b" + indicator.getName() + "&a' by '&b" + plugin.getName() + "&6' on position &b" + indicator.getPosition());
     }
