@@ -191,55 +191,6 @@ locale.default: en # Язык по умолчанию, если по каким-
 first.join.message: true # Сообщение при первом заходе игрока, которая говорит какой язык был определён у него.
 actionbar.indicators: true # Индикаторы над тулбаром. Сам DarkWaterAPI не использует эту функцию, но она может быть нужна для других плагинов. Требуется PlaceholderAPI для работы.
 
-rest.enable: false
-rest.port: 8080
-rest.name: darkwater
-
-rest.auth.enable: true # Включение и выключение авторизации для REST. Если она выключена, то некоторые функции могут не работать.
-rest.auth.type: BEARER # BEARER или BASIC
-
-rest.bearer.expire: 744 # Срок действия токена в часах
-rest.bearer.secret: darkwater # Секретное слово для алгоритма HMAC256 при подписании токена.
-rest.bearer.users:
-  - admin:admin # Пользователь:Пароль
-  - darkwater:darkwater # Пользователь:Пароль
-
-# Чтобы получить токен для пользователя, вам нужно отправить запрос без аутентификации на любую ссылку Rest.
-# Header запроса должен содержать параметры user и password.
-# Внимание: Токен можно получить только один раз для каждого пользователя.
-# В следующий раз токен можно будет получить либо после окончания предыдущего, либо после перезагрузки плагина DarkWaterAPI.
-
-rest.basic.login: darkwater
-rest.basic.password: darkwater
-
-rest.service.commands: true # Служба использования команд через REST
-rest.service.code: true # Генератор кода для игроков при запросе через REST
-
-rest.encrypted.data: true # Принимать зашифрованные данные через REST или нет
-
-# Зашифрованные данные REST: localhost:port/darkwater/code?uuid={ЗАЩИФРОВАННЫЙ Ник игрока}&exponent={RSA Exponent}&modulus={RSA Modulus}
-# Расшифрованные данные REST: localhost:port/darkwater/code?uuid={Ник игрока}&exponent={RSA Exponent}&modulus={RSA Modulus}
-# Этот параметр применяется к службам команд и генарации кодов.
-# Чтобы получить открытый RSA ключ DarkWaterAPI REST: localhost:port/darkwater/code || localhost:port/darkwater/execute
-
-
-
-# ------------------- REST -------------------
-# localhost:port/service name/ping?ip={IP адрес} - Посмотреть пинг с указанного ip адреса до сервера
-# localhost:port/service name/data - Просмотр данных сервера
-# localhost:port/service name/plugins - Посмотреть все плагины
-# localhost:port/service name/darkwater - Просмотр данных со всех плагинов, использующих DarkWaterAPI ***
-# localhost:port/service name/execute?cmd={Команда} - Использование команд ***
-# localhost:port/service name/code?player={Ник игрока}&exponent={RSA Exponent}&modulus={RSA Modulus} - Отправляет код игроку, а также возвращает его в зашифрованном виде ***
-# localhost:port/service name/code?uuid={UUID игрока}&exponent={RSA Exponent}&modulus={RSA Modulus} - Отправляет код игроку, а также возвращает его в зашифрованном виде ***
-#---------------------------------------------
-# Также можно использовать вместо имени игрока - его UUID
-# *** - Отключено, если авторизация REST отключена
-# ------------------- REST -------------------
-
-
-
-
-config.version: 2 # ЭТО ТРОГАТЬ НЕ НУЖНО =)
+config.version: 3 # ЭТО ТРОГАТЬ НЕ НУЖНО =)
 debug: false # Этой строки нет в конфиге по умолчанию, но вы можете ввести ее в конфиг DarkWaterAPI для отображения CONFIG логов в консоли сервера.
 ```

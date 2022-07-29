@@ -22,18 +22,24 @@
 
 package kiinse.plugins.api.darkwaterapi.exceptions;
 
-@SuppressWarnings("unused")
-public class PluginException extends DarkWaterBaseException {
+import org.jetbrains.annotations.NotNull;
 
-    public PluginException(String message) {
+@SuppressWarnings("unused")
+public class CommandException extends DarkWaterBaseException {
+
+    public CommandException() {
+        super();
+    }
+
+    public CommandException(@NotNull String message) {
         super(message);
     }
 
-    public PluginException(Throwable cause) {
-        super(cause);
+    public CommandException(@NotNull String message, @NotNull Throwable cause) {
+        super(message, cause);
     }
 
-    public PluginException(String message, Throwable cause) {
-        super(message, cause);
+    public CommandException(@NotNull Throwable cause) {
+        super(cause);
     }
 }

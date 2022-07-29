@@ -1,3 +1,25 @@
+// MIT License
+//
+// Copyright (c) 2022 kiinse
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 package kiinse.plugins.api.darkwaterapi;
 
 import kiinse.plugins.api.darkwaterapi.exceptions.PluginException;
@@ -20,8 +42,6 @@ import kiinse.plugins.api.darkwaterapi.initialize.RegisterEvents;
 import kiinse.plugins.api.darkwaterapi.loader.DarkWaterPluginManager;
 import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkPluginManager;
 import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
-import kiinse.plugins.api.darkwaterapi.rest.RestConnectionImpl;
-import kiinse.plugins.api.darkwaterapi.rest.interfaces.RestConnection;
 import kiinse.plugins.api.darkwaterapi.schedulers.SchedulersManagerImpl;
 import kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers.IndicatorSchedule;
 import kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers.JumpSchedule;
@@ -29,11 +49,10 @@ import kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers.MoveSchedu
 import kiinse.plugins.api.darkwaterapi.schedulers.interfaces.SchedulersManager;
 import kiinse.plugins.api.darkwaterapi.utilities.VersionUtils;
 import org.jetbrains.annotations.NotNull;
-import org.json.simple.JSONObject;
 
 import java.util.logging.Level;
 
-@SuppressWarnings({"unused", "unchecked"})
+@SuppressWarnings({"unused"})
 public final class DarkWaterAPI extends DarkWaterJavaPlugin {
 
     private static DarkWaterAPI instance;
@@ -43,7 +62,6 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
     private DarkWaterStatistic darkWaterStatistic;
     private IndicatorManager indicatorManager;
     private SchedulersManager schedulersManager;
-    private RestConnection rest;
     private JumpSchedule jumpSchedule;
     private MoveSchedule moveSchedule;
 
@@ -78,7 +96,6 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
         schedulersManager.registerSchedule(jumpSchedule);
         schedulersManager.registerSchedule(moveSchedule);
         schedulersManager.registerSchedule(new IndicatorSchedule(this));
-        rest = new RestConnectionImpl(this);
         new RegisterCommands(this);
         new RegisterEvents(this);
     }
@@ -87,7 +104,6 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
     public void onStop() throws Exception {
         new LocaleSaverImpl(this).saveLocaleStorage();
         darkWaterStatistic.save();
-        rest.stop();
         schedulersManager.stopSchedules();
     }
 
@@ -97,63 +113,15 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
             sendLog("Reloading " + getName() + "!");
             new LocaleSaverImpl(this).saveLocaleStorage();
             darkWaterStatistic.save();
-            rest.stop();
             getMessages().reload();
             getConfiguration().reload();
             localeStorage = new LocaleLoaderImpl(this).getLocaleStorage();
             locales = new PlayerLocalesImpl(this, localeStorage);
             darkWaterStatistic = new DarkWaterStatsImpl(this);
-            rest = new RestConnectionImpl(this);
             sendLog(getName() + " reloaded!");
         } catch (Exception e) {
             sendLog(Level.SEVERE, "Error on reloading " + getName() + "! Message: " + e.getMessage());
         }
-    }
-
-    /**
-     * Getting information about plugin systems (Indicators, localization, schedulers, statistics) in the form of json
-     * {@link JSONObject}
-     * @return JSONObject with info
-     */
-    @Override
-    public @NotNull JSONObject getPluginData() {
-        var json = new JSONObject();
-        json.put("indicators", getIndicators());
-        json.put("locales", localeStorage.getAllowedLocalesListString());
-        json.put("defaultLocale", localeStorage.getDefaultLocale().toString());
-        json.put("schedulers", getSchedulers());
-        json.put("statistic", getStatisticData());
-        return json;
-    }
-
-    private @NotNull JSONObject getIndicators() {
-        var indicators = new JSONObject();
-        for (var indicator : indicatorManager.getIndicatorsList()) {
-            var indicatorJson = new JSONObject();
-            indicatorJson.put("plugin", indicator.getPlugin().getName());
-            indicatorJson.put("position", indicator.getPosition());
-            indicators.put(indicator.getName(), indicatorJson);
-        }
-        return indicators;
-    }
-
-    private @NotNull JSONObject getSchedulers() {
-        var schedulers = new JSONObject();
-        for (var scheduler : schedulersManager.getAllSchedulers()) {
-            var schedulerJson = new JSONObject();
-            schedulerJson.put("plugin", scheduler.getPlugin().getName());
-            schedulerJson.put("isStarted", scheduler.isStarted());
-            schedulers.put(scheduler.getName(), schedulerJson);
-        }
-        return schedulers;
-    }
-
-    private @NotNull JSONObject getStatisticData() {
-        var json = new JSONObject();
-        for (var player : getServer().getOfflinePlayers()) {
-            json.put(player.getName(), darkWaterStatistic.getPlayerStatistic(player.getUniqueId()).toJSONObject().toMap());
-        }
-        return json;
     }
 
     private void checkForUpdates() {

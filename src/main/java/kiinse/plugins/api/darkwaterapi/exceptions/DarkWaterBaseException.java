@@ -2,6 +2,10 @@ package kiinse.plugins.api.darkwaterapi.exceptions;
 
 public class DarkWaterBaseException extends Exception {
 
+    public DarkWaterBaseException() {
+        super();
+    }
+
     public DarkWaterBaseException(String message) {
         super(message);
     }

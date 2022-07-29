@@ -4,9 +4,9 @@ import kiinse.plugins.api.darkwaterapi.commands.darkwaterapi.DarkWaterCommands;
 import kiinse.plugins.api.darkwaterapi.commands.darkwaterapi.DarkWaterTab;
 import kiinse.plugins.api.darkwaterapi.commands.locale.LocaleCommands;
 import kiinse.plugins.api.darkwaterapi.commands.locale.LocaleTab;
-import kiinse.plugins.api.darkwaterapi.commands.manager.CommandException;
 import kiinse.plugins.api.darkwaterapi.commands.manager.CommandManager;
 import kiinse.plugins.api.darkwaterapi.commands.statistic.StatisticCommands;
+import kiinse.plugins.api.darkwaterapi.exceptions.CommandException;
 import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
