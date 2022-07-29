@@ -1,10 +1,9 @@
 name: DarkWaterAPI
-version: '2.2.0'
+version: '${version}'
 main: kiinse.plugins.api.darkwaterapi.DarkWaterAPI
 api-version: 1.18
 prefix: DarkWaterAPI
-softdepend:
-  - PlaceholderAPI
+softdepend: [PlaceholderAPI]
 authors: [kiinse]
 description: Plugin library
 website: https://kiinse.me
@@ -43,11 +42,11 @@ commands:
     usage: /<command> [reload] %plugin%
   darkwater enable:
     description: Enable plugins
-    permission: darkwater.reload
+    permission: darkwater.enable
     usage: /<command> [enable] %plugin%
   darkwater disable:
     description: Disable plugins
-    permission: darkwater.reload
+    permission: darkwater.disable
     usage: /<command> [disable] %plugin%
   statistic:
     description: Return your statistic
@@ -86,4 +85,11 @@ permissions:
       locale.change: true
       locale.help: true
       locale.get: true
-
+  darkwater.*:
+    description: All perms
+    default: op
+    children:
+      darkwater.statistic: true
+      darkwater.reload: true
+      darkwater.enable: true
+      darkwater.disable: true

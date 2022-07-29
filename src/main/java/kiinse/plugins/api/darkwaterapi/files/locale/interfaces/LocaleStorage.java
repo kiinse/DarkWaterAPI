@@ -1,7 +1,30 @@
+// MIT License
+//
+// Copyright (c) 2022 kiinse
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 package kiinse.plugins.api.darkwaterapi.files.locale.interfaces;
 
 import kiinse.plugins.api.darkwaterapi.files.locale.Locale;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,32 +33,32 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public interface LocaleStorage {
 
-    boolean isAllowedLocale(Locale locale);
+    boolean isAllowedLocale(@NotNull Locale locale);
 
-    boolean putInLocalesData(UUID uuid, Locale locale);
+    boolean putInLocalesData(@NotNull UUID uuid, @NotNull Locale locale);
 
-    boolean putInLocalesData(Player player, Locale locale);
+    boolean putInLocalesData(@NotNull Player player, @NotNull Locale locale);
 
-    boolean isLocalesDataContains(UUID uuid);
+    boolean isLocalesDataContains(@NotNull UUID uuid);
 
-    boolean isLocalesDataContains(Player player);
+    boolean isLocalesDataContains(@NotNull Player player);
 
-    Locale getLocalesData(UUID uuid);
+    @NotNull Locale getLocalesData(@NotNull UUID uuid);
 
-    Locale getLocalesData(Player player);
+    @NotNull Locale getLocalesData(@NotNull Player player);
 
-    boolean removeLocalesData(UUID uuid);
+    boolean removeLocalesData(@NotNull UUID uuid);
 
-    boolean removeLocalesData(Player player);
+    boolean removeLocalesData(@NotNull Player player);
 
-    Locale getDefaultLocale();
+    @NotNull Locale getDefaultLocale();
 
-    HashMap<UUID, Locale> getLocalesData();
+    @NotNull HashMap<UUID, Locale> getLocalesData();
 
-    String getAllowedLocalesString();
+    @NotNull String getAllowedLocalesString();
 
-    List<Locale> getAllowedLocalesList();
+    @NotNull List<Locale> getAllowedLocalesList();
 
-    List<String> getAllowedLocalesListString();
+    @NotNull List<String> getAllowedLocalesListString();
 
 }

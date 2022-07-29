@@ -1,12 +1,38 @@
+// MIT License
+//
+// Copyright (c) 2022 kiinse
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 package kiinse.plugins.api.darkwaterapi.files.filemanager;
 
-import kiinse.plugins.api.darkwaterapi.files.config.interfaces.ConfigKeys;
-import kiinse.plugins.api.darkwaterapi.files.config.utils.Config;
+import kiinse.plugins.api.darkwaterapi.exceptions.YamlFileException;
+import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
+import kiinse.plugins.api.darkwaterapi.files.filemanager.enums.File;
 import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesKeys;
-import kiinse.plugins.api.darkwaterapi.files.filemanager.utils.File;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.FilesManager;
+import kiinse.plugins.api.darkwaterapi.files.filemanager.interfaces.YamlKeys;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -17,18 +43,22 @@ public class YamlFile extends FilesManager {
     private YamlConfiguration file;
     private final FilesKeys fileName;
 
-    public YamlFile(DarkWaterJavaPlugin plugin, FilesKeys fileName) {
+    public YamlFile(@NotNull DarkWaterJavaPlugin plugin, @NotNull FilesKeys fileName) {
         super(plugin);
         if (isFileNotExists(fileName)) {
             copyFile(fileName);
         }
         this.fileName = fileName;
         this.file = YamlConfiguration.loadConfiguration(getFile(fileName));
-        checkVersion(plugin);
+        try {
+            checkVersion(plugin);
+        } catch (YamlFileException e) {
+            plugin.sendLog(Level.WARNING, "An error occurred while copying the new version of the file '&c" + getFile(fileName).getName() + "&6'! Message: " + e.getMessage());
+        }
         plugin.sendLog("File '&b" + getFileName(fileName) + "&a' loaded");
     }
 
-    private void checkVersion(DarkWaterJavaPlugin plugin) {
+    private void checkVersion(@NotNull DarkWaterJavaPlugin plugin) throws YamlFileException {
         var cfgVersion = getDouble(Config.CONFIG_VERSION);
         var tmpCfg = File.CONFIG_TMP_YML;
         deleteFile(tmpCfg);
@@ -45,7 +75,7 @@ public class YamlFile extends FilesManager {
                 var cfgName = getFile(fileName).getName();
                 plugin.sendLog(Level.WARNING, "Version mismatch found for file '&c" + cfgName + "&6'. This file has been renamed to '&c" + getFile(oldCfg).getName() + "&6' and a new file '&c" + cfgName + "&6' has been created");
             } catch (Exception e) {
-                plugin.sendLog(Level.WARNING, "An error occurred while copying the new version of the file '&c" + getFile(fileName).getName() + "&6'! Message: " + e.getMessage());
+                throw new YamlFileException(e);
             }
         }
         deleteFile(tmpCfg);
@@ -55,31 +85,32 @@ public class YamlFile extends FilesManager {
         this.file = YamlConfiguration.loadConfiguration(getFile(fileName));
     }
 
-    public String getString(ConfigKeys key) {
-        return file.getString(getKeyString(key));
+    public @NotNull String getString(@NotNull YamlKeys key) {
+        var string = file.getString(getKeyString(key));
+        return string != null ? string : "";
     }
 
-    public boolean getBoolean(ConfigKeys key) {
+    public boolean getBoolean(@NotNull YamlKeys key) {
         return file.getBoolean(getKeyString(key));
     }
 
-    public double getDouble(ConfigKeys key) {
+    public double getDouble(@NotNull YamlKeys key) {
         return file.getDouble(getKeyString(key));
     }
 
-    public int getInt(ConfigKeys key) {
+    public int getInt(@NotNull YamlKeys key) {
         return file.getInt(getKeyString(key));
     }
 
-    public ItemStack getItemStack(ConfigKeys key) {
+    public @Nullable ItemStack getItemStack(@NotNull YamlKeys key) {
         return file.getItemStack(getKeyString(key));
     }
 
-    public List<String> getStringList(ConfigKeys key) {
+    public @NotNull List<String> getStringList(@NotNull YamlKeys key) {
         return file.getStringList(getKeyString(key));
     }
 
-    private String getKeyString(ConfigKeys key) {
+    private @NotNull String getKeyString(@NotNull YamlKeys key) {
         return key.toString().toLowerCase().replace("_", ".");
     }
 

@@ -111,10 +111,11 @@ dependencies {
 In the resources folder, we create a "messages" folder, where we also create several localization files. For example en.json and ru.json. We get the following structure:
 
 ```txt
-  |--resources
-     |--messages
-        |--en.json
-        |--ru.json
+.
+└── resources
+    └── messages
+        ├── en.json
+        └── ru.json
 ```
 
 After running the plugin containing the main class, which was inherited from "DarkWaterJavaPlugin" - These files will appear in the plugin folder on the server.
@@ -135,8 +136,8 @@ public final class TestPlugin extends DarkWaterJavaPlugin { // Main class
     }
 
     private void sendMessageToPlayer(Player player) {
-        SendMessages sendMessages = new SendMessagesImpl(this);
-        sendMessages.sendMessageWithPrefix(player, Message.MESSAGE_HELLO); // We send to player the message "message_hello" from the json file.
+        MessagesUtils messagesUtils = new MessagesUtilsImpl(this);
+        messagesUtils.sendMessageWithPrefix(player, Message.MESSAGE_HELLO); // We send to player the message "message_hello" from the json file.
         // This text will correspond to the selected localization of the player.
     }
 }
@@ -165,25 +166,25 @@ File "ru.json":
 
 ## Commands
 
-```
-- /locale change                  | (Permission: locale.change)          | Opens a GUI to change the selected language
-- /locale help                    | (Permission: locale.help)            | Help command
-- /locale set [locale]            | (Permission: locale.change)          | Setting the language without opening the GUI
-- /locale list                    | (Permission: locale.list)            | List of languages available for selection
-- /locale get [player]            | (Permission: locale.get)             | View player's language
-- /darkwater reload [plugin]      | (Permission: darkwater.reload)       | Reloading a plugin using DarkWaterAPI
-- /darkwater disable [plugin]     | (Permission: darkwater.disable)      | Disabling a plugin using DarkWaterAPI
-- /darkwater enable [plugin]      | (Permission: darkwater.enable)       | Enabling a plugin using DarkWaterAPI
-- /statistic                      | (Permission: darkwater.statistic)    | View statistics on the number of killed mobs.
-```
+| Command                     | Permission          | Description                                   |
+|-----------------------------|---------------------|-----------------------------------------------|
+| /locale change              | locale.change       | Opens a GUI to change the selected language   |
+| /locale help                | locale.help         | Help command                                  |
+| /locale set [locale]        | locale.change       | Setting the language without opening the GUI  |
+| /locale list                | locale.list         | List of languages available for selection     |
+| /locale get [player]        | locale.get          | View player's language                        |
+| /darkwater reload [plugin]  | darkwater.reload    | Reloading a plugin using DarkWaterAPI         |
+| /darkwater disable [plugin] | darkwater.disable   | Disabling a plugin using DarkWaterAPI         |
+| /darkwater enable [plugin]  | darkwater.enable    | Enabling a plugin using DarkWaterAPI          |
+| /statistic                  | darkwater.statistic | View statistics on the number of killed mobs. |
 
 ## Placeholders
 
-```
-- %statistic_PUT-HERE-MOB% (Example: %statistic_CREEPER%)  | Display the number of killed mob
-- %locale_player%                                          | Language display
-- %locale_list%                                            | Displaying a list of languages available for selection
-```
+| Placeholder                                             | Description                                            |
+|---------------------------------------------------------|--------------------------------------------------------|
+| %statistic_PUT-HERE-MOB% (Example: %statistic_CREEPER%) | Display the number of killed mob                       |
+| %locale_player%                                         | Language display                                       |
+| %locale_list%                                           | Displaying a list of languages available for selection |
 
 ## Config
 
@@ -193,55 +194,6 @@ locale.default: en # The default language if the player's language is not availa
 first.join.message: true # A message when the player enters, telling about the definition of the player's language and the possibility of changing this language.
 actionbar.indicators: true # Indicators above the player's toolbar. This function is needed for some plugins that use DarkWaterAPI. Requires PlaceHolderAPI to work.
 
-rest.enable: false
-rest.port: 8080
-rest.name: darkwater
-
-rest.auth.enable: true # Enable and disable authentication for Rest requests. If it is disabled, then some requests will be disabled.
-rest.auth.type: BEARER # BEARER | BASIC
-
-rest.bearer.expire: 744 # Token expire in hours
-rest.bearer.secret: darkwater # Secret word for the HMAC256 algorithm when signing the token.
-rest.bearer.users:
-  - admin:admin # User:Password
-  - darkwater:darkwater # User:Password
-
-# To get a bearer token for a user, you need to send a no auth request to any Rest link.
-# The request header must contain the 'user' and 'password' parameters.
-# Attention: A token can only be obtained once per user.
-# The next time the token can be obtained either after the end of the previous one, or after the plugin is reloaded.
-
-rest.basic.login: darkwater
-rest.basic.password: darkwater
-
-rest.service.commands: true # Command Usage Service with REST
-rest.service.code: true # Code generator for players when requested via REST
-
-rest.encrypted.data: true # Accept encrypted data via REST or not
-
-# Encrypted data REST: localhost:port/darkwater/code?uuid={ENCRYPTED Player name}&exponent={RSA Exponent}&modulus={RSA Modulus}
-# Decrypted data REST: localhost:port/darkwater/code?uuid={Player name}&exponent={RSA Exponent}&modulus={RSA Modulus}
-# This parameter applies to command and code services
-# To get darkwater public key REST: localhost:port/darkwater/code || localhost:port/darkwater/execute
-
-
-
-# ------------------- REST -------------------
-# localhost:port/service name/ping?ip={IP} - View ping from the specified ip address to the server
-# localhost:port/service name/data - Viewing Server Data
-# localhost:port/service name/plugins - View all plugins
-# localhost:port/service name/darkwater - View data of all plugins using DarkWaterAPI ***
-# localhost:port/service name/execute?cmd={COMMAND} - Command usage ***
-# localhost:port/service name/code?player={Player name}&exponent={RSA Exponent}&modulus={RSA Modulus} - Sends the code to the player, and also returns it in encrypted form ***
-# localhost:port/service name/code?uuid={Player uuid}&exponent={RSA Exponent}&modulus={RSA Modulus} - Sends the code to the player, and also returns it in encrypted form ***
-#---------------------------------------------
-# You can also use instead of the player's name - his UUID
-# *** - Disabled if REST authorization is disabled
-# ------------------- REST -------------------
-
-
-
-
-config.version: 2 # DO NOT TOUCH THIS PLEASE =)
+config.version: 3 # DO NOT TOUCH THIS PLEASE =)
 debug: false # This line is not in the config by default, but you can enter it in the DarkWaterAPI config to display config logs in the server console.
 ```

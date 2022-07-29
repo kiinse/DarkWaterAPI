@@ -108,10 +108,11 @@ dependencies {
 В папке ресурсов создаем папку «messages», где так же создаем несколько файлов локализации. Например en.json и ru.json. Получаем следующую структуру:
 
 ```txt
-  |--resources
-     |--messages
-        |--en.json
-        |--ru.json
+.
+└── resources
+    └── messages
+        ├── en.json
+        └── ru.json
 ```
 
 После запуска плагина, содержащего главный класс, унаследованный от "DarkWaterJavaPlugin" - эти файлы появятся в папке плагина на сервере.
@@ -132,8 +133,8 @@ public final class TestPlugin extends DarkWaterJavaPlugin { // Main class
     }
 
     private void sendMessageToPlayer(Player player) {
-        SendMessages sendMessages = new SendMessagesImpl(this);
-        sendMessages.sendMessageWithPrefix(player, Message.MESSAGE_HELLO); // Отправляем игроку строку "message_hello" из json файлов с локализациями.
+        MessagesUtils messagesUtils = new MessagesUtilsImpl(this);
+        messagesUtils.sendMessageWithPrefix(player, Message.MESSAGE_HELLO); // Отправляем игроку строку "message_hello" из json файлов с локализациями.
         // Определение языка игрока и из какого файла будет использована строка с текстом определяется автоматически.
     }
 }
@@ -162,25 +163,25 @@ public final class TestPlugin extends DarkWaterJavaPlugin { // Main class
 
 ## Команды
 
-```
-- /locale change                  | (Permission: locale.change)          | Открывает GUI для выбора языка
-- /locale help                    | (Permission: locale.help)            | Команад помощи
-- /locale set [locale]            | (Permission: locale.change)          | Устанавливает язык без открытия GUI
-- /locale list                    | (Permission: locale.list)            | Список языков, доступных для установки
-- /locale get [player]            | (Permission: locale.get)             | Просмотр языка игрока
-- /darkwater reload [plugin]      | (Permission: darkwater.reload)       | Перезагрузка плагина, который использует DarkWaterAPI
-- /darkwater disable [plugin]     | (Permission: darkwater.disable)      | Выключение плагина, который использует DarkWaterAPI
-- /darkwater enable [plugin]      | (Permission: darkwater.enable)       | Включение плагина, который использует DarkWaterAPI
-- /statistic                      | (Permission: darkwater.statistic)    | Просмотр статистики по количеству убитых мобов
-```
+| Команда                     | Права               | Описание                                              |
+|-----------------------------|---------------------|-------------------------------------------------------|
+| /locale change              | locale.change       | Открывает GUI для выбора языка                        |
+| /locale help                | locale.help         | Команад помощи                                        |
+| /locale set [locale]        | locale.change       | Устанавливает язык без открытия GUI                   |
+| /locale list                | locale.list         | Список языков, доступных для установки                |
+| /locale get [player]        | locale.get          | Просмотр языка игрока                                 |
+| /darkwater reload [plugin]  | darkwater.reload    | Перезагрузка плагина, который использует DarkWaterAPI |
+| /darkwater disable [plugin] | darkwater.disable   | Выключение плагина, который использует DarkWaterAPI   |
+| /darkwater enable [plugin]  | darkwater.enable    | Включение плагина, который использует DarkWaterAPI    |
+| /statistic                  | darkwater.statistic | Просмотр статистики по количеству убитых мобов        |
 
 ## Placeholders
 
-```
-- %statistic_ЗДЕСЬ-УКАЗАТЬ-МОБА% (К примеру: %statistic_CREEPER%)  | Отображает количество убитого моба
-- %locale_player%                                                  | Отображает выбранный язык
-- %locale_list%                                                    | Отображает список всех языков, доступных для выбора
-```
+| Placeholder                                             | Описание                                            |
+|---------------------------------------------------------|-----------------------------------------------------|
+| %statistic_PUT-HERE-MOB% (Example: %statistic_CREEPER%) | Отображает количество убитого моба                  |
+| %locale_player%                                         | Отображает выбранный язык                           |
+| %locale_list%                                           | Отображает список всех языков, доступных для выбора |
 
 ## Конфиг
 
@@ -190,55 +191,6 @@ locale.default: en # Язык по умолчанию, если по каким-
 first.join.message: true # Сообщение при первом заходе игрока, которая говорит какой язык был определён у него.
 actionbar.indicators: true # Индикаторы над тулбаром. Сам DarkWaterAPI не использует эту функцию, но она может быть нужна для других плагинов. Требуется PlaceholderAPI для работы.
 
-rest.enable: false
-rest.port: 8080
-rest.name: darkwater
-
-rest.auth.enable: true # Включение и выключение авторизации для REST. Если она выключена, то некоторые функции могут не работать.
-rest.auth.type: BEARER # BEARER или BASIC
-
-rest.bearer.expire: 744 # Срок действия токена в часах
-rest.bearer.secret: darkwater # Секретное слово для алгоритма HMAC256 при подписании токена.
-rest.bearer.users:
-  - admin:admin # Пользователь:Пароль
-  - darkwater:darkwater # Пользователь:Пароль
-
-# Чтобы получить токен для пользователя, вам нужно отправить запрос без аутентификации на любую ссылку Rest.
-# Header запроса должен содержать параметры user и password.
-# Внимание: Токен можно получить только один раз для каждого пользователя.
-# В следующий раз токен можно будет получить либо после окончания предыдущего, либо после перезагрузки плагина DarkWaterAPI.
-
-rest.basic.login: darkwater
-rest.basic.password: darkwater
-
-rest.service.commands: true # Служба использования команд через REST
-rest.service.code: true # Генератор кода для игроков при запросе через REST
-
-rest.encrypted.data: true # Принимать зашифрованные данные через REST или нет
-
-# Зашифрованные данные REST: localhost:port/darkwater/code?uuid={ЗАЩИФРОВАННЫЙ Ник игрока}&exponent={RSA Exponent}&modulus={RSA Modulus}
-# Расшифрованные данные REST: localhost:port/darkwater/code?uuid={Ник игрока}&exponent={RSA Exponent}&modulus={RSA Modulus}
-# Этот параметр применяется к службам команд и генарации кодов.
-# Чтобы получить открытый RSA ключ DarkWaterAPI REST: localhost:port/darkwater/code || localhost:port/darkwater/execute
-
-
-
-# ------------------- REST -------------------
-# localhost:port/service name/ping?ip={IP адрес} - Посмотреть пинг с указанного ip адреса до сервера
-# localhost:port/service name/data - Просмотр данных сервера
-# localhost:port/service name/plugins - Посмотреть все плагины
-# localhost:port/service name/darkwater - Просмотр данных со всех плагинов, использующих DarkWaterAPI ***
-# localhost:port/service name/execute?cmd={Команда} - Использование команд ***
-# localhost:port/service name/code?player={Ник игрока}&exponent={RSA Exponent}&modulus={RSA Modulus} - Отправляет код игроку, а также возвращает его в зашифрованном виде ***
-# localhost:port/service name/code?uuid={UUID игрока}&exponent={RSA Exponent}&modulus={RSA Modulus} - Отправляет код игроку, а также возвращает его в зашифрованном виде ***
-#---------------------------------------------
-# Также можно использовать вместо имени игрока - его UUID
-# *** - Отключено, если авторизация REST отключена
-# ------------------- REST -------------------
-
-
-
-
-config.version: 2 # ЭТО ТРОГАТЬ НЕ НУЖНО =)
+config.version: 3 # ЭТО ТРОГАТЬ НЕ НУЖНО =)
 debug: false # Этой строки нет в конфиге по умолчанию, но вы можете ввести ее в конфиг DarkWaterAPI для отображения CONFIG логов в консоли сервера.
 ```

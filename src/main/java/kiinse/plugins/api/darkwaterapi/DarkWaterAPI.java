@@ -1,9 +1,34 @@
+// MIT License
+//
+// Copyright (c) 2022 kiinse
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 package kiinse.plugins.api.darkwaterapi;
 
+import kiinse.plugins.api.darkwaterapi.exceptions.PluginException;
+import kiinse.plugins.api.darkwaterapi.exceptions.VersioningException;
 import kiinse.plugins.api.darkwaterapi.files.config.Configuration;
-import kiinse.plugins.api.darkwaterapi.files.locale.PlayerLocaleImpl;
+import kiinse.plugins.api.darkwaterapi.files.config.enums.Config;
+import kiinse.plugins.api.darkwaterapi.files.locale.PlayerLocalesImpl;
 import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.LocaleStorage;
-import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.PlayerLocale;
+import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.PlayerLocales;
 import kiinse.plugins.api.darkwaterapi.files.locale.utils.LocaleLoaderImpl;
 import kiinse.plugins.api.darkwaterapi.files.locale.utils.LocaleSaverImpl;
 import kiinse.plugins.api.darkwaterapi.files.messages.DarkWaterMessages;
@@ -14,46 +39,43 @@ import kiinse.plugins.api.darkwaterapi.indicators.interfaces.IndicatorManager;
 import kiinse.plugins.api.darkwaterapi.initialize.LoadAPI;
 import kiinse.plugins.api.darkwaterapi.initialize.RegisterCommands;
 import kiinse.plugins.api.darkwaterapi.initialize.RegisterEvents;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.loader.DarkWaterPluginManager;
 import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkPluginManager;
-import kiinse.plugins.api.darkwaterapi.rest.RestConnectionImpl;
-import kiinse.plugins.api.darkwaterapi.rest.interfaces.RestConnection;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
 import kiinse.plugins.api.darkwaterapi.schedulers.SchedulersManagerImpl;
-import kiinse.plugins.api.darkwaterapi.schedulers.SchedulersManager;
 import kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers.IndicatorSchedule;
 import kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers.JumpSchedule;
 import kiinse.plugins.api.darkwaterapi.schedulers.darkwaterschedulers.MoveSchedule;
-import org.json.simple.JSONObject;
+import kiinse.plugins.api.darkwaterapi.schedulers.interfaces.SchedulersManager;
+import kiinse.plugins.api.darkwaterapi.utilities.VersionUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Level;
 
-@SuppressWarnings({"unused", "unchecked"})
+@SuppressWarnings({"unused"})
 public final class DarkWaterAPI extends DarkWaterJavaPlugin {
-
-    // TODO: Add DarkWaterAPI version check.
 
     private static DarkWaterAPI instance;
     private DarkPluginManager pluginManager;
     private LocaleStorage localeStorage;
-    private PlayerLocale locales;
+    private PlayerLocales locales;
     private DarkWaterStatistic darkWaterStatistic;
     private IndicatorManager indicatorManager;
     private SchedulersManager schedulersManager;
-    private RestConnection rest;
     private JumpSchedule jumpSchedule;
     private MoveSchedule moveSchedule;
 
     @Override
-    protected void start() {
+    protected void start() throws PluginException {
         try {
             getLogger().setLevel(Level.CONFIG);
             sendLog("Loading " + getName() + "...");
             onStart();
-            getDarkWaterAPI().getPluginManager().registerPlugin(this);
+            getPluginManager().registerPlugin(this);
             sendInfo();
+            checkForUpdates();
         } catch (Exception e) {
-            sendLog(Level.SEVERE, "Error on loading " + getName() + "! Message: " + e.getMessage());
+            throw new PluginException(e);
         }
     }
 
@@ -63,7 +85,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
         super.configuration = new Configuration(this);
         new LoadAPI(this);
         localeStorage = new LocaleLoaderImpl(this).getLocaleStorage();
-        locales = new PlayerLocaleImpl(this, localeStorage);
+        locales = new PlayerLocalesImpl(this, localeStorage);
         super.messages = new DarkWaterMessages(this);
         darkWaterStatistic = new DarkWaterStatsImpl(this);
         indicatorManager = new IndicatorManagerImpl(this);
@@ -71,10 +93,10 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
         pluginManager = new DarkWaterPluginManager(this);
         jumpSchedule = new JumpSchedule(this);
         moveSchedule = new MoveSchedule(this);
-        schedulersManager.registerSchedule(jumpSchedule);
-        schedulersManager.registerSchedule(moveSchedule);
-        schedulersManager.registerSchedule(new IndicatorSchedule(this));
-        rest = new RestConnectionImpl(this);
+        schedulersManager
+                .register(jumpSchedule)
+                .register(moveSchedule)
+                .register(new IndicatorSchedule(this));
         new RegisterCommands(this);
         new RegisterEvents(this);
     }
@@ -83,8 +105,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
     public void onStop() throws Exception {
         new LocaleSaverImpl(this).saveLocaleStorage();
         darkWaterStatistic.save();
-        rest.stop();
-        schedulersManager.stopSchedules();
+        schedulersManager.stopSchedulers();
     }
 
     @Override
@@ -93,74 +114,48 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
             sendLog("Reloading " + getName() + "!");
             new LocaleSaverImpl(this).saveLocaleStorage();
             darkWaterStatistic.save();
-            rest.stop();
             getMessages().reload();
             getConfiguration().reload();
             localeStorage = new LocaleLoaderImpl(this).getLocaleStorage();
-            locales = new PlayerLocaleImpl(this, localeStorage);
+            locales = new PlayerLocalesImpl(this, localeStorage);
             darkWaterStatistic = new DarkWaterStatsImpl(this);
-            rest = new RestConnectionImpl(this);
             sendLog(getName() + " reloaded!");
         } catch (Exception e) {
             sendLog(Level.SEVERE, "Error on reloading " + getName() + "! Message: " + e.getMessage());
         }
     }
 
-    /**
-     * Getting information about plugin systems (Indicators, localization, schedulers, statistics) in the form of json
-     * {@link JSONObject}
-     * @return JSONObject with info
-     */
-    @Override
-    public JSONObject getPluginData() {
-        var json = new JSONObject();
-        json.put("indicators", getIndicators());
-        json.put("locales", localeStorage.getAllowedLocalesListString());
-        json.put("defaultLocale", localeStorage.getDefaultLocale().toString());
-        json.put("schedulers", getSchedulers());
-        json.put("statistic", getStatisticData());
-        return json;
-    }
-
-    private JSONObject getIndicators() {
-        var indicators = new JSONObject();
-        for (var indicator : indicatorManager.getIndicatorsList()) {
-            var indicatorJson = new JSONObject();
-            indicatorJson.put("plugin", indicator.getPlugin().getName());
-            indicatorJson.put("position", indicator.getPosition());
-            indicators.put(indicator.getName(), indicatorJson);
+    private void checkForUpdates() {
+        if (!getConfiguration().getBoolean(Config.DISABLE_VERSION_CHECK)) {
+            try {
+                var latest = VersionUtils.getLatestGithubVersion("https://github.com/kiinse/DarkWaterAPI");
+                if (!latest.isGreaterThan(VersionUtils.getCurrentDarkWaterVersion())) {
+                    sendLog("Latest version of DarkWaterAPI installed, no new versions found =3");
+                } else {
+                    sendConsole(" &c|====================================UPDATE====================================");
+                    sendConsole(" &c| ");
+                    sendConsole(" &c| &6New version of DarkWaterAPI found: '&b" + latest.getOriginalValue() + "&6'! Your version is '&b" + getDescription().getVersion() + "&6'");
+                    sendConsole(" &c| &6You can download it at &bhttps://github.com/kiinse/DarkWaterAPI/releases");
+                    sendConsole(" &c| ");
+                    sendConsole(" &c| &6You can &cdisable&6 DarkWaterAPI version checking by entering the line '&bdisable.version.check: true&6' in the &bconfig");
+                    sendConsole(" &c| ");
+                    sendConsole(" &c|==============================================================================");
+                }
+            } catch (VersioningException e) {
+                sendLog(Level.WARNING, "Error checking DarkWaterAPI version! Message: " + e.getMessage());
+            }
         }
-        return indicators;
     }
 
-    private JSONObject getSchedulers() {
-        var schedulers = new JSONObject();
-        for (var scheduler : schedulersManager.getAllSchedulers()) {
-            var schedulerJson = new JSONObject();
-            schedulerJson.put("plugin", scheduler.getPlugin().getName());
-            schedulerJson.put("isStarted", scheduler.isStarted());
-            schedulers.put(scheduler.getName(), schedulerJson);
-        }
-        return schedulers;
-    }
-
-    private JSONObject getStatisticData() {
-        var json = new JSONObject();
-        for (var player : getServer().getOfflinePlayers()) {
-            json.put(player.getName(), darkWaterStatistic.getPlayerStatistic(player.getUniqueId()).toJSONObject().toMap());
-        }
-        return json;
-    }
-
-    public LocaleStorage getLocaleStorage() {
+    public @NotNull LocaleStorage getLocaleStorage() {
         return localeStorage;
     }
 
     /**
      * Getting a class to work with player languages
-     * @return {@link PlayerLocale}
+     * @return {@link PlayerLocales}
      */
-    public PlayerLocale getLocales() {
+    public @NotNull PlayerLocales getPlayerLocales() {
         return locales;
     }
 
@@ -168,7 +163,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
      * Getting a class to work with player statistics
      * @return {@link DarkWaterStatistic}
      */
-    public DarkWaterStatistic getDarkWaterStatistic() {
+    public @NotNull DarkWaterStatistic getDarkWaterStatistic() {
         return darkWaterStatistic;
     }
 
@@ -176,7 +171,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
      * Получение менеджера плагинов
      * @return {@link DarkPluginManager}
      */
-    public DarkPluginManager getPluginManager() {
+    public @NotNull DarkPluginManager getPluginManager() {
         return pluginManager;
     }
 
@@ -184,7 +179,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
      * Getting the plugin manager
      * @return {@link DarkPluginManager}
      */
-    public IndicatorManager getIndicatorManager() {
+    public @NotNull IndicatorManager getIndicatorManager() {
         return indicatorManager;
     }
 
@@ -192,15 +187,15 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
      * Getting scheduler manager
      * @return {@link SchedulersManager}
      */
-    public SchedulersManager getSchedulersManager() {
+    public @NotNull SchedulersManager getSchedulersManager() {
         return schedulersManager;
     }
 
-    public MoveSchedule getMoveSchedule() {
+    public @NotNull MoveSchedule getMoveSchedule() {
         return moveSchedule;
     }
 
-    public JumpSchedule getJumpSchedule() {
+    public @NotNull JumpSchedule getJumpSchedule() {
         return jumpSchedule;
     }
 
@@ -208,5 +203,5 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin {
      * Getting DarkWaterAPI instance
      * @return {@link DarkWaterAPI}
      */
-    public static DarkWaterAPI getInstance() {return instance;}
+    public static @NotNull DarkWaterAPI getInstance() {return instance;}
 }

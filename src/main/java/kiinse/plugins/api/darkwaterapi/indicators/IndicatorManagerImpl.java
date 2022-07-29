@@ -1,8 +1,33 @@
+// MIT License
+//
+// Copyright (c) 2022 kiinse
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 package kiinse.plugins.api.darkwaterapi.indicators;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
+import kiinse.plugins.api.darkwaterapi.exceptions.IndicatorException;
 import kiinse.plugins.api.darkwaterapi.indicators.interfaces.IndicatorManager;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,33 +39,34 @@ public class IndicatorManagerImpl implements IndicatorManager {
 
     private final DarkWaterAPI darkWaterAPI;
 
-    public IndicatorManagerImpl(DarkWaterAPI darkWaterAPI) {
+    private final HashMap<String, Indicator> indicators = new HashMap<>();
+
+    public IndicatorManagerImpl(@NotNull DarkWaterAPI darkWaterAPI) {
         this.darkWaterAPI = darkWaterAPI;
     }
 
-    private final HashMap<String, Indicator> indicators = new HashMap<>();
-
     @Override
-    public void registerIndicator(DarkWaterJavaPlugin plugin, Indicator indicator) {
+    public @NotNull IndicatorManager register(@NotNull DarkWaterJavaPlugin plugin, @NotNull Indicator indicator) throws IndicatorException {
         if (hasIndicator(indicator)) {
-            throw new IllegalArgumentException("Indicator '" + indicator.getName() + "' already registered by '" + indicators.get(indicator.getName()).getPlugin().getName() + "'");
+            throw new IndicatorException("Indicator '" + indicator.getName() + "' already registered by '" + indicators.get(indicator.getName()).getPlugin().getName() + "'");
         }
         if (!indicator.getName().startsWith("%") || !indicator.getName().endsWith("%")) {
-            throw new IllegalArgumentException("The '" + indicator.getName() + "' indicator must be a placeholder, i.e. start and end with % ");
+            throw new IndicatorException("The '" + indicator.getName() + "' indicator must be a placeholder, i.e. start and end with % ");
         }
         if (hasPosition(indicator)) {
             var pos = getMaxPosition() + 1;
-            plugin.sendLog(Level.WARNING, "Indicator position &c" + indicator.getPosition() + " is already used by '&b" + getIndicatorByPosition(indicator.getPosition()).getPlugin().getName() + "&6'\nUsing last position: &b" + pos);
-            register(plugin, Indicator.valueOf(indicator.getPlugin(), indicator.getName(), pos));
-            indicatorsList();
-            return;
+            plugin.sendLog(Level.WARNING, "Indicator position &c" + indicator.getPosition() + " is already used by '&b" + Objects.requireNonNull(getIndicatorByPosition(indicator.getPosition())).getPlugin().getName() + "&6'\nUsing last position: &b" + pos);
+            registerIndicator(plugin, Indicator.valueOf(indicator.getPlugin(), indicator.getName(), pos));
+            setIndicatorListToConsole();
+            return this;
         }
-        register(plugin, indicator);
-        indicatorsList();
+        registerIndicator(plugin, indicator);
+        setIndicatorListToConsole();
+        return this;
     }
 
     @Override
-    public void indicatorsList() {
+    public void setIndicatorListToConsole() {
         darkWaterAPI.sendLog(Level.CONFIG, "Indicators list: &d");
         var j = 0;
         for (int i = 0; i <= getMaxPosition(); i++) {
@@ -53,7 +79,7 @@ public class IndicatorManagerImpl implements IndicatorManager {
     }
 
     @Override
-    public String getIndicators() {
+    public @NotNull String getIndicators() {
         var result = new StringBuilder();
         for (int i = 0; i <= getMaxPosition(); i++) {
             var indicator = getIndicatorByPosition(i);
@@ -65,7 +91,7 @@ public class IndicatorManagerImpl implements IndicatorManager {
     }
 
     @Override
-    public List<Indicator> getIndicatorsList() {
+    public @NotNull List<Indicator> getIndicatorsList() {
         var list = new ArrayList<Indicator>();
         for (var indicator : indicators.entrySet()) {
             list.add(indicator.getValue());
@@ -73,7 +99,7 @@ public class IndicatorManagerImpl implements IndicatorManager {
         return list;
     }
 
-    private void register(DarkWaterJavaPlugin plugin, Indicator indicator) {
+    private void registerIndicator(@NotNull DarkWaterJavaPlugin plugin, @NotNull Indicator indicator) {
         indicators.put(indicator.getName(), indicator);
         plugin.sendLog("Registered indicator '&b" + indicator.getName() + "&a' by '&b" + plugin.getName() + "&6' on position &b" + indicator.getPosition());
     }
@@ -91,7 +117,7 @@ public class IndicatorManagerImpl implements IndicatorManager {
     }
 
     @Override
-    public boolean removeIndicator(Indicator indicator) {
+    public boolean removeIndicator(@NotNull Indicator indicator) {
         darkWaterAPI.sendLog("Removing indicator '&b" + indicator.getName() + "&6'...");
         for (var entry : indicators.entrySet()) {
             if (entry.getValue().equals(indicator)) {
@@ -104,7 +130,7 @@ public class IndicatorManagerImpl implements IndicatorManager {
     }
 
     @Override
-    public boolean hasIndicator(Indicator indicator) {
+    public boolean hasIndicator(@NotNull Indicator indicator) {
         for (var entry : indicators.entrySet()) {
             if (entry.getValue().equals(indicator)) {
                 return true;
@@ -114,7 +140,7 @@ public class IndicatorManagerImpl implements IndicatorManager {
     }
 
     @Override
-    public boolean hasPosition(Indicator indicator) {
+    public boolean hasPosition(@NotNull Indicator indicator) {
         for (var entry : indicators.entrySet()) {
             if (Objects.equals(entry.getValue().getPosition(), indicator.getPosition())) {
                 return true;
@@ -124,7 +150,7 @@ public class IndicatorManagerImpl implements IndicatorManager {
     }
 
     @Override
-    public Indicator getIndicatorByPosition(int position) {
+    public @Nullable Indicator getIndicatorByPosition(int position) {
         for (var entry : indicators.entrySet()) {
             var indicator = entry.getValue();
             if (Objects.equals(indicator.getPosition(), position)) {

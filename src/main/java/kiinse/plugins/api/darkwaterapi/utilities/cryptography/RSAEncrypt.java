@@ -1,12 +1,38 @@
+// MIT License
+//
+// Copyright (c) 2022 kiinse
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 package kiinse.plugins.api.darkwaterapi.utilities.cryptography;
 
 import kiinse.plugins.api.darkwaterapi.utilities.cryptography.interfaces.RSADarkWater;
 import org.apache.commons.codec.binary.Base64;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import javax.crypto.Cipher;
 import java.math.BigInteger;
-import java.security.*;
+import java.security.Key;
+import java.security.KeyFactory;
+import java.security.KeyPairGenerator;
+import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.HashMap;
@@ -26,7 +52,7 @@ public class RSAEncrypt implements RSADarkWater {
     }
 
     @Override
-    public RSADarkWater generateKeys() throws Exception {
+    public @NotNull RSADarkWater generateKeys() throws Exception {
         var keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);
         var keyPair = keyPairGenerator.generateKeyPair();
@@ -38,12 +64,12 @@ public class RSAEncrypt implements RSADarkWater {
     }
 
     @Override
-    public PublicKey getPublicKey() {
+    public @NotNull PublicKey getPublicKey() {
         return (PublicKey) keys.get(KeyType.PUBLIC);
     }
 
     @Override
-    public JSONObject getPublicKeyJson() {
+    public @NotNull JSONObject getPublicKeyJson() {
         var key = (RSAPublicKey) getPublicKey();
         var json = new JSONObject();
         json.put("exponent", key.getPublicExponent());
@@ -52,26 +78,26 @@ public class RSAEncrypt implements RSADarkWater {
     }
 
     @Override
-    public String decryptMessage(String encryptedText) throws Exception {
+    public @NotNull String decryptMessage(@NotNull String encryptedText) throws Exception {
         var cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
         cipher.init(Cipher.DECRYPT_MODE, keys.get(KeyType.PRIVATE));
         return new String(cipher.doFinal(Base64.decodeBase64(encryptedText)));
     }
 
     @Override
-    public String encryptMessage(String plainText, PublicKey publicKey) throws Exception {
+    public @NotNull String encryptMessage(@NotNull String plainText, @NotNull PublicKey publicKey) throws Exception {
         var cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
         return Base64.encodeBase64String(cipher.doFinal(plainText.getBytes()));
     }
 
     @Override
-    public PublicKey recreatePublicKey(String exponent, String modulus) throws Exception {
+    public @NotNull PublicKey recreatePublicKey(@NotNull String exponent, @NotNull String modulus) throws Exception {
         return recreatePublicKey(new BigInteger(exponent), new BigInteger(modulus));
     }
 
     @Override
-    public PublicKey recreatePublicKey(BigInteger exponent, BigInteger modulus) throws Exception {
+    public @NotNull PublicKey recreatePublicKey(@NotNull BigInteger exponent, @NotNull BigInteger modulus) throws Exception {
         return KeyFactory.getInstance("RSA").generatePublic(new RSAPublicKeySpec(modulus, exponent));
     }
 

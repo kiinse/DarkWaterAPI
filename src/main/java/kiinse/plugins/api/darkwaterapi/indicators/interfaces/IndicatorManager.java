@@ -1,68 +1,53 @@
+// MIT License
+//
+// Copyright (c) 2022 kiinse
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 package kiinse.plugins.api.darkwaterapi.indicators.interfaces;
 
+import kiinse.plugins.api.darkwaterapi.exceptions.IndicatorException;
 import kiinse.plugins.api.darkwaterapi.indicators.Indicator;
-import kiinse.plugins.api.darkwaterapi.loader.DarkWaterJavaPlugin;
+import kiinse.plugins.api.darkwaterapi.loader.interfaces.DarkWaterJavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 @SuppressWarnings("unused")
 public interface IndicatorManager {
 
-    /**
-     * Регистрация индикатора в actionbar
-     * @param plugin Плагин
-     * @param indicator Индикатор {@link Indicator}
-     */
-    void registerIndicator(DarkWaterJavaPlugin plugin, Indicator indicator);
+    @NotNull IndicatorManager register(@NotNull DarkWaterJavaPlugin plugin, @NotNull Indicator indicator) throws IndicatorException;
 
-    /**
-     * Отправка списка индикаторов в консоль
-     */
-    void indicatorsList();
+    void setIndicatorListToConsole();
 
-    /**
-     * Получение индикаторов для отображения
-     * @return Строка для отправки в actionbar
-     */
-    String getIndicators();
+    @NotNull String getIndicators();
 
-    /**
-     * Получение индикаторов
-     * @return Список индикаторов
-     */
-    List<Indicator> getIndicatorsList();
+    @NotNull List<Indicator> getIndicatorsList();
 
-    /**
-     * Получение самой дальней позиции из всех индикаторов
-     * @return Номер позиции
-     */
     int getMaxPosition();
 
-    /**
-     * Удаление индикатора
-     * @param indicator Индикатор {@link Indicator}
-     * @return True если индикатор был удалён
-     */
-    boolean removeIndicator(Indicator indicator);
+    boolean removeIndicator(@NotNull Indicator indicator);
 
-    /**
-     * Проверка на существование зарегистрированного индикатора
-     * @param indicator Индикатор {@link Indicator}
-     * @return True если уже зарегистрирован
-     */
-    boolean hasIndicator(Indicator indicator);
+    boolean hasIndicator(@NotNull Indicator indicator);
 
-    /**
-     * Проверка на позицию индикатора
-     * @param indicator Индикатор {@link Indicator}
-     * @return True если индикатор с такой позицией был зарегистрирован
-     */
-    boolean hasPosition(Indicator indicator);
+    boolean hasPosition(@NotNull Indicator indicator);
 
-    /**
-     * Получение индикатора по позиции
-     * @param position Позиция
-     * @return Индикатор {@link Indicator}
-     */
-    Indicator getIndicatorByPosition(int position);
+    @Nullable Indicator getIndicatorByPosition(int position);
 }

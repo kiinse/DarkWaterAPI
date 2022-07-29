@@ -1,9 +1,31 @@
+// MIT License
+//
+// Copyright (c) 2022 kiinse
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 package kiinse.plugins.api.darkwaterapi.gui.darkwatergui;
 
 import kiinse.plugins.api.darkwaterapi.DarkWaterAPI;
 import kiinse.plugins.api.darkwaterapi.files.locale.Locale;
 import kiinse.plugins.api.darkwaterapi.files.locale.interfaces.LocaleStorage;
-import kiinse.plugins.api.darkwaterapi.files.messages.utils.Message;
+import kiinse.plugins.api.darkwaterapi.files.messages.enums.Message;
 import kiinse.plugins.api.darkwaterapi.gui.GUI;
 import kiinse.plugins.api.darkwaterapi.gui.darkwatergui.items.*;
 import kiinse.plugins.api.darkwaterapi.utilities.PlayerUtils;
@@ -11,6 +33,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +47,7 @@ public class LocaleGUI extends GUI {
     private final Locale playerLocale;
     private final String name;
 
-    public LocaleGUI(int page, String name, Locale playerLocale) {
+    public LocaleGUI(int page, @NotNull String name, @NotNull Locale playerLocale) {
         super(36, name);
         this.name = name;
         this.playerLocale = playerLocale;
@@ -36,7 +59,7 @@ public class LocaleGUI extends GUI {
                 .setExitItem();
     }
 
-    private LocaleGUI addItems(int page, Map<Integer, List<Locale>> locales) {
+    private @NotNull LocaleGUI addItems(int page, @NotNull Map<Integer, List<Locale>> locales) {
         var messages = darkWaterAPI.getMessages();
         int position = 9;
         for (var locale : locales.get(page)) {
@@ -55,7 +78,7 @@ public class LocaleGUI extends GUI {
         return this;
     }
 
-    private LocaleGUI setPreviousPageItem(int page, Map<Integer, List<Locale>> locales) {
+    private @NotNull LocaleGUI setPreviousPageItem(int page, @NotNull Map<Integer, List<Locale>> locales) {
         if (locales.containsKey(page-1)) {
             setItem(new PreviousPageItem(darkWaterAPI, playerLocale, (player -> {
                 delete();
@@ -66,14 +89,14 @@ public class LocaleGUI extends GUI {
         return this;
     }
 
-    private LocaleGUI setCurrentPageItem(int page, Map<Integer, List<Locale>> locales) {
+    private @NotNull LocaleGUI setCurrentPageItem(int page, @NotNull Map<Integer, List<Locale>> locales) {
         if (locales.size() > 1) {
             setItem(new CurrentPageItem(darkWaterAPI, playerLocale, page, (player -> {})));
         }
         return this;
     }
 
-    private LocaleGUI setNextPageItem(int page, Map<Integer, List<Locale>> locales) {
+    private @NotNull LocaleGUI setNextPageItem(int page, @NotNull Map<Integer, List<Locale>> locales) {
         if (locales.containsKey(page+1)) {
             setItem(new NextPageItem(darkWaterAPI, playerLocale, (player -> {
                 delete();
@@ -84,7 +107,7 @@ public class LocaleGUI extends GUI {
         return this;
     }
 
-    private LocaleGUI setExitItem() {
+    private @NotNull LocaleGUI setExitItem() {
         setItem(new ExitItem(darkWaterAPI, playerLocale, (player -> {
             delete();
             PlayerUtils.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_STEP);
@@ -92,7 +115,7 @@ public class LocaleGUI extends GUI {
         return this;
     }
 
-    public Map<Integer, List<Locale>> getGuiPages() {
+    public @NotNull Map<Integer, List<Locale>> getGuiPages() {
         var hashmap = new HashMap<Integer, List<Locale>>();
         var list = new ArrayList<Locale>();
         int localesCount = 0;

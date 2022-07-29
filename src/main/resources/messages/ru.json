@@ -27,5 +27,5 @@
   "gui_next_page": "&aСледующая страница",
   "gui_previous_page": "&aПредыдущая страница",
   "generated_code": "&d&l----&b&lDARKWATERAPI&d&l----\n\n<COPY={CODE}::&b&lТвой код:\n&7{CODE}>&a&nНажмите сюда, чтобы скопировать код</COPY>\n\n",
-  "statistic": "&2Статистика\n&b-------------------------\n&a{STATISTIC}"
+  "statistic": "\n&2Статистика\n&b-------------------------\n&a{STATISTIC}"
 }

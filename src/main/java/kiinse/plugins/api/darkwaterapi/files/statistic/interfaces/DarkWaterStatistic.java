@@ -1,35 +1,59 @@
+// MIT License
+//
+// Copyright (c) 2022 kiinse
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 package kiinse.plugins.api.darkwaterapi.files.statistic.interfaces;
 
+import kiinse.plugins.api.darkwaterapi.exceptions.JsonFileException;
+import kiinse.plugins.api.darkwaterapi.files.statistic.Statistic;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public interface DarkWaterStatistic {
 
-    DarkWaterStatistic save() throws IOException;
+    @NotNull DarkWaterStatistic save() throws JsonFileException;
 
-    DarkWaterStatistic reload() throws IOException;
+    @NotNull DarkWaterStatistic reload() throws JsonFileException;
 
-    Statistic getPlayerStatistic(Player player);
+    @NotNull Statistic getPlayerStatistic(@NotNull Player player);
 
-    Statistic getPlayerStatistic(UUID player);
+    @NotNull Statistic getPlayerStatistic(@NotNull UUID player);
 
-    DarkWaterStatistic setPlayerStatistic(Player player, Statistic statistic);
+    @NotNull DarkWaterStatistic setPlayerStatistic(@NotNull Player player, @NotNull Statistic statistic);
 
-    DarkWaterStatistic setPlayerStatistic(UUID player, Statistic statistic);
+    @NotNull DarkWaterStatistic setPlayerStatistic(@NotNull UUID player, @NotNull Statistic statistic);
 
-    DarkWaterStatistic addStatistic(Player player, EntityType type);
+    @NotNull DarkWaterStatistic addStatistic(@NotNull Player player, @NotNull EntityType type);
 
-    DarkWaterStatistic addStatistic(UUID player, EntityType type);
+    @NotNull DarkWaterStatistic addStatistic(@NotNull UUID player, @NotNull EntityType type);
 
-    DarkWaterStatistic updatePlayer(Player player, JSONObject stats);
+    @NotNull DarkWaterStatistic updatePlayer(@NotNull Player player, @NotNull JSONObject stats);
 
-    DarkWaterStatistic updatePlayer(UUID player, JSONObject stats);
+    @NotNull DarkWaterStatistic updatePlayer(@NotNull UUID player, @NotNull JSONObject stats);
 
-    HashMap<UUID, Statistic> getAllPlayerStatistic();
+    @NotNull HashMap<UUID, Statistic> getAllPlayerStatistic();
 }
