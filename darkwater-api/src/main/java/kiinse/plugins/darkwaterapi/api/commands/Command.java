@@ -28,7 +28,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.TYPE, ElementType.METHOD})
 public @interface Command {
 
     /**
@@ -36,18 +36,6 @@ public @interface Command {
      * @return Command
      */
     String command();
-
-    /**
-     * Number of received parameters. Default - 0
-     * @return Number of parameters
-     */
-    int parameters() default 0;
-
-    /**
-     * Allows you to disable restrictions on the number of parameters in a command. Disabled by default
-     * @return Enabled or Disabled
-     */
-    boolean overrideParameterLimit() default false;
 
     /**
      * Allows you to disable the use of the command by non-players (for example, via the console). Disabled by default

@@ -22,8 +22,8 @@
 
 package kiinse.plugins.darkwaterapi.api.files.locale;
 
-import kiinse.plugins.darkwaterapi.api.exceptions.exceptions.JsonFileException;
-import kiinse.plugins.darkwaterapi.api.exceptions.exceptions.LocaleException;
+import kiinse.plugins.darkwaterapi.api.exceptions.JsonFileException;
+import kiinse.plugins.darkwaterapi.api.exceptions.LocaleException;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 

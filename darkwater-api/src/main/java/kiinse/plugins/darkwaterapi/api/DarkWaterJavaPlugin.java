@@ -22,8 +22,8 @@
 
 package kiinse.plugins.darkwaterapi.api;
 
-import kiinse.plugins.darkwaterapi.api.exceptions.exceptions.JsonFileException;
-import kiinse.plugins.darkwaterapi.api.exceptions.exceptions.PluginException;
+import kiinse.plugins.darkwaterapi.api.exceptions.JsonFileException;
+import kiinse.plugins.darkwaterapi.api.exceptions.PluginException;
 import kiinse.plugins.darkwaterapi.api.files.enums.File;
 import kiinse.plugins.darkwaterapi.api.files.filemanager.FilesKeys;
 import kiinse.plugins.darkwaterapi.api.files.filemanager.YamlFile;

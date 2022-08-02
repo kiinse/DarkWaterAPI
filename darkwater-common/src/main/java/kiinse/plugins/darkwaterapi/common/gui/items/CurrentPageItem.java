@@ -22,13 +22,13 @@
 
 package kiinse.plugins.darkwaterapi.common.gui.items;
 
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
 import kiinse.plugins.darkwaterapi.api.files.messages.Message;
 import kiinse.plugins.darkwaterapi.api.gui.GuiAction;
 import kiinse.plugins.darkwaterapi.api.gui.GuiItem;
-import kiinse.plugins.darkwaterapi.common.DarkWaterAPI;
 import kiinse.plugins.darkwaterapi.common.files.Replace;
-import kiinse.plugins.darkwaterapi.core.utilities.DarkWaterUtils;
+import kiinse.plugins.darkwaterapi.core.utilities.DarkUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -38,8 +38,8 @@ public class CurrentPageItem implements GuiItem {
     private final String name;
     private final GuiAction action;
 
-    public CurrentPageItem(@NotNull DarkWaterAPI darkWaterAPI, @NotNull Locale locale, int page, @NotNull GuiAction action) {
-        this.name = DarkWaterUtils.replaceWord(darkWaterAPI.getMessages().getStringMessage(locale, Message.GUI_CURRENT_PAGE), Replace.PAGE, String.valueOf(page));
+    public CurrentPageItem(@NotNull DarkWaterJavaPlugin plugin, @NotNull Locale locale, int page, @NotNull GuiAction action) {
+        this.name = DarkUtils.replaceWord(plugin.getMessages().getStringMessage(locale, Message.GUI_CURRENT_PAGE), Replace.PAGE, String.valueOf(page));
         this.action = action;
     }
 

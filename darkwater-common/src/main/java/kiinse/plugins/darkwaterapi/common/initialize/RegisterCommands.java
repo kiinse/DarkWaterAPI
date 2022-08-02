@@ -1,6 +1,6 @@
 package kiinse.plugins.darkwaterapi.common.initialize;
 
-import kiinse.plugins.darkwaterapi.api.exceptions.exceptions.CommandException;
+import kiinse.plugins.darkwaterapi.api.exceptions.CommandException;
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.common.commands.darkwaterapi.DarkWaterCommands;
 import kiinse.plugins.darkwaterapi.common.commands.darkwaterapi.DarkWaterTab;
@@ -17,11 +17,11 @@ public class RegisterCommands {
     public RegisterCommands(@NotNull DarkWaterJavaPlugin plugin) throws NullPointerException, CommandException {
         plugin.sendLog("Registering commands...");
         new CommandManager(plugin)
-                .registerCommands(new LocaleCommands())
-                .registerCommands(new DarkWaterCommands())
-                .registerCommands(new StatisticCommands());
-        Objects.requireNonNull(plugin.getCommand("locale")).setTabCompleter(new LocaleTab());
-        Objects.requireNonNull(plugin.getCommand("darkwater")).setTabCompleter(new DarkWaterTab());
+                .registerCommand(new LocaleCommands(plugin))
+                .registerCommand(new DarkWaterCommands(plugin))
+                .registerCommand(new StatisticCommands(plugin));
+        Objects.requireNonNull(plugin.getCommand("locale")).setTabCompleter(new LocaleTab(plugin));
+        Objects.requireNonNull(plugin.getCommand("darkwater")).setTabCompleter(new DarkWaterTab(plugin));
         plugin.sendLog("Commands registered");
     }
 }

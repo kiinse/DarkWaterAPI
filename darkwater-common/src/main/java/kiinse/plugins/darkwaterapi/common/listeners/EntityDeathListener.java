@@ -22,8 +22,8 @@
 
 package kiinse.plugins.darkwaterapi.common.listeners;
 
-import kiinse.plugins.darkwaterapi.api.files.statistic.DarkWaterStatistic;
-import kiinse.plugins.darkwaterapi.common.DarkWaterAPI;
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
+import kiinse.plugins.darkwaterapi.api.files.statistic.StatisticManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -31,7 +31,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class EntityDeathListener implements Listener {
 
-    private final DarkWaterStatistic darkWaterStatistic = DarkWaterAPI.getInstance().getDarkWaterStatistic();
+    private final StatisticManager darkWaterStatistic;
+
+    public EntityDeathListener(@NotNull DarkWaterJavaPlugin plugin) {
+        this.darkWaterStatistic = plugin.getDarkWaterAPI().getDarkWaterStatistic();
+    }
 
     @EventHandler
     public void entityDeath(@NotNull EntityDeathEvent event) {

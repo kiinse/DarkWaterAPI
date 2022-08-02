@@ -22,60 +22,58 @@
 
 package kiinse.plugins.darkwaterapi.common.gui;
 
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
-import kiinse.plugins.darkwaterapi.api.files.locale.LocaleStorage;
-import kiinse.plugins.darkwaterapi.common.DarkWaterAPI;
 import kiinse.plugins.darkwaterapi.common.gui.items.CurrentPageItem;
 import kiinse.plugins.darkwaterapi.common.gui.items.ExitItem;
 import kiinse.plugins.darkwaterapi.api.files.messages.Message;
 import kiinse.plugins.darkwaterapi.common.gui.items.NextPageItem;
 import kiinse.plugins.darkwaterapi.common.gui.items.PreviousPageItem;
 import kiinse.plugins.darkwaterapi.common.gui.items.LocaleItem;
-import kiinse.plugins.darkwaterapi.core.gui.GUI;
-import kiinse.plugins.darkwaterapi.core.utilities.PlayerUtils;
-import org.bukkit.Material;
+import kiinse.plugins.darkwaterapi.core.gui.DarkGUI;
+import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
 import org.bukkit.Sound;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-
+import java.util.*;
 
 @SuppressWarnings("UnusedReturnValue")
-public class LocaleGUI extends GUI {
-    private final LocaleStorage localeStorage = DarkWaterAPI.getInstance().getLocaleStorage();
-    private final DarkWaterAPI darkWaterAPI = DarkWaterAPI.getInstance();
-    private final Locale playerLocale;
-    private final String name;
+public class LocaleGUI extends DarkGUI {
 
-    public LocaleGUI(int page, @NotNull String name, @NotNull Locale playerLocale) {
-        super(36, name);
-        this.name = name;
-        this.playerLocale = playerLocale;
+    private static LocaleFlags localeFlags;
+    private int page;
+
+    public LocaleGUI(@NotNull DarkWaterJavaPlugin plugin) {
+        super(plugin);
+    }
+
+    @Override
+    protected void inventory(@NotNull DarkWaterJavaPlugin plugin) {
         var locales = getGuiPages();
-        addItems(page, locales)
-                .setPreviousPageItem(page, locales)
-                .setCurrentPageItem(page, locales)
-                .setNextPageItem(page, locales)
+        addItems(locales)
+                .setPreviousPageItem(locales)
+                .setCurrentPageItem(locales)
+                .setNextPageItem(locales)
                 .setExitItem();
     }
 
-    private @NotNull LocaleGUI addItems(int page, @NotNull Map<Integer, HashSet<Locale>> locales) {
-        var messages = darkWaterAPI.getMessages();
+    public @NotNull DarkGUI setPage(int page) {
+        this.page = page;
+        return this;
+    }
+
+    private @NotNull LocaleGUI addItems(@NotNull Map<Integer, HashSet<Locale>> locales) {
         int position = 9;
         for (var locale : locales.get(page)) {
-            var item = new ItemStack(Material.GOLD_BLOCK);
+            var item = localeFlags.getFlag(locale);
             var list = new ArrayList<String>();
             var meta = item.getItemMeta();
-            list.add(messages.getStringMessage(playerLocale, Message.SET_THIS_LOCALE));
+            list.add(getPlugin().getMessages().getStringMessage(locale, Message.SET_THIS_LOCALE));
             if (meta != null) {
                 meta.setLore(list);
                 item.setItemMeta(meta);
             }
-            setItem(new LocaleItem(position, "&f" + locale.toString(), item, player -> {
+            setItem(new LocaleItem(position, "&f" + locale, item, player -> {
                 player.performCommand("locale set " + locale);
                 delete();
             }));
@@ -84,60 +82,73 @@ public class LocaleGUI extends GUI {
         return this;
     }
 
-    private @NotNull LocaleGUI setPreviousPageItem(int page, @NotNull Map<Integer, HashSet<Locale>> locales) {
+    private @NotNull LocaleGUI setPreviousPageItem(@NotNull Map<Integer, HashSet<Locale>> locales) {
         if (locales.containsKey(page-1)) {
-            setItem(new PreviousPageItem(darkWaterAPI, playerLocale, (player -> {
+            setItem(new PreviousPageItem(getPlugin(), getPlayerLocale(), (player -> {
                 delete();
-                PlayerUtils.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_STEP);
-                new LocaleGUI(page-1, name, playerLocale).open(player);
+                DarkPlayerUtils.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_STEP);
+                new LocaleGUI(getPlugin())
+                        .setPage(page-1)
+                        .setName(getName())
+                        .setLocale(getPlayerLocale())
+                        .open(player);
             })));
         }
         return this;
     }
 
-    private @NotNull LocaleGUI setCurrentPageItem(int page, @NotNull Map<Integer, HashSet<Locale>> locales) {
+    private @NotNull LocaleGUI setCurrentPageItem(@NotNull Map<Integer, HashSet<Locale>> locales) {
         if (locales.size() > 1) {
-            setItem(new CurrentPageItem(darkWaterAPI, playerLocale, page, (player -> {})));
+            setItem(new CurrentPageItem(getPlugin(), getPlayerLocale(), page, (player -> {})));
         }
         return this;
     }
 
-    private @NotNull LocaleGUI setNextPageItem(int page, @NotNull Map<Integer, HashSet<Locale>> locales) {
+    private @NotNull LocaleGUI setNextPageItem(@NotNull Map<Integer, HashSet<Locale>> locales) {
         if (locales.containsKey(page+1)) {
-            setItem(new NextPageItem(darkWaterAPI, playerLocale, (player -> {
+            setItem(new NextPageItem(getPlugin(), getPlayerLocale(), (player -> {
                 delete();
-                PlayerUtils.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_STEP);
-                new LocaleGUI(page+1, name, playerLocale).open(player);
+                DarkPlayerUtils.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_STEP);
+                new LocaleGUI(getPlugin())
+                        .setPage(page+1)
+                        .setName(getName())
+                        .setLocale(getPlayerLocale())
+                        .open(player);
             })));
         }
         return this;
     }
 
     private @NotNull LocaleGUI setExitItem() {
-        setItem(new ExitItem(darkWaterAPI, playerLocale, (player -> {
+        setItem(new ExitItem(getPlugin(), getPlayerLocale(), (player -> {
             delete();
-            PlayerUtils.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_STEP);
+            DarkPlayerUtils.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_STEP);
         })));
         return this;
     }
 
-    public @NotNull Map<Integer, HashSet<Locale>> getGuiPages() {
+    private @NotNull Map<Integer, HashSet<Locale>> getGuiPages() {
+        var storage = getPlugin().getDarkWaterAPI().getLocaleStorage();
         var hashmap = new HashMap<Integer, HashSet<Locale>>();
         var list = new HashSet<Locale>();
         int localesCount = 0;
         int size = 0;
-        int page = 1;
-        for (var locale : localeStorage.getAllowedLocalesList()) {
+        int pageNum = 1;
+        for (var locale : storage.getAllowedLocalesList()) {
             size++;
             list.add(locale);
-            if (size == 9 || localesCount == localeStorage.getAllowedLocalesList().size()-1) {
-                hashmap.put(page, new HashSet<>(list));
-                page++;
+            if (size == 9 || localesCount == storage.getAllowedLocalesList().size()-1) {
+                hashmap.put(pageNum, new HashSet<>(list));
+                pageNum++;
                 size = 0;
                 list.clear();
             }
             localesCount++;
         }
         return hashmap;
+    }
+
+    public static void setLocaleFlags(@NotNull LocaleFlags lcFlags) {
+        localeFlags = lcFlags;
     }
 }

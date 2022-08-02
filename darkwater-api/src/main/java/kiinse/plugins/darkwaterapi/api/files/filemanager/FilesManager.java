@@ -178,6 +178,10 @@ public abstract class FilesManager {
         return !getFile(file).exists();
     }
 
+    public boolean isDirectoryEmpty(@NotNull DirectoriesKeys file) {
+        return listFilesInDirectory(file).isEmpty();
+    }
+
     public @NotNull String getDataFolder() {
         return plugin.getDataFolder() + File.separator;
     }

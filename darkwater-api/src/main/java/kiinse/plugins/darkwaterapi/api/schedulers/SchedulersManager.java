@@ -22,7 +22,7 @@
 
 package kiinse.plugins.darkwaterapi.api.schedulers;
 
-import kiinse.plugins.darkwaterapi.api.exceptions.exceptions.SchedulerException;
+import kiinse.plugins.darkwaterapi.api.exceptions.SchedulerException;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;

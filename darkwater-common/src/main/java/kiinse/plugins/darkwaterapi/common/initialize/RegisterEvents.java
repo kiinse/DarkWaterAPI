@@ -22,21 +22,21 @@
 
 package kiinse.plugins.darkwaterapi.common.initialize;
 
-import kiinse.plugins.darkwaterapi.common.DarkWaterAPI;
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.common.listeners.*;
 import org.jetbrains.annotations.NotNull;
 
 public class RegisterEvents {
 
-    public RegisterEvents(@NotNull DarkWaterAPI darkWaterAPI){
-        darkWaterAPI.sendLog("Registering listeners...");
-        var pluginManager = darkWaterAPI.getServer().getPluginManager();
-        pluginManager.registerEvents(new EntityDeathListener(), darkWaterAPI);
-        pluginManager.registerEvents(new MoveListener(), darkWaterAPI);
-        pluginManager.registerEvents(new GUIListener(), darkWaterAPI);
-        pluginManager.registerEvents(new CloseInventoryListener(), darkWaterAPI);
-        pluginManager.registerEvents(new OnJoinListener(), darkWaterAPI);
-        pluginManager.registerEvents(new OnQuitListener(), darkWaterAPI);
-        darkWaterAPI.sendLog("Listeners registered");
+    public RegisterEvents(@NotNull DarkWaterJavaPlugin plugin){
+        plugin.sendLog("Registering listeners...");
+        var pluginManager = plugin.getServer().getPluginManager();
+        pluginManager.registerEvents(new EntityDeathListener(plugin), plugin);
+        pluginManager.registerEvents(new MoveListener(), plugin);
+        pluginManager.registerEvents(new GUIListener(), plugin);
+        pluginManager.registerEvents(new CloseInventoryListener(), plugin);
+        pluginManager.registerEvents(new OnJoinListener(plugin), plugin);
+        pluginManager.registerEvents(new OnQuitListener(), plugin);
+        plugin.sendLog("Listeners registered");
     }
 }

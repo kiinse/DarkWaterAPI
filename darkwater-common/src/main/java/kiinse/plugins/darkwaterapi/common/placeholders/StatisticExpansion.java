@@ -22,8 +22,8 @@
 
 package kiinse.plugins.darkwaterapi.common.placeholders;
 
-import kiinse.plugins.darkwaterapi.api.files.statistic.DarkWaterStatistic;
-import kiinse.plugins.darkwaterapi.common.DarkWaterAPI;
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
+import kiinse.plugins.darkwaterapi.api.files.statistic.StatisticManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -32,14 +32,14 @@ import org.jetbrains.annotations.Nullable;
 
 public class StatisticExpansion extends PlaceholderExpansion {
 
-    private final DarkWaterAPI darkWaterAPI;
-    private final DarkWaterStatistic darkWaterStatistic;
+    private final DarkWaterJavaPlugin plugin;
+    private final StatisticManager darkWaterStatistic;
 
     // %statistic_MOB%
 
-    public StatisticExpansion(@NotNull DarkWaterAPI darkWaterAPI){
-        this.darkWaterStatistic = darkWaterAPI.getDarkWaterStatistic();
-        this.darkWaterAPI = darkWaterAPI;
+    public StatisticExpansion(@NotNull DarkWaterJavaPlugin plugin){
+        this.darkWaterStatistic = plugin.getDarkWaterAPI().getDarkWaterStatistic();
+        this.plugin = plugin;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class StatisticExpansion extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getAuthor(){
-        return darkWaterAPI.getDescription().getAuthors().get(0);
+        return plugin.getDescription().getAuthors().get(0);
     }
 
 
@@ -60,7 +60,7 @@ public class StatisticExpansion extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion(){
-        return darkWaterAPI.getDescription().getVersion();
+        return plugin.getDescription().getVersion();
     }
 
     @Override

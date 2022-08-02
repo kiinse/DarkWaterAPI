@@ -31,5 +31,5 @@ public enum File implements FilesKeys {
     CONFIG_TMP_YML,
     CONFIG_OLD_YML,
     STATISTIC_JSON,
-    LOCALES_YML
+    LOCALES_PROPERTIES
 }

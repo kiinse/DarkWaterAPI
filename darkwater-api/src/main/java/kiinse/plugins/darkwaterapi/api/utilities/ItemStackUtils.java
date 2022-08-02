@@ -23,6 +23,7 @@
 package kiinse.plugins.darkwaterapi.api.utilities;
 
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
@@ -32,6 +33,7 @@ import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,9 +52,15 @@ public interface ItemStackUtils {
 
     @NotNull ShapedRecipe getShapedRecipe(@NotNull String key, @NotNull ItemStack result);
 
-    @NotNull ItemStack getPlayerHead(@NotNull Player player, @NotNull String displayName, @NotNull List<String> lore);
+    @NotNull ItemStack getPlayerHead(@NotNull Player player);
 
-    @NotNull ItemStack getPlayerHead(@NotNull UUID player, @NotNull String displayName, @NotNull List<String> lore);
+    @NotNull ItemStack getPlayerHead(@NotNull OfflinePlayer player);
+
+    @NotNull ItemStack getPlayerHead(@NotNull UUID player) throws IOException;
+
+    @NotNull ItemStack getPlayerHead(String player) throws IOException;
+
+    @NotNull ItemStack makeSkull(@NotNull String base64);
 
     boolean checkItemStack(@NotNull ItemStack stack, @NotNull Material material);
 }

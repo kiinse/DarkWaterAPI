@@ -22,14 +22,16 @@
 
 package kiinse.plugins.darkwaterapi.common.commands.darkwaterapi;
 
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.commands.Command;
-import kiinse.plugins.darkwaterapi.api.commands.CommandClass;
+import kiinse.plugins.darkwaterapi.api.commands.DarkCommand;
+import kiinse.plugins.darkwaterapi.api.commands.SubCommand;
 import kiinse.plugins.darkwaterapi.api.files.messages.Message;
 import kiinse.plugins.darkwaterapi.api.files.messages.MessagesUtils;
-import kiinse.plugins.darkwaterapi.api.loader.DarkPluginManager;
-import kiinse.plugins.darkwaterapi.common.DarkWaterAPI;
+import kiinse.plugins.darkwaterapi.api.loader.PluginManager;
 import kiinse.plugins.darkwaterapi.common.files.Replace;
-import kiinse.plugins.darkwaterapi.core.utilities.PlayerUtils;
+import kiinse.plugins.darkwaterapi.core.files.messages.DarkMessagesUtils;
+import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -37,51 +39,58 @@ import org.jetbrains.annotations.NotNull;
 import java.util.logging.Level;
 
 @SuppressWarnings("unused")
-public class DarkWaterCommands implements CommandClass {
+@Command(command = "darkwater")
+public class DarkWaterCommands implements DarkCommand {
 
-    private final DarkWaterAPI darkWaterAPI = DarkWaterAPI.getInstance();
-    private final DarkPluginManager pluginManager = darkWaterAPI.getPluginManager();
-    private final MessagesUtils messagesUtils = darkWaterAPI.getMessagesUtils(darkWaterAPI);
+    private final DarkWaterJavaPlugin plugin;
+    private final PluginManager pluginManager;
+    private final MessagesUtils messagesUtils;
+
+    public DarkWaterCommands(@NotNull DarkWaterJavaPlugin plugin) {
+        this.plugin = plugin;
+        this.pluginManager = plugin.getDarkWaterAPI().getPluginManager();
+        this.messagesUtils = new DarkMessagesUtils(plugin);
+    }
 
     @Override
-    @Command(command = "/darkwater reload", permission = "darkwater.reload", parameters = 1)
-    public void mainCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+    @SubCommand(command = "reload", permission = "darkwater.reload", parameters = 1)
+    public void command(@NotNull CommandSender sender, @NotNull String[] args) {
         if (hasPlugin(sender, args[0])) {
             try {
                 pluginManager.reloadPlugin(args[0]);
                 messagesUtils.sendMessageWithPrefix(sender, Message.PLUGIN_RELOADED, Replace.PLUGIN, args[0]);
-                PlayerUtils.playSound(sender, Sound.BLOCK_AMETHYST_BLOCK_HIT);
+                DarkPlayerUtils.playSound(sender, Sound.BLOCK_AMETHYST_BLOCK_HIT);
             } catch (Exception e) {
                 messagesUtils.sendMessageWithPrefix(sender, Message.PLUGIN_ERROR);
-                darkWaterAPI.sendLog(Level.SEVERE, "Error on plugin '" + args[0] + "' reload! Message: " + e.getMessage());
+                plugin.sendLog(Level.SEVERE, "Error on plugin '" + args[0] + "' reload! Message: " + e.getMessage());
             }
         }
     }
 
-    @Command(command = "/darkwater enable", permission = "darkwater.enable", parameters = 1)
+    @SubCommand(command = "enable", permission = "darkwater.enable", parameters = 1)
     public void enable(@NotNull CommandSender sender, @NotNull String[] args) {
         if (hasPlugin(sender, args[0])) {
             try {
                 pluginManager.enablePlugin(args[0]);
                 messagesUtils.sendMessageWithPrefix(sender, Message.PLUGIN_ENABLED, Replace.PLUGIN, args[0]);
-                PlayerUtils.playSound(sender, Sound.BLOCK_AMETHYST_BLOCK_HIT);
+                DarkPlayerUtils.playSound(sender, Sound.BLOCK_AMETHYST_BLOCK_HIT);
             } catch (Exception e) {
                 messagesUtils.sendMessageWithPrefix(sender, Message.PLUGIN_ERROR);
-                darkWaterAPI.sendLog(Level.SEVERE, "Error on plugin '" + args[0] + "' enable! Message: " + e.getMessage());
+                plugin.sendLog(Level.SEVERE, "Error on plugin '" + args[0] + "' enable! Message: " + e.getMessage());
             }
         }
     }
 
-    @Command(command = "/darkwater disable", permission = "darkwater.disable", parameters = 1)
+    @SubCommand(command = "disable", permission = "darkwater.disable", parameters = 1)
     public void disable(@NotNull CommandSender sender, @NotNull String[] args) {
         if (hasPlugin(sender, args[0])) {
             try {
                 pluginManager.disablePlugin(args[0]);
                 messagesUtils.sendMessageWithPrefix(sender, Message.PLUGIN_DISABLED, Replace.PLUGIN, args[0]);
-                PlayerUtils.playSound(sender, Sound.BLOCK_AMETHYST_BLOCK_HIT);
+                DarkPlayerUtils.playSound(sender, Sound.BLOCK_AMETHYST_BLOCK_HIT);
             } catch (Exception e) {
                 messagesUtils.sendMessageWithPrefix(sender, Message.PLUGIN_ERROR);
-                darkWaterAPI.sendLog(Level.SEVERE, "Error on plugin '" + args[0] + "' disable! Message: " + e.getMessage());
+                plugin.sendLog(Level.SEVERE, "Error on plugin '" + args[0] + "' disable! Message: " + e.getMessage());
             }
         }
     }
@@ -89,7 +98,7 @@ public class DarkWaterCommands implements CommandClass {
     private boolean hasPlugin(@NotNull CommandSender sender, @NotNull String plugin) {
         if (!pluginManager.hasPlugin(plugin)) {
             messagesUtils.sendMessageWithPrefix(sender, Message.PLUGIN_NOT_FOUND, Replace.PLUGIN, plugin);
-            PlayerUtils.playSound(sender, Sound.ENTITY_PLAYER_ATTACK_NODAMAGE);
+            DarkPlayerUtils.playSound(sender, Sound.ENTITY_PLAYER_ATTACK_NODAMAGE);
             return false;
         }
         return true;

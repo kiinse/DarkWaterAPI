@@ -22,7 +22,7 @@
 
 package kiinse.plugins.darkwaterapi.api.files.messages;
 
-import kiinse.plugins.darkwaterapi.api.exceptions.exceptions.JsonFileException;
+import kiinse.plugins.darkwaterapi.api.exceptions.JsonFileException;
 import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -43,6 +43,4 @@ public interface Messages {
     @NotNull HashMap<String, JSONObject> getAllMessages();
 
     @NotNull String getPrefix(@NotNull Locale locale);
-
-    @NotNull String colorize(@NotNull String message);
 }

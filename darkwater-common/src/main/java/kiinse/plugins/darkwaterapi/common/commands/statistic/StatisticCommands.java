@@ -22,26 +22,33 @@
 
 package kiinse.plugins.darkwaterapi.common.commands.statistic;
 
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.commands.Command;
-import kiinse.plugins.darkwaterapi.api.commands.CommandClass;
+import kiinse.plugins.darkwaterapi.api.commands.DarkCommand;
 import kiinse.plugins.darkwaterapi.api.files.messages.Message;
 import kiinse.plugins.darkwaterapi.api.files.messages.MessagesUtils;
-import kiinse.plugins.darkwaterapi.common.DarkWaterAPI;
+import kiinse.plugins.darkwaterapi.api.files.statistic.StatisticManager;
 import kiinse.plugins.darkwaterapi.common.files.Replace;
-import kiinse.plugins.darkwaterapi.core.utilities.DarkWaterUtils;
-import kiinse.plugins.darkwaterapi.core.utilities.PlayerUtils;
+import kiinse.plugins.darkwaterapi.core.files.messages.DarkMessagesUtils;
+import kiinse.plugins.darkwaterapi.core.utilities.DarkUtils;
+import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-public class StatisticCommands implements CommandClass {
+public class StatisticCommands implements DarkCommand {
 
-    private final DarkWaterAPI darkWaterAPI = DarkWaterAPI.getInstance();
-    private final MessagesUtils messagesUtils = darkWaterAPI.getMessagesUtils(darkWaterAPI);
+    private final MessagesUtils messagesUtils;
+    private final StatisticManager darkWaterStatistic;
+
+    public StatisticCommands(@NotNull DarkWaterJavaPlugin plugin) {
+        this.messagesUtils = new DarkMessagesUtils(plugin);
+        this.darkWaterStatistic = plugin.getDarkWaterAPI().getDarkWaterStatistic();
+    }
 
     @Override
-    @Command(command = "/statistic", permission = "darkwater.statistic", disallowNonPlayer = true)
-    public void mainCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        var stats = darkWaterAPI.getDarkWaterStatistic().getPlayerStatistic(PlayerUtils.getPlayer(sender)).getAllStatistic();
+    @Command(command = "statistic", permission = "darkwater.statistic", disallowNonPlayer = true)
+    public void command(@NotNull CommandSender sender, @NotNull String[] args) {
+        var stats = darkWaterStatistic.getPlayerStatistic(DarkPlayerUtils.getPlayer(sender)).getAllStatistic();
         String msg;
         if (!stats.isEmpty()) {
             var message = new StringBuilder();
@@ -52,6 +59,6 @@ public class StatisticCommands implements CommandClass {
         } else {
             msg = "&a&lN/A";
         }
-        messagesUtils.sendMessage(sender, Message.STATISTIC, Replace.STATISTIC, DarkWaterUtils.colorize(msg));
+        messagesUtils.sendMessage(sender, Message.STATISTIC, Replace.STATISTIC, DarkUtils.colorize(msg));
     }
 }

@@ -22,7 +22,7 @@
 
 package kiinse.plugins.darkwaterapi.common.initialize;
 
-import kiinse.plugins.darkwaterapi.common.DarkWaterAPI;
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.common.placeholders.LocaleExpansion;
 import kiinse.plugins.darkwaterapi.common.placeholders.StatisticExpansion;
 import org.bukkit.Bukkit;
@@ -33,25 +33,25 @@ import java.util.logging.Level;
 
 public class LoadAPI {
 
-    public LoadAPI(@NotNull DarkWaterAPI darkWaterAPI) {
-        darkWaterAPI.sendLog("Registering PlaceHolderAPI...");
+    public LoadAPI(@NotNull DarkWaterJavaPlugin plugin) {
+        plugin.sendLog("Registering PlaceHolderAPI...");
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
-            darkWaterAPI.sendLog(Level.WARNING, "PlaceHolderAPI not found! The indicators above the toolbar are &cdisabled&6.");
+            plugin.sendLog(Level.WARNING, "PlaceHolderAPI not found! The indicators above the toolbar are &cdisabled&6.");
         } else {
             Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PlaceholderAPI")).getLogger().setLevel(Level.WARNING);
-            var localeExpansion = new LocaleExpansion(darkWaterAPI);
+            var localeExpansion = new LocaleExpansion(plugin);
             if (!localeExpansion.isRegistered()) {
                 localeExpansion.register();
-                darkWaterAPI.sendLog("Locale expansion registered");
+                plugin.sendLog("Locale expansion registered");
             } else {
-                darkWaterAPI.sendLog("&6Locale expansion already registered");
+                plugin.sendLog("&6Locale expansion already registered");
             }
-            var statisticExpansion = new StatisticExpansion(darkWaterAPI);
+            var statisticExpansion = new StatisticExpansion(plugin);
             if (!statisticExpansion.isRegistered()) {
                 statisticExpansion.register();
-                darkWaterAPI.sendLog("Statistic expansion registered");
+                plugin.sendLog("Statistic expansion registered");
             } else {
-                darkWaterAPI.sendLog("&6Statistic expansion already registered");
+                plugin.sendLog("&6Statistic expansion already registered");
             }
         }
     }

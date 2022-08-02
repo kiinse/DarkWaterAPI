@@ -23,7 +23,7 @@
 package kiinse.plugins.darkwaterapi.api.files.filemanager;
 
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
-import kiinse.plugins.darkwaterapi.api.exceptions.exceptions.JsonFileException;
+import kiinse.plugins.darkwaterapi.api.exceptions.JsonFileException;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 

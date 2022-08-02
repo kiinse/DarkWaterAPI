@@ -1,0 +1,95 @@
+name: DarkWaterAPI
+version: '${version}'
+main: kiinse.plugins.darkwaterapi.plugin.DarkWaterAPI
+api-version: 1.18
+prefix: DarkWaterAPI
+softdepend: [PlaceholderAPI]
+authors: [kiinse]
+description: Plugin library
+website: https://kiinse.me
+commands:
+  locale:
+    description: Return your locale
+    permission: locale.change
+    usage: /<command> change
+  locale change:
+    description: Change your locale by GUI
+    permission: locale.change
+    usage: /<command> change
+  locale help:
+    description: Help command
+    permission: locale.help
+    usage: /<command> [help]
+  locale set:
+    description: Sets locale
+    permission: locale.change
+    usage: /<command> [set] %locale%
+  locale list:
+    description: Gets a list of localizations
+    permission: locale.list
+    usage: /<command> [list]
+  locale get:
+    description: Gets player locale
+    permission: locale.get
+    usage: /<command> [get] %player%
+  darkwater:
+    description: darkwater command
+    permission: darkwater.reload
+    usage: /<command>
+  darkwater reload:
+    description: Reload plugins
+    permission: darkwater.reload
+    usage: /<command> [reload] %plugin%
+  darkwater enable:
+    description: Enable plugins
+    permission: darkwater.enable
+    usage: /<command> [enable] %plugin%
+  darkwater disable:
+    description: Disable plugins
+    permission: darkwater.disable
+    usage: /<command> [disable] %plugin%
+  statistic:
+    description: Return your statistic
+    permission: darkwater.statistic
+    usage: /<command>
+permissions:
+  darkwater.statistic:
+    description: Allows /statistic command
+    default: op
+  darkwater.reload:
+    description: Allows /darkwater reload %plugin% command
+    default: op
+  darkwater.enable:
+    description: Allows /darkwater enable %plugin% command
+    default: op
+  darkwater.disable:
+    description: Allows /darkwater disable %plugin% command
+    default: op
+  locale.get:
+    description: Allows /locale get %player% command
+    default: op
+  locale.change:
+    description: Allows /locale command
+    default: op
+  locale.list:
+    description: Allows /locale list command
+    default: op
+  locale.help:
+    description: Allows /locale help command
+    default: op
+  locale.*:
+    description: All perms
+    default: op
+    children:
+      locale.list: true
+      locale.change: true
+      locale.help: true
+      locale.get: true
+  darkwater.*:
+    description: All perms
+    default: op
+    children:
+      darkwater.statistic: true
+      darkwater.reload: true
+      darkwater.enable: true
+      darkwater.disable: true

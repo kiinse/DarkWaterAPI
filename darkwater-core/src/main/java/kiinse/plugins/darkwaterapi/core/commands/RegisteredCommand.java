@@ -22,9 +22,9 @@
 
 package kiinse.plugins.darkwaterapi.core.commands;
 
-import kiinse.plugins.darkwaterapi.api.commands.Command;
 import kiinse.plugins.darkwaterapi.api.commands.DarkRegisteredCommand;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
 
@@ -34,23 +34,24 @@ public final class RegisteredCommand implements DarkRegisteredCommand {
 
     private final Method method;
 
-    private final Command annotation;
+    private final Object annotation;
 
-    RegisteredCommand(@NotNull Method method, @NotNull Object instance, @NotNull Command annotation) {
+
+    RegisteredCommand(@Nullable Method method, @NotNull Object instance, @Nullable Object annotation) {
         this.method = method;
         this.instance = instance;
         this.annotation = annotation;
     }
 
-    public @NotNull Command getAnnotation() {
+    public Object getAnnotation() {
         return annotation;
     }
 
-    public @NotNull Method getMethod() {
+    public Method getMethod() {
         return method;
     }
 
-    public @NotNull Object getInstance() {
+    public Object getInstance() {
         return instance;
     }
 }

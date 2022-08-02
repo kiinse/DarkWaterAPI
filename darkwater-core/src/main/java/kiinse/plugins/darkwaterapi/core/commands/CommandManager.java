@@ -22,18 +22,18 @@
 
 package kiinse.plugins.darkwaterapi.core.commands;
 
-import kiinse.plugins.darkwaterapi.api.commands.Command;
-import kiinse.plugins.darkwaterapi.api.commands.CommandClass;
-import kiinse.plugins.darkwaterapi.api.commands.CommandFailureHandler;
-import kiinse.plugins.darkwaterapi.api.commands.CommandFailReason;
-import kiinse.plugins.darkwaterapi.api.exceptions.exceptions.CommandException;
+import kiinse.plugins.darkwaterapi.api.commands.*;
+import kiinse.plugins.darkwaterapi.api.exceptions.CommandException;
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,8 +44,9 @@ public class CommandManager implements CommandExecutor {
 
     private final DarkWaterJavaPlugin plugin;
     private final CommandFailureHandler failureHandler;
-
-    private final Map<String, RegisteredCommand> registeredCommandTable = new HashMap<>();
+    private final Map<String, RegisteredCommand> registeredSubCommandTable = new HashMap<>();
+    private final Map<String, RegisteredCommand> registeredMainCommandTable = new HashMap<>();
+    private final Map<DarkCommand, String> mainCommandTable = new HashMap<>();
 
     /**
      * Commands manager
@@ -56,24 +57,24 @@ public class CommandManager implements CommandExecutor {
         failureHandler = plugin.getDarkWaterAPI().getCommandFailureHandler();
     }
 
+    public CommandManager(@NotNull DarkWaterJavaPlugin plugin, @NotNull FailureHandler failureHandler) {
+        this.plugin = plugin;
+        this.failureHandler = failureHandler;
+    }
+
+
     /**
      * Registration class commands
-     * @param commandClass A class that inherits from CommandClass and contains command methods {@link CommandClass}
+     * @param darkCommand A class that inherits from CommandClass and contains command methods {@link DarkCommand}
      */
-    public @NotNull CommandManager registerCommands(@NotNull CommandClass commandClass) throws CommandException {
-        for (var method : commandClass.getClass().getMethods()) {
-            var annotation = method.getAnnotation(Command.class);
-            if (annotation != null) {
-                var command = annotation.command().split(" ")[0].substring(1);
-                var pluginCommand = plugin.getServer().getPluginCommand(command);
-                if (pluginCommand == null) {
-                    throw new CommandException("Unable to register command command '" + command + "'. Did you put it in plugin.yml?");
-                } else {
-                    pluginCommand.setExecutor(this);
-                    registeredCommandTable.put(annotation.command().substring(1), new RegisteredCommand(method, commandClass, annotation));
-                    plugin.sendLog(Level.CONFIG, "Command '&d" + annotation.command().substring(1) + "&6' registered!");
-                }
-            }
+    public @NotNull CommandManager registerCommand(@NotNull DarkCommand darkCommand) throws CommandException {
+        if (isClassMainCommand(darkCommand)) {
+            mainCommandTable.put(darkCommand, registerMainCommand(darkCommand));
+        } else {
+            mainCommandTable.put(darkCommand, registerMainCommand(darkCommand, getMainCommandMethod(darkCommand)));
+        }
+        for (var method : darkCommand.getClass().getMethods()) {
+            registerSubCommand(darkCommand, method);
         }
         return this;
     }
@@ -83,49 +84,146 @@ public class CommandManager implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
-        var sb = new StringBuilder();
-
-        for (int i = -1; i <= args.length - 1; i++) {
-
-            if (i == -1) {
-                sb.append(command.getName().toLowerCase());
-            } else {
-                sb.append(" ").append(args[i].toLowerCase());
-            }
-
-            for (var usage : registeredCommandTable.entrySet()) {
-                if (usage.getKey().equals(sb.toString())) {
-                    var wrapper = usage.getValue();
-                    var annotation = wrapper.getAnnotation();
-                    var actualParams = Arrays.copyOfRange(args, annotation.command().split(" ").length - 1, args.length);
-                    if (!(sender instanceof Player) && annotation.disallowNonPlayer()) {
-                        failureHandler.handleFailure(CommandFailReason.NOT_PLAYER, sender, wrapper);
-                        return false;
-                    }
-                    if (!annotation.permission().equals("") && !sender.hasPermission(annotation.permission())) {
-                        failureHandler.handleFailure(CommandFailReason.NO_PERMISSION, sender, wrapper);
-                        return false;
-                    }
-                    if (actualParams.length != annotation.parameters() && !annotation.overrideParameterLimit()) {
-                        if (actualParams.length > annotation.parameters()) {
-                            failureHandler.handleFailure(CommandFailReason.REDUNDANT_PARAMETER, sender, wrapper);
-                        } else {
-                            failureHandler.handleFailure(CommandFailReason.INSUFFICIENT_PARAMETER, sender, wrapper);
+        if (args.length == 0) {
+            for (var usage : registeredMainCommandTable.entrySet()) {
+                var wrapper = usage.getValue();
+                if (wrapper.getMethod() != null) {
+                    var annotation = (Command) wrapper.getAnnotation();
+                    if (annotation != null && annotation.command().equals(command.getName().toLowerCase())) {
+                        if (isDisAllowNonPlayer(wrapper, sender, annotation.disallowNonPlayer())) {
+                            return true;
                         }
-                        return false;
-                    }
-                    try {
-                        wrapper.getMethod().invoke(wrapper.getInstance(), sender, actualParams);
+                        if (hasNotPermissions(wrapper, sender, annotation.permission())) {
+                            return true;
+                        }
+                        try {
+                            wrapper.getMethod().invoke(wrapper.getInstance(), sender, args);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            failureHandler.handleFailure(CommandFailReason.REFLECTION_ERROR, sender, wrapper);
+                            plugin.sendLog(Level.WARNING, "Error on command usage! Message: " + e.getMessage());
+                        }
                         return true;
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        failureHandler.handleFailure(CommandFailReason.REFLECTION_ERROR, sender, wrapper);
-                        plugin.sendLog(Level.WARNING, "Error on command usage! Message: " + e.getMessage());
                     }
-                    return true;
+                }
+            }
+        } else {
+            var sb = new StringBuilder(command.getName().toLowerCase());
+            for (var argument : args) {
+                sb.append(" ").append(argument.toLowerCase());
+                for (var usage : registeredSubCommandTable.entrySet()) {
+                    if (usage.getKey().equals(sb.toString())) {
+                        var wrapper = usage.getValue();
+                        var annotation = (SubCommand) wrapper.getAnnotation();
+                        if (annotation != null) {
+                            var actualParams = Arrays.copyOfRange(args, annotation.command().split(" ").length, args.length);
+                            if (isDisAllowNonPlayer(wrapper, sender, annotation.disallowNonPlayer())) {
+                                return true;
+                            }
+                            if (hasNotPermissions(wrapper, sender, annotation.permission())) {
+                                return true;
+                            }
+                            if (actualParams.length != annotation.parameters() && !annotation.overrideParameterLimit()) {
+                                if (actualParams.length > annotation.parameters()) {
+                                    failureHandler.handleFailure(CommandFailReason.REDUNDANT_PARAMETER, sender, wrapper);
+                                } else {
+                                    failureHandler.handleFailure(CommandFailReason.INSUFFICIENT_PARAMETER, sender, wrapper);
+                                }
+                                return true;
+                            }
+                            try {
+                                wrapper.getMethod().invoke(wrapper.getInstance(), sender, actualParams);
+                            } catch (IllegalAccessException | InvocationTargetException e) {
+                                failureHandler.handleFailure(CommandFailReason.REFLECTION_ERROR, sender, wrapper);
+                                plugin.sendLog(Level.WARNING, "Error on command usage! Message: " + e.getMessage());
+                            }
+                            return true;
+                        }
+                    }
                 }
             }
         }
         failureHandler.handleFailure(CommandFailReason.COMMAND_NOT_FOUND, sender, null);
         return true;
+    }
+
+    private @NotNull String registerMainCommand(@NotNull DarkCommand commandClass, @NotNull Method method) throws CommandException {
+        var mainCommand = method.getAnnotation(Command.class);
+        var command = mainCommand.command();
+        register(commandClass, method, plugin.getServer().getPluginCommand(command), command, mainCommand, true);
+        return command;
+    }
+
+    private @NotNull String registerMainCommand(@NotNull DarkCommand darkCommand) throws CommandException {
+        var mainCommand = darkCommand.getClass().getAnnotation(Command.class);
+        var command = mainCommand.command();
+        register(darkCommand, plugin.getServer().getPluginCommand(command), mainCommand);
+        return command;
+    }
+
+    private void registerSubCommand(@NotNull DarkCommand commandClass, @NotNull Method method) throws CommandException {
+        var annotation = method.getAnnotation(SubCommand.class);
+        var mainCommand = mainCommandTable.get(commandClass);
+        if (annotation != null && !annotation.command().equals(mainCommand)) {
+            var cmd = mainCommand + " " + annotation.command();
+            register(commandClass, method, plugin.getServer().getPluginCommand(cmd), cmd, annotation, false);
+        }
+    }
+
+    private void register(@NotNull DarkCommand commandClass, @NotNull Method method, @Nullable PluginCommand pluginCommand, @NotNull String command, @NotNull Object annotation, boolean isMainCommand) throws CommandException {
+        register(pluginCommand, command);
+        if (isMainCommand) {
+            registeredMainCommandTable.put(command, new RegisteredCommand(method, commandClass, annotation));
+        } else {
+            registeredSubCommandTable.put(command, new RegisteredCommand(method, commandClass, annotation));
+        }
+        plugin.sendLog(Level.CONFIG, "Command '&d" + command + "&6' registered!");
+    }
+
+    private void register(@NotNull DarkCommand commandClass, @Nullable PluginCommand pluginCommand, @NotNull Command annotation) throws CommandException {
+        var command = annotation.command();
+        register(pluginCommand, command);
+        registeredMainCommandTable.put(command, new RegisteredCommand(null, commandClass, annotation));
+    }
+
+    private void register(@Nullable PluginCommand pluginCommand, @NotNull String command)  throws CommandException {
+        if (registeredSubCommandTable.containsKey(command) || registeredMainCommandTable.containsKey(command)) {
+            throw new CommandException("Command '" + command + "' already registered!");
+        }
+        if (pluginCommand == null) {
+            throw new CommandException("Unable to register command command '" + command + "'. Did you put it in plugin.yml?");
+        }
+        pluginCommand.setExecutor(this);
+    }
+
+    private @NotNull Method getMainCommandMethod(@NotNull DarkCommand darkCommand) throws CommandException {
+        for (var method : darkCommand.getClass().getMethods()) {
+            var mainAnnotation = method.getAnnotation(Command.class);
+            if (mainAnnotation != null) {
+                return method;
+            }
+        }
+        var name = darkCommand.getClass().getName().split("\\.");
+        throw new CommandException("Main command in class '" + name[name.length-1]  + "' not found!");
+    }
+
+    private boolean isClassMainCommand(@NotNull DarkCommand darkCommand) {
+        var annotation = darkCommand.getClass().getAnnotation(Command.class);
+        return annotation != null;
+    }
+
+    private boolean isDisAllowNonPlayer(@NotNull RegisteredCommand wrapper, @NotNull CommandSender sender, boolean disalowNonPlayer) {
+        if (!(sender instanceof Player) && disalowNonPlayer) {
+            failureHandler.handleFailure(CommandFailReason.NOT_PLAYER, sender, wrapper);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean hasNotPermissions(@NotNull RegisteredCommand wrapper, @NotNull CommandSender sender, String permission) {
+        if (!permission.equals("") && !sender.hasPermission(permission)) {
+            failureHandler.handleFailure(CommandFailReason.NO_PERMISSION, sender, wrapper);
+            return true;
+        }
+        return false;
     }
 }

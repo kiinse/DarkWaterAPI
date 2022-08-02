@@ -1,10 +1,12 @@
 plugins {
+    id 'signing'
     id 'java'
+    id 'maven-publish'
 }
 
 group = 'kiinse.plugins.darkwaterapi'
 description = 'darkwater-core'
-version = '3.0.0-alpha.1'
+version = '3.0.0-alpha.2'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -13,6 +15,39 @@ repositories {
     maven { url = uri('https://repo.extendedclip.com/content/repositories/placeholderapi/') }
     maven { url = uri('https://repo.maven.apache.org/maven2/') }
     maven { url = uri('https://hub.spigotmc.org/nexus/content/repositories/snapshots/') }
+    maven { url = uri('https://libraries.minecraft.net/')}
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "KiinseRepository"
+            url = isSnapshot() ? "https://repo.kiinse.me/snapshots" : "https://repo.kiinse.me/releases"
+            credentials {
+                username System.getenv("USERNAME")
+                password System.getenv("TOKEN")
+            }
+            authentication {basic(BasicAuthentication)}
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
+
+tasks.withType(Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {} from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+def isSnapshot() {
+    return version.contains("beta") || version.contains("alpha") || version.contains("rc") || version.contains("SNAPSHOT")
 }
 
 dependencies {
@@ -23,8 +58,10 @@ dependencies {
     implementation 'org.jetbrains:annotations:23.0.0'
     implementation 'org.apache.httpcomponents:httpclient:4.5.13'
 
-    compileOnly project(":darkwater-api")
+
+    implementation project(":darkwater-api")
 
     compileOnly 'org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT'
     compileOnly 'me.clip:placeholderapi:2.10.9'
+    compileOnly 'com.mojang:authlib:1.5.21'
 }

@@ -22,10 +22,10 @@
 
 package kiinse.plugins.darkwaterapi.common.commands.locale;
 
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.files.locale.LocaleStorage;
-import kiinse.plugins.darkwaterapi.common.DarkWaterAPI;
 import kiinse.plugins.darkwaterapi.common.utilities.Permission;
-import kiinse.plugins.darkwaterapi.core.utilities.PlayerUtils;
+import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -39,32 +39,36 @@ import java.util.List;
 
 public class LocaleTab implements TabCompleter {
 
-    private final LocaleStorage storage = DarkWaterAPI.getInstance().getLocaleStorage();
+    private final LocaleStorage storage;
+
+    public LocaleTab(@NotNull DarkWaterJavaPlugin plugin) {
+        this.storage = plugin.getDarkWaterAPI().getLocaleStorage();
+    }
 
     public @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String commandLabel, @NotNull String[] args) {
         var list = new ArrayList<String>();
         if (sender instanceof Player && cmd.getName().equalsIgnoreCase("locale")) {
             if (args.length == 1) {
-                if (PlayerUtils.hasPermission(sender, Permission.LOCALE_HELP)) {
+                if (DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_HELP)) {
                     list.add("help");
                 }
-                if (PlayerUtils.hasPermission(sender, Permission.LOCALE_LIST)) {
+                if (DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_LIST)) {
                     list.add("list");
                 }
-                if (PlayerUtils.hasPermission(sender, Permission.LOCALE_GET)) {
+                if (DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_GET)) {
                     list.add("get");
                 }
-                if (PlayerUtils.hasPermission(sender, Permission.LOCALE_CHANGE)) {
+                if (DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_CHANGE)) {
                     list.add("change");
                     list.add("set");
                 }
             } else if (args.length == 2) {
-                if (args[0].equals("set") && PlayerUtils.hasPermission(sender, Permission.LOCALE_CHANGE)) {
+                if (args[0].equals("set") && DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_CHANGE)) {
                     list.addAll(storage.getAllowedLocalesListString());
                 }
-                if (args[0].equals("get") && PlayerUtils.hasPermission(sender, Permission.LOCALE_GET)) {
+                if (args[0].equals("get") && DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_GET)) {
                     for (var player : Bukkit.getOnlinePlayers()) {
-                        list.add(PlayerUtils.getPlayerName(player));
+                        list.add(DarkPlayerUtils.getPlayerName(player));
                     }
                 }
             }

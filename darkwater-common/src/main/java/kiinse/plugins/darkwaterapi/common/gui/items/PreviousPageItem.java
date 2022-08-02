@@ -22,11 +22,11 @@
 
 package kiinse.plugins.darkwaterapi.common.gui.items;
 
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
 import kiinse.plugins.darkwaterapi.api.files.messages.Message;
 import kiinse.plugins.darkwaterapi.api.gui.GuiAction;
 import kiinse.plugins.darkwaterapi.api.gui.GuiItem;
-import kiinse.plugins.darkwaterapi.common.DarkWaterAPI;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -35,8 +35,8 @@ public class PreviousPageItem implements GuiItem {
     private final String name;
     private final GuiAction action;
 
-    public PreviousPageItem(@NotNull DarkWaterAPI darkWaterAPI, @NotNull Locale locale, @NotNull GuiAction action) {
-        this.name = darkWaterAPI.getMessages().getStringMessage(locale, Message.GUI_PREVIOUS_PAGE);
+    public PreviousPageItem(@NotNull DarkWaterJavaPlugin plugin, @NotNull Locale locale, @NotNull GuiAction action) {
+        this.name = plugin.getMessages().getStringMessage(locale, Message.GUI_PREVIOUS_PAGE);
         this.action = action;
     }
 

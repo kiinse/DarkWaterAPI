@@ -23,7 +23,7 @@
 package kiinse.plugins.darkwaterapi.api.files.filemanager;
 
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
-import kiinse.plugins.darkwaterapi.api.exceptions.exceptions.YamlFileException;
+import kiinse.plugins.darkwaterapi.api.exceptions.YamlFileException;
 import kiinse.plugins.darkwaterapi.api.files.enums.Config;
 import kiinse.plugins.darkwaterapi.api.files.enums.File;
 import org.bukkit.configuration.file.YamlConfiguration;

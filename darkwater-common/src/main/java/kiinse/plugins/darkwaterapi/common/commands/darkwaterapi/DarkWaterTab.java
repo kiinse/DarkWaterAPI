@@ -22,10 +22,10 @@
 
 package kiinse.plugins.darkwaterapi.common.commands.darkwaterapi;
 
-import kiinse.plugins.darkwaterapi.api.loader.DarkPluginManager;
-import kiinse.plugins.darkwaterapi.common.DarkWaterAPI;
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
+import kiinse.plugins.darkwaterapi.api.loader.PluginManager;
 import kiinse.plugins.darkwaterapi.common.utilities.Permission;
-import kiinse.plugins.darkwaterapi.core.utilities.PlayerUtils;
+import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -38,19 +38,23 @@ import java.util.List;
 
 public class DarkWaterTab implements TabCompleter {
 
-    private final DarkPluginManager pluginManager = DarkWaterAPI.getInstance().getPluginManager();
+    private final PluginManager pluginManager;
+
+    public DarkWaterTab(@NotNull DarkWaterJavaPlugin plugin) {
+        this.pluginManager = plugin.getDarkWaterAPI().getPluginManager();
+    }
 
     public @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String commandLabel, @NotNull String[] args) {
         var list = new ArrayList<String>();
         if (sender instanceof Player && cmd.getName().equalsIgnoreCase("darkwater")) {
             if (args.length == 1) {
-                if (PlayerUtils.hasPermission(sender, Permission.DARKWATER_RELOAD)) {
+                if (DarkPlayerUtils.hasPermission(sender, Permission.DARKWATER_RELOAD)) {
                     list.add("reload");
                 }
-                if (PlayerUtils.hasPermission(sender, Permission.DARKWATER_DISABLE)) {
+                if (DarkPlayerUtils.hasPermission(sender, Permission.DARKWATER_DISABLE)) {
                     list.add("disable");
                 }
-                if (PlayerUtils.hasPermission(sender, Permission.DARKWATER_ENABLE)) {
+                if (DarkPlayerUtils.hasPermission(sender, Permission.DARKWATER_ENABLE)) {
                     list.add("enable");
                 }
             } else if (args.length == 2 && hasSenderPermissionsToPluginList(sender)) {
@@ -64,6 +68,6 @@ public class DarkWaterTab implements TabCompleter {
     }
 
     private boolean hasSenderPermissionsToPluginList(@NotNull CommandSender sender) {
-        return PlayerUtils.hasPermission(sender, Permission.DARKWATER_RELOAD) || PlayerUtils.hasPermission(sender, Permission.DARKWATER_DISABLE) || PlayerUtils.hasPermission(sender, Permission.DARKWATER_ENABLE);
+        return DarkPlayerUtils.hasPermission(sender, Permission.DARKWATER_RELOAD) || DarkPlayerUtils.hasPermission(sender, Permission.DARKWATER_DISABLE) || DarkPlayerUtils.hasPermission(sender, Permission.DARKWATER_ENABLE);
     }
 }

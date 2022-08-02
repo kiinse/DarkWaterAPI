@@ -23,7 +23,7 @@
 package kiinse.plugins.darkwaterapi.api.indicators;
 
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
-import kiinse.plugins.darkwaterapi.api.exceptions.exceptions.IndicatorException;
+import kiinse.plugins.darkwaterapi.api.exceptions.IndicatorException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

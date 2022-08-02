@@ -27,7 +27,7 @@ import kiinse.plugins.darkwaterapi.api.indicators.IndicatorManager;
 import kiinse.plugins.darkwaterapi.api.schedulers.Scheduler;
 import kiinse.plugins.darkwaterapi.api.schedulers.SchedulerData;
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
-import kiinse.plugins.darkwaterapi.core.utilities.PlayerUtils;
+import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
@@ -51,8 +51,8 @@ public class IndicatorSchedule extends Scheduler {
     @Override
     public void run() {
         for (var player : Bukkit.getOnlinePlayers()) {
-            if (PlayerUtils.isSurvivalAdventure(player)) {
-                PlayerUtils.sendActionBar(player, PlaceholderAPI.setPlaceholders(player, indicators.getIndicators()));
+            if (DarkPlayerUtils.isSurvivalAdventure(player)) {
+                DarkPlayerUtils.sendActionBar(player, PlaceholderAPI.setPlaceholders(player, indicators.getIndicators()));
             }
         }
     }

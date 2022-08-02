@@ -22,15 +22,15 @@
 
 package kiinse.plugins.darkwaterapi.common.listeners;
 
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.files.enums.Config;
 import kiinse.plugins.darkwaterapi.api.files.filemanager.YamlFile;
-import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
 import kiinse.plugins.darkwaterapi.api.files.locale.PlayerLocales;
 import kiinse.plugins.darkwaterapi.api.files.messages.MessagesUtils;
-import kiinse.plugins.darkwaterapi.common.DarkWaterAPI;
 import kiinse.plugins.darkwaterapi.api.files.messages.Message;
 import kiinse.plugins.darkwaterapi.common.files.Replace;
-import kiinse.plugins.darkwaterapi.core.utilities.PlayerUtils;
+import kiinse.plugins.darkwaterapi.core.files.messages.DarkMessagesUtils;
+import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -43,26 +43,33 @@ import java.util.logging.Level;
 
 public class OnJoinListener implements Listener {
 
-    private final DarkWaterAPI darkWaterAPI = DarkWaterAPI.getInstance();
-    private final PlayerLocales locales = darkWaterAPI.getPlayerLocales();
-    private final YamlFile config = darkWaterAPI.getConfiguration();
-    private final MessagesUtils messagesUtils = darkWaterAPI.getMessagesUtils(darkWaterAPI);
+    private final DarkWaterJavaPlugin plugin;
+    private final PlayerLocales locales;
+    private final YamlFile config;
+    private final MessagesUtils messagesUtils;
+
+    public OnJoinListener(@NotNull DarkWaterJavaPlugin plugin) {
+        this.plugin = plugin;
+        this.config = plugin.getConfiguration();
+        messagesUtils = new DarkMessagesUtils(plugin);
+        this.locales = plugin.getDarkWaterAPI().getPlayerLocales();
+    }
 
     @EventHandler
     public void onJoin(@NotNull PlayerJoinEvent event) {
-        Bukkit.getScheduler().runTaskLater(darkWaterAPI, () -> setLocales(event.getPlayer()), 200);
+        Bukkit.getScheduler().runTaskLater(plugin, () -> setLocales(event.getPlayer()), 200);
     }
 
     private void setLocales(@NotNull Player player) {
-        var interfaceLocale = locales.getPlayerInterfaceLocale(player);
-        if (!locales.isPlayerLocalized(player)) {
-            locales.setPlayerLocale(player, interfaceLocale);
+        var interfaceLocale = locales.getInterfaceLocale(player);
+        if (!locales.isLocalized(player)) {
+            locales.setLocale(player, interfaceLocale);
             if (config.getBoolean(Config.FIRST_JOIN_MESSAGE)) {
                 messagesUtils.sendMessage(player, Message.FIRST_JOIN, Replace.LOCALE, interfaceLocale.toString());
-                PlayerUtils.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
+                DarkPlayerUtils.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
             }
-            darkWaterAPI.sendLog(Level.CONFIG, "The player &d" + PlayerUtils.getPlayerName(player) + "&6 has been added to the plugin. His language is defined as " + interfaceLocale);
+            plugin.sendLog(Level.CONFIG, "The player &d" + DarkPlayerUtils.getPlayerName(player) + "&6 has been added to the plugin. His language is defined as " + interfaceLocale);
         }
-        darkWaterAPI.sendLog(Level.CONFIG, "Player &d" + PlayerUtils.getPlayerName(player) + "&6 joined. His locale is " + locales.getPlayerLocale(player));
+        plugin.sendLog(Level.CONFIG, "Player &d" + DarkPlayerUtils.getPlayerName(player) + "&6 joined. His locale is " + locales.getLocale(player));
     }
 }

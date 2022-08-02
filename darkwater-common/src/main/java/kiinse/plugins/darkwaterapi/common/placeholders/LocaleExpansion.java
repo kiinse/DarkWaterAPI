@@ -22,7 +22,7 @@
 
 package kiinse.plugins.darkwaterapi.common.placeholders;
 
-import kiinse.plugins.darkwaterapi.common.DarkWaterAPI;
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -30,13 +30,13 @@ import org.jetbrains.annotations.Nullable;
 
 public class LocaleExpansion extends PlaceholderExpansion {
 
-    private final DarkWaterAPI darkWaterAPI;
+    private final DarkWaterJavaPlugin plugin;
 
     // %locale_player%
     // %locale_list%
 
-    public LocaleExpansion(@NotNull DarkWaterAPI darkWaterAPI){
-        this.darkWaterAPI = darkWaterAPI;
+    public LocaleExpansion(@NotNull DarkWaterJavaPlugin plugin){
+        this.plugin = plugin;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class LocaleExpansion extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getAuthor(){
-        return darkWaterAPI.getDescription().getAuthors().get(0);
+        return plugin.getDescription().getAuthors().get(0);
     }
 
 
@@ -58,7 +58,7 @@ public class LocaleExpansion extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion(){
-        return darkWaterAPI.getDescription().getVersion();
+        return plugin.getDescription().getVersion();
     }
 
     @Override
@@ -67,8 +67,8 @@ public class LocaleExpansion extends PlaceholderExpansion {
             return "";
         }
         return switch (identifier) {
-            case "player" -> darkWaterAPI.getPlayerLocales().getPlayerLocale(player).toString();
-            case "list" -> darkWaterAPI.getLocaleStorage().getAllowedLocalesString();
+            case "player" -> plugin.getDarkWaterAPI().getPlayerLocales().getLocale(player).toString();
+            case "list" -> plugin.getDarkWaterAPI().getLocaleStorage().getAllowedLocalesString();
             default -> null;
         };
     }
