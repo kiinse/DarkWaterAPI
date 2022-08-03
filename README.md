@@ -4,7 +4,7 @@
 </h1>
 
 <p align="center">
-  <b>A library for <code>PaperMC 1.18 and above</code> that aims to improve plugin code</b><br><br>
+  <b>A library for <code>SpigotMC 1.18 and above</code> that aims to improve plugin code</b><br><br>
 
   <a href="https://app.codacy.com/gh/kiinse/DarkWaterAPI/dashboard">
     <img src="https://app.codacy.com/project/badge/Grade/04669f7c982b4ec8ba4783493dfb1ca9" alt="codacy"/>
@@ -78,8 +78,8 @@ The latest version can be downloaded on the <a href="https://github.com/kiinse/D
 
 <dependencies>
   <dependency>
-    <groupId>kiinse.plugins.api</groupId>
-    <artifactId>DarkWaterAPI</artifactId>
+    <groupId>kiinse.plugins.darkwaterapi</groupId>
+    <artifactId>darkwater-core</artifactId>
     <version>ENTER_VERSION_HERE</version>
     <scope>provided</scope>
   </dependency>
@@ -96,7 +96,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'kiinse.plugins.api:DarkWaterAPI:ENTER_VERSION_HERE'
+    compileOnly 'kiinse.plugins.darkwaterapi:darkwater-core:ENTER_VERSION_HERE'
 }
 ```
 
@@ -136,7 +136,7 @@ public final class TestPlugin extends DarkWaterJavaPlugin { // Main class
     }
 
     private void sendMessageToPlayer(Player player) {
-        MessagesUtils messagesUtils = new MessagesUtilsImpl(this);
+        MessagesUtils messagesUtils = new DarkMessagesUtils(this);
         messagesUtils.sendMessageWithPrefix(player, Message.MESSAGE_HELLO); // We send to player the message "message_hello" from the json file.
         // This text will correspond to the selected localization of the player.
     }

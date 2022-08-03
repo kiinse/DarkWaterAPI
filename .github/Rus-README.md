@@ -4,7 +4,7 @@
 </h1>
 
 <p align="center">
-  <b>Библиотека для <code>PaperMC 1.18 и выше</code>, которая направлена на улучшение кода и производительности плагинов</b><br><br>
+  <b>Библиотека для <code>SpigotMC 1.18 и выше</code>, которая направлена на улучшение кода и производительности плагинов</b><br><br>
 
   <a href="https://app.codacy.com/gh/kiinse/DarkWaterAPI/dashboard">
     <img src="https://app.codacy.com/project/badge/Grade/04669f7c982b4ec8ba4783493dfb1ca9" alt="codacy"/>
@@ -77,8 +77,8 @@
 
 <dependencies>
   <dependency>
-    <groupId>kiinse.plugins.api</groupId>
-    <artifactId>DarkWaterAPI</artifactId>
+    <groupId>kiinse.plugins.darkwaterapi</groupId>
+    <artifactId>darkwater-core</artifactId>
     <version>ЗДЕСЬ_УКАЗАТЬ_ВЕРСИЮ</version>
     <scope>provided</scope>
   </dependency>
@@ -95,7 +95,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'kiinse.plugins.api:DarkWaterAPI:ЗДЕСЬ_УКАЗАТЬ_ВЕРСИЮ'
+    compileOnly 'kiinse.plugins.darkwaterapi:darkwater-core:ЗДЕСЬ_УКАЗАТЬ_ВЕРСИЮ'
 }
 ```
 
@@ -129,11 +129,11 @@ public final class TestPlugin extends DarkWaterJavaPlugin { // Main class
 
     @Override
     public void onStop() throws Exception {
-        // Код при выключениие
+        // Код при выключении
     }
 
     private void sendMessageToPlayer(Player player) {
-        MessagesUtils messagesUtils = new MessagesUtilsImpl(this);
+        MessagesUtils messagesUtils = new DarkMessagesUtils(this);
         messagesUtils.sendMessageWithPrefix(player, Message.MESSAGE_HELLO); // Отправляем игроку строку "message_hello" из json файлов с локализациями.
         // Определение языка игрока и из какого файла будет использована строка с текстом определяется автоматически.
     }
@@ -180,7 +180,7 @@ public final class TestPlugin extends DarkWaterJavaPlugin { // Main class
 
 | Placeholder                                             | Описание                                            |
 |---------------------------------------------------------|-----------------------------------------------------|
-| %statistic_PUT-HERE-MOB% (Example: %statistic_CREEPER%) | Отображает количество убитого моба                  |
+| %statistic_НАЗВАНИЕ-МОБА% (Пример: %statistic_CREEPER%) | Отображает количество убитого моба игроком          |
 | %locale_player%                                         | Отображает выбранный язык                           |
 | %locale_list%                                           | Отображает список всех языков, доступных для выбора |
 
