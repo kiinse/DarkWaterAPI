@@ -30,6 +30,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class MoveListener implements Listener {
 
     @EventHandler
@@ -37,7 +39,7 @@ public class MoveListener implements Listener {
         var player = event.getPlayer();
         if (!player.isInsideVehicle()) {
             MoveSchedule.getNotMovingMap().put(event.getPlayer().getUniqueId(), 0);
-            if (!player.isClimbing() && !player.isFlying() && !player.isSwimming() && event.getFrom().getY() < event.getTo().getY() && event.getPlayer().getLocation().subtract(0, 1, 0).getBlock().getType() != Material.AIR) {
+            if (!player.isClimbing() && !player.isFlying() && !player.isSwimming() && event.getFrom().getY() < Objects.requireNonNull(event.getTo()).getY() && event.getPlayer().getLocation().subtract(0, 1, 0).getBlock().getType() != Material.AIR) {
                 JumpSchedule.getJumpingMap().put(event.getPlayer().getUniqueId(), 0);
             }
         }

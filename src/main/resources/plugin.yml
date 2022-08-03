@@ -10,8 +10,8 @@ website: https://kiinse.me
 commands:
   locale:
     description: Return your locale
-    permission: locale.change
-    usage: /<command> change
+    permission: locale.status
+    usage: /<command>
   locale change:
     description: Change your locale by GUI
     permission: locale.change

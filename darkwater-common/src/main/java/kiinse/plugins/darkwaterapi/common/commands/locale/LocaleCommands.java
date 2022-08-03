@@ -59,9 +59,9 @@ public class LocaleCommands implements DarkCommand {
     }
 
     @Override
-    @Command(command = "locale", permission = "locale.help", disallowNonPlayer = true)
+    @Command(command = "locale", permission = "locale.status", disallowNonPlayer = true)
     public void command(@NotNull CommandSender sender, @NotNull String[] args) {
-        messagesUtils.sendMessage(sender, Message.INFO_COMMAND);
+        messagesUtils.sendMessage(sender, Message.STATUS_COMMAND, Replace.LOCALE, locales.getLocale(sender).toString());
         DarkPlayerUtils.playSound(sender, Sound.BLOCK_AMETHYST_BLOCK_HIT);
     }
 

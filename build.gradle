@@ -6,7 +6,7 @@ plugins {
 
 group = 'kiinse.plugins.darkwaterapi'
 description = 'DarkWaterAPI'
-version = '3.0.0-alpha.2'
+version = '3.0.0-beta.1'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {

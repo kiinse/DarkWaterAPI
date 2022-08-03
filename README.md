@@ -168,6 +168,7 @@ File "ru.json":
 
 | Command                     | Permission          | Description                                   |
 |-----------------------------|---------------------|-----------------------------------------------|
+| /locale                     | locale.status       | Displays your current location                |
 | /locale change              | locale.change       | Opens a GUI to change the selected language   |
 | /locale help                | locale.help         | Help command                                  |
 | /locale set [locale]        | locale.change       | Setting the language without opening the GUI  |

@@ -211,8 +211,8 @@ public class CommandManager implements CommandExecutor {
         return annotation != null;
     }
 
-    private boolean isDisAllowNonPlayer(@NotNull RegisteredCommand wrapper, @NotNull CommandSender sender, boolean disalowNonPlayer) {
-        if (!(sender instanceof Player) && disalowNonPlayer) {
+    private boolean isDisAllowNonPlayer(@NotNull RegisteredCommand wrapper, @NotNull CommandSender sender, boolean disAllowNonPlayer) {
+        if (!(sender instanceof Player) && disAllowNonPlayer) {
             failureHandler.handleFailure(CommandFailReason.NOT_PLAYER, sender, wrapper);
             return true;
         }

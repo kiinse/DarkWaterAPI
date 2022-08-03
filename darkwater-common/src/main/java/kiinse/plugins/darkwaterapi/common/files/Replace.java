@@ -30,7 +30,6 @@ public enum Replace implements ReplaceKeys {
     LOCALES,
     PLAYER,
     PAGE,
-    CODE,
     STATISTIC,
     PLUGIN
 }

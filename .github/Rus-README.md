@@ -165,8 +165,9 @@ public final class TestPlugin extends DarkWaterJavaPlugin { // Main class
 
 | Команда                     | Права               | Описание                                              |
 |-----------------------------|---------------------|-------------------------------------------------------|
+| /locale                     | locale.status       | Отображает текущую локализацию                        |
 | /locale change              | locale.change       | Открывает GUI для выбора языка                        |
-| /locale help                | locale.help         | Команад помощи                                        |
+| /locale help                | locale.help         | Команда помощи                                        |
 | /locale set [locale]        | locale.change       | Устанавливает язык без открытия GUI                   |
 | /locale list                | locale.list         | Список языков, доступных для установки                |
 | /locale get [player]        | locale.get          | Просмотр языка игрока                                 |

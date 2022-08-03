@@ -31,6 +31,5 @@ public enum Permission implements PermissionsKeys {
     LOCALE_HELP,
     DARKWATER_RELOAD,
     DARKWATER_ENABLE,
-    DARKWATER_DISABLE,
-    DARKWATER_STATISTIC
+    DARKWATER_DISABLE
 }
