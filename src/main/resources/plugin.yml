@@ -1,6 +1,6 @@
 name: DarkWaterAPI
 version: '${version}'
-main: kiinse.plugins.api.darkwaterapi.DarkWaterAPI
+main: kiinse.plugins.darkwaterapi.plugin.DarkWaterAPI
 api-version: 1.18
 prefix: DarkWaterAPI
 softdepend: [PlaceholderAPI]
@@ -10,8 +10,8 @@ website: https://kiinse.me
 commands:
   locale:
     description: Return your locale
-    permission: locale.change
-    usage: /<command> change
+    permission: locale.status
+    usage: /<command>
   locale change:
     description: Change your locale by GUI
     permission: locale.change

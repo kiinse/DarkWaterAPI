@@ -4,35 +4,29 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'kiinse.plugins.api'
+group = 'kiinse.plugins.darkwaterapi'
 description = 'DarkWaterAPI'
-version = '2.3.0'
+version = '3.0.0'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
-    maven { url = uri('https://repo.papermc.io/repository/maven-public/') }
     maven { url = uri('https://oss.sonatype.org/content/groups/public/') }
     maven { url = uri('https://repo.extendedclip.com/content/repositories/placeholderapi/') }
     maven { url = uri('https://repo.maven.apache.org/maven2/') }
-    maven { url = uri('https://repo.papermc.io/repository/maven-public/') }
+    maven { url = uri('https://hub.spigotmc.org/nexus/content/repositories/snapshots/') }
 }
 
 dependencies {
     implementation 'com.vdurmont:semver4j:3.1.0'
-    implementation 'commons-codec:commons-codec:1.15'
-    implementation 'org.jooq:jooq:3.16.6'
-    implementation 'org.jooq:jooq-meta:3.16.6'
-    implementation 'org.jooq:jooq-codegen:3.16.6'
-    implementation 'commons-io:commons-io:2.11.0'
-    implementation 'org.postgresql:postgresql:42.3.6'
-    implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'org.json:json:20220320'
-    implementation 'org.springframework:spring-core:5.3.20'
-    implementation 'com.auth0:java-jwt:4.0.0'
     implementation 'org.jetbrains:annotations:23.0.0'
-    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
-    compileOnly 'io.papermc.paper:paper-api:1.19.1-R0.1-SNAPSHOT'
+
+    implementation project(":darkwater-api")
+    implementation project(":darkwater-core")
+    implementation project(":darkwater-common")
+
+    compileOnly 'org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT'
     compileOnly 'me.clip:placeholderapi:2.10.9'
 }
 
@@ -58,7 +52,7 @@ publishing {
 tasks.withType(Jar) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
-        attributes["Main-Class"] = "kiinse.plugins.api.darkwaterapi.DarkWaterAPI"
+        attributes["Main-Class"] = "kiinse.plugins.darkwaterapi.common.DarkWaterAPI"
     }
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
 }
@@ -67,6 +61,11 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
+def isSnapshot() {
+    return version.contains("beta") || version.contains("alpha") || version.contains("rc") || version.contains("SNAPSHOT")
+}
+
+
 processResources {
     def props = [version: version]
     inputs.properties props
@@ -74,8 +73,4 @@ processResources {
     filesMatching('plugin.yml') {
         expand props
     }
-}
-
-def isSnapshot() {
-    return version.contains("beta") || version.contains("alpha") || version.contains("rc") || version.contains("SNAPSHOT")
 }

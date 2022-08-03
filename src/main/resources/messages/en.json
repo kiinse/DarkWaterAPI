@@ -26,6 +26,5 @@
   "gui_current_page": "&6Current Page: {PAGE}",
   "gui_next_page": "&aNext page",
   "gui_previous_page": "&aPrevious page",
-  "generated_code": "&d&l----&b&lDARKWATERAPI&d&l----\n\n<COPY={CODE}::&b&lYour code:\n&7{CODE}>&a&nClick here to copy the code</COPY>\n\n",
   "statistic": "\n&2Statistic\n&b-------------------------\n&a{STATISTIC}"
 }

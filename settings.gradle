@@ -1,1 +1,3 @@
 rootProject.name = 'DarkWaterAPI'
+
+include 'darkwater-common', 'darkwater-api', 'darkwater-core'

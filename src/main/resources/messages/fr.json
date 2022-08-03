@@ -26,6 +26,5 @@
   "gui_current_page": "&6Page actuelle: {PAGE}",
   "gui_next_page": "&aPage suivante",
   "gui_previous_page": "&aPage précédente",
-  "generated_code": "&d&l----&b&lDARKWATERAPI&d&l----\n\n<COPY={CODE}::&b&lVotre code :\n&7{CODE}>&a&nCliquez ici pour copier le code</COPY>\n\n " ,
   "statistic": "\n&2Statistiques\n&b------------------------------\n&a{STATISTIC}"
 }
