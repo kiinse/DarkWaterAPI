@@ -1,0 +1,10 @@
+ &c|====================================UPDATE====================================
+ &c|
+ &c| &6New version of &fDarkWaterAPI &6found: '&a{NEW_VERSION}&6'! Your version is '&c{CURRENT_VERSION}&6'
+ &c| &6You can download this version from the link below:
+ &c| &bhttps://github.com/kiinse/DarkWaterAPI/releases/tag/v{NEW_VERSION}
+ &c|
+ &c| &6You can &cdisable&6 DarkWaterAPI version checking by entering
+ &c| &6the line '&7disable.version.check: &atrue&6' in the config
+ &c|
+ &c|==============================================================================

@@ -25,11 +25,12 @@ package kiinse.plugins.darkwaterapi.core.utilities;
 import com.vdurmont.semver4j.Semver;
 import kiinse.plugins.darkwaterapi.api.exceptions.VersioningException;
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.cookie.StandardCookieSpec;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.core5.http.ParseException;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
@@ -41,11 +42,11 @@ public class DarkVersionUtils {
     public static @NotNull Semver getLatestGithubVersion(@NotNull String url) throws VersioningException {
         try {
             var request = new HttpGet((url.endsWith("/") ? url.substring(0, url.length()-1) : url) + "/releases/latest");
-            var httpClient = HttpClientBuilder.create().setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build()).build();
+            var httpClient = HttpClientBuilder.create().setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(StandardCookieSpec.STRICT).build()).build();
             request.addHeader("Accept", "application/json");
             var result = new JSONObject(EntityUtils.toString(httpClient.execute(request).getEntity(), "UTF-8")).getString("tag_name");
             return new Semver(result.startsWith("v") ? result.substring(1) : result);
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             throw new VersioningException("Failed to get the latest version from '" + url + "'", e);
         }
     }

@@ -56,9 +56,14 @@ import kiinse.plugins.darkwaterapi.core.schedulers.DarkSchedulersManager;
 import kiinse.plugins.darkwaterapi.core.schedulers.darkwater.IndicatorSchedule;
 import kiinse.plugins.darkwaterapi.core.schedulers.darkwater.JumpSchedule;
 import kiinse.plugins.darkwaterapi.core.schedulers.darkwater.MoveSchedule;
+import kiinse.plugins.darkwaterapi.core.utilities.DarkUtils;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkVersionUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Objects;
 import java.util.logging.Level;
 
 @SuppressWarnings({"unused"})
@@ -139,21 +144,23 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWater
                 if (!latest.isGreaterThan(new Semver(getDescription().getVersion()))) {
                     sendLog("Latest version of DarkWaterAPI installed, no new versions found =3");
                 } else {
-                    sendConsole(" &c|====================================UPDATE====================================");
-                    sendConsole(" &c| ");
-                    sendConsole(" &c| &6New version of DarkWaterAPI found: '&b" + latest.getOriginalValue() + "&6'! Your version is '&b" + getDescription().getVersion() + "&6'");
-                    sendConsole(" &c| &6You can download it at &bhttps://github.com/kiinse/DarkWaterAPI/releases");
-                    sendConsole(" &c| ");
-                    sendConsole(" &c| &6You can &cdisable&6 DarkWaterAPI version checking by entering the line '&bdisable.version.check: true&6' in the &bconfig");
-                    sendConsole(" &c| ");
-                    sendConsole(" &c|==============================================================================");
+                    var reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("version-message.txt"))));
+                    var builder = new StringBuilder("\n");
+                    while (reader.ready()) {
+                        builder.append(reader.readLine()).append("\n");
+                    }
+                    sendConsole(DarkUtils.replaceWord(builder.toString(), new String[] {
+                            "{NEW_VERSION}:" + latest.getOriginalValue(),
+                            "{CURRENT_VERSION}:" + getDescription().getVersion()
+                    }));
                 }
-            } catch (VersioningException e) {
+            } catch (IOException | VersioningException e) {
                 sendLog(Level.WARNING, "Error checking DarkWaterAPI version! Message: " + e.getMessage());
             }
         }
     }
 
+    @Override
     public @NotNull LocaleStorage getLocaleStorage() {
         return localeStorage;
     }
@@ -163,10 +170,12 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWater
         return locales;
     }
 
+    @Override
     public @NotNull Messages getMessages(@NotNull DarkWaterJavaPlugin plugin) throws JsonFileException {
         return new DarkMessages(plugin);
     }
 
+    @Override
     public @NotNull MessagesUtils getMessagesUtils(@NotNull DarkWaterJavaPlugin plugin) {
         return new DarkMessagesUtils(plugin);
     }
