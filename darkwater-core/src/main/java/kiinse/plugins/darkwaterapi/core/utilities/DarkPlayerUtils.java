@@ -30,6 +30,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -126,6 +127,27 @@ public class DarkPlayerUtils {
 
     public static boolean isPoisoned(@NotNull CommandSender sender) {
         return getPlayer(sender).hasPotionEffect(PotionEffectType.POISON);
+    }
+
+    public static boolean isInRain(@NotNull Player player) {
+        var world = player.getWorld();
+        var block = world.getHighestBlockAt(player.getLocation());
+        return !world.isClearWeather() && block.getLocation().getY() > player.getLocation().getY() && block.getType() == Material.AIR;
+    }
+
+    public static boolean isInRain(@NotNull CommandSender sender) {
+        var player = getPlayer(sender);
+        var world = player.getWorld();
+        var block = world.getHighestBlockAt(player.getLocation());
+        return !world.isClearWeather() && block.getLocation().getY() > player.getLocation().getY() && block.getType() == Material.AIR;
+    }
+
+    public static boolean isInLava(@NotNull Player player) {
+        return player.getLocation().getBlock().getType() == Material.LAVA;
+    }
+
+    public static boolean isInLava(@NotNull CommandSender sender) {
+        return getPlayer(sender).getLocation().getBlock().getType() == Material.LAVA;
     }
 
     public static void playSound(@NotNull CommandSender sender, @NotNull Sound sound, float v, float v1) {
