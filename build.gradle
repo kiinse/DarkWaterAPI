@@ -6,7 +6,7 @@ plugins {
 
 group = 'kiinse.plugins.darkwaterapi'
 description = 'DarkWaterAPI'
-version = '3.0.0'
+version = '3.0.1'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -64,7 +64,6 @@ tasks.withType(JavaCompile) {
 def isSnapshot() {
     return version.contains("beta") || version.contains("alpha") || version.contains("rc") || version.contains("SNAPSHOT")
 }
-
 
 processResources {
     def props = [version: version]

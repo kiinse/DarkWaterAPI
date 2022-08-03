@@ -89,7 +89,7 @@ public class CommandManager implements CommandExecutor {
                 var wrapper = usage.getValue();
                 if (wrapper.getMethod() != null) {
                     var annotation = (Command) wrapper.getAnnotation();
-                    if (annotation != null && annotation.command().equals(command.getName().toLowerCase())) {
+                    if (annotation != null && annotation.command().equalsIgnoreCase(command.getName())) {
                         if (isDisAllowNonPlayer(wrapper, sender, annotation.disallowNonPlayer())) {
                             return true;
                         }
