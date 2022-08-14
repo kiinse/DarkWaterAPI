@@ -93,7 +93,6 @@ public class DarkUtils {
             return Bukkit.getScheduler().runTask(plugin, task);
         }
     }
-
     public static long getTaskSpeed(@NotNull Runnable task) {
         var prevTime = System.currentTimeMillis();
         task.run();
@@ -125,7 +124,7 @@ public class DarkUtils {
     }
 
     public static @NotNull String getRandomASCII(int length) {
-        return RandomStringUtils.randomAscii(length).replace(">", "").replace("<", "").replace(":", "");
+        return RandomStringUtils.randomAscii(length);
     }
 
     public static @NotNull String generateJwtToken(@NotNull String user, @NotNull RSAPrivateKey key, int expiresInHours) {

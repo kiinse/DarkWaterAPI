@@ -66,6 +66,10 @@ Please **don't** open an issue just for the sake of questions.
 
 The latest version can be downloaded on the <a href="https://github.com/kiinse/DarkWaterAPI/releases">releases page.</a><br>
 
+## Installation
+
+In order for DarkWaterAPI to work, it must be placed in the **plugins folder**.
+
 ### Maven
 
 ```xml
@@ -108,7 +112,7 @@ dependencies {
 
 <b>Since all examples are on WIKI, I will give a small example of working with messages here.</b>
 
-In the resources folder, we create a "messages" folder, where we also create several localization files. For example en.json and ru.json. We get the following structure:
+In the resources folder create a "messages" folder, where also create several localization files. For example en.json and ru.json. The result is the following structure:
 
 ```txt
 .
