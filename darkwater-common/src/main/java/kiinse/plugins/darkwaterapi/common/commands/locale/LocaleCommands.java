@@ -35,8 +35,8 @@ import kiinse.plugins.darkwaterapi.api.files.messages.MessagesUtils;
 import kiinse.plugins.darkwaterapi.common.files.Replace;
 import kiinse.plugins.darkwaterapi.common.gui.LocaleGUI;
 import kiinse.plugins.darkwaterapi.core.files.messages.DarkMessagesUtils;
-import kiinse.plugins.darkwaterapi.core.utilities.DarkUtils;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
+import kiinse.plugins.darkwaterapi.core.utilities.DarkUtils;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -59,13 +59,17 @@ public class LocaleCommands implements DarkCommand {
     }
 
     @Override
-    @Command(command = "locale", permission = "locale.status", disallowNonPlayer = true)
+    @Command(command = "locale",
+             permission = "locale.status",
+             disallowNonPlayer = true)
     public void command(@NotNull CommandSender sender, @NotNull String[] args) {
         messagesUtils.sendMessage(sender, Message.STATUS_COMMAND, Replace.LOCALE, locales.getLocale(sender).toString());
         DarkPlayerUtils.playSound(sender, Sound.BLOCK_AMETHYST_BLOCK_HIT);
     }
 
-    @SubCommand(command = "change", permission = "locale.change", disallowNonPlayer = true)
+    @SubCommand(command = "change",
+                permission = "locale.change",
+                disallowNonPlayer = true)
     public void change(@NotNull CommandSender sender, @NotNull String[] args) {
         var senderLocale = locales.getLocale(sender);
         DarkPlayerUtils.playSound(sender, Sound.BLOCK_AMETHYST_BLOCK_STEP);
@@ -76,22 +80,29 @@ public class LocaleCommands implements DarkCommand {
                 .open(sender);
     }
 
-    @SubCommand(command = "help", permission = "locale.help", disallowNonPlayer = true)
+    @SubCommand(command = "help",
+                permission = "locale.help",
+                disallowNonPlayer = true)
     public void help(@NotNull CommandSender sender, @NotNull String[] args) {
         messagesUtils.sendMessage(sender, Message.INFO_COMMAND);
         DarkPlayerUtils.playSound(sender, Sound.BLOCK_AMETHYST_BLOCK_HIT);
     }
 
-    @SubCommand(command = "list", permission = "locale.list", disallowNonPlayer = true)
+    @SubCommand(command = "list",
+                permission = "locale.list",
+                disallowNonPlayer = true)
     public void list(@NotNull CommandSender sender, @NotNull String[] args) {
         messagesUtils.sendMessageWithPrefix(sender, Message.LOCALES_LIST, Replace.LOCALES, storage.getAllowedLocalesString());
         DarkPlayerUtils.playSound(sender, Sound.BLOCK_AMETHYST_BLOCK_HIT);
     }
 
-    @SubCommand(command = "set", permission = "locale.change", parameters = 1, disallowNonPlayer = true)
+    @SubCommand(command = "set",
+                permission = "locale.change",
+                parameters = 1,
+                disallowNonPlayer = true)
     public void set(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args[0].isEmpty() || !storage.isAllowedLocale(Locale.valueOf(args[0].toLowerCase()))) {
-            messagesUtils.sendMessageWithPrefix(sender, Message.LOCALE_NOT_FOUND, new String[] {
+            messagesUtils.sendMessageWithPrefix(sender, Message.LOCALE_NOT_FOUND, new String[]{
                     "{LOCALE}:" + (args[1].isEmpty() ? "NaN" : args[0].toLowerCase()),
                     "{LOCALES}:" + storage.getAllowedLocalesString()
             });
@@ -103,16 +114,19 @@ public class LocaleCommands implements DarkCommand {
         }
     }
 
-    @SubCommand(command = "get", permission = "locale.get", parameters = 1, disallowNonPlayer = true)
+    @SubCommand(command = "get",
+                permission = "locale.get",
+                parameters = 1,
+                disallowNonPlayer = true)
     public void get(@NotNull CommandSender sender, @NotNull String[] args) {
         var player = DarkPlayerUtils.getPlayer(args[0]);
         if (player == null) {
             messagesUtils.sendMessageWithPrefix(sender, Message.PLAYER_NOT_FOUND, Replace.PLAYER, args[0]);
             DarkPlayerUtils.playSound(sender, Sound.ENTITY_PLAYER_ATTACK_NODAMAGE);
         } else {
-            messagesUtils.sendMessageWithPrefix(sender, Message.GET_COMMAND, new String[] {
-                "{PLAYER}:" + args[0],
-                "{LOCALE}:" + locales.getLocale(player)
+            messagesUtils.sendMessageWithPrefix(sender, Message.GET_COMMAND, new String[]{
+                    "{PLAYER}:" + args[0],
+                    "{LOCALE}:" + locales.getLocale(player)
             });
             DarkPlayerUtils.playSound(sender, Sound.BLOCK_AMETHYST_BLOCK_HIT);
         }

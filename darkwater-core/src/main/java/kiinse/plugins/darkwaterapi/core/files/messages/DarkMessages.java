@@ -22,14 +22,14 @@
 
 package kiinse.plugins.darkwaterapi.core.files.messages;
 
-import kiinse.plugins.darkwaterapi.api.files.enums.Directory;
-import kiinse.plugins.darkwaterapi.api.files.messages.Message;
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.exceptions.JsonFileException;
+import kiinse.plugins.darkwaterapi.api.files.enums.Directory;
 import kiinse.plugins.darkwaterapi.api.files.filemanager.FilesManager;
 import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
+import kiinse.plugins.darkwaterapi.api.files.messages.Message;
 import kiinse.plugins.darkwaterapi.api.files.messages.Messages;
 import kiinse.plugins.darkwaterapi.api.files.messages.MessagesKeys;
-import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -70,14 +70,16 @@ public class DarkMessages extends FilesManager implements Messages {
         for (var file : listFilesInDirectory(Directory.MESSAGES)) {
             var locale = file.getName().split("\\.")[0];
             if (!locales.contains(locale)) {
-                plugin.sendLog(Level.WARNING, "Found localization file for language '&c" + locale + "&6' which is not loaded in &bDarkWaterAPI&6. This file will &cnot&6 be loaded into memory.");
+                plugin.sendLog(Level.WARNING,
+                               "Found localization file for language '&c" + locale + "&6' which is not loaded in &bDarkWaterAPI&6. This file will &cnot&6 be loaded into memory.");
             } else {
                 messages.put(locale, getJsonFromFile(file));
             }
         }
         for (var locale : darkWaterApi.getLocaleStorage().getAllowedLocalesList()) {
             if (!isContainsLocale(locale)) {
-                plugin.sendLog(Level.WARNING, "&cNo localization file found &6 for language '&c" + locale + "&6', which is available in &bDarkWaterAPI&6.");
+                plugin.sendLog(Level.WARNING,
+                               "&cNo localization file found &6for language '&c" + locale + "&6', which is available in &bDarkWaterAPI&6.");
             }
         }
         for (var entry : messages.entrySet()) {
@@ -85,7 +87,8 @@ public class DarkMessages extends FilesManager implements Messages {
             for (var entryKey : entry.getValue().keySet()) {
                 for (var checkingEntry : messages.entrySet()) {
                     if (!checkingEntry.getKey().equals(locale) && !checkingEntry.getValue().keySet().contains(entryKey)) {
-                        plugin.sendLog(Level.WARNING, "Key '&c" + entryKey + "&6' was not found in localization '&с" + checkingEntry.getKey() + "&6', which was found in localization '&с" + locale + "&6'!");
+                        plugin.sendLog(Level.WARNING,
+                                       "Key '&c" + entryKey + "&6' was not found in localization '&с" + checkingEntry.getKey() + "&6', which was found in localization '&с" + locale + "&6'!");
                     }
                 }
 

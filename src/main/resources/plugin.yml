@@ -3,8 +3,8 @@ version: '${version}'
 main: kiinse.plugins.darkwaterapi.plugin.DarkWaterAPI
 api-version: 1.18
 prefix: DarkWaterAPI
-softdepend: [PlaceholderAPI]
-authors: [kiinse]
+softdepend: [ PlaceholderAPI ]
+authors: [ kiinse ]
 description: Plugin library
 website: https://kiinse.me
 commands:

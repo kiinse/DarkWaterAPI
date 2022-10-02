@@ -6,7 +6,7 @@ plugins {
 
 group = 'kiinse.plugins.darkwaterapi'
 description = 'darkwater-common'
-version = '3.0.1'
+version = '3.0.3'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -23,7 +23,7 @@ dependencies {
     implementation 'org.jetbrains:annotations:23.0.0'
     compileOnly project(":darkwater-core")
     compileOnly project(":darkwater-api")
-    compileOnly 'org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'
     compileOnly 'me.clip:placeholderapi:2.10.9'
 }
 
@@ -36,7 +36,7 @@ publishing {
                 username System.getenv("USERNAME")
                 password System.getenv("TOKEN")
             }
-            authentication {basic(BasicAuthentication)}
+            authentication { basic(BasicAuthentication) }
         }
     }
     publications {

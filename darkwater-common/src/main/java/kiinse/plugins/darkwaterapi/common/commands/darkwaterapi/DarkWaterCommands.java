@@ -53,7 +53,9 @@ public class DarkWaterCommands implements DarkCommand {
     }
 
     @Override
-    @SubCommand(command = "reload", permission = "darkwater.reload", parameters = 1)
+    @SubCommand(command = "reload",
+                permission = "darkwater.reload",
+                parameters = 1)
     public void command(@NotNull CommandSender sender, @NotNull String[] args) {
         if (hasPlugin(sender, args[0])) {
             try {
@@ -67,7 +69,9 @@ public class DarkWaterCommands implements DarkCommand {
         }
     }
 
-    @SubCommand(command = "enable", permission = "darkwater.enable", parameters = 1)
+    @SubCommand(command = "enable",
+                permission = "darkwater.enable",
+                parameters = 1)
     public void enable(@NotNull CommandSender sender, @NotNull String[] args) {
         if (hasPlugin(sender, args[0])) {
             try {
@@ -81,7 +85,9 @@ public class DarkWaterCommands implements DarkCommand {
         }
     }
 
-    @SubCommand(command = "disable", permission = "darkwater.disable", parameters = 1)
+    @SubCommand(command = "disable",
+                permission = "darkwater.disable",
+                parameters = 1)
     public void disable(@NotNull CommandSender sender, @NotNull String[] args) {
         if (hasPlugin(sender, args[0])) {
             try {

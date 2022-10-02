@@ -22,14 +22,17 @@
 
 package kiinse.plugins.darkwaterapi.core.indicators;
 
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.exceptions.IndicatorException;
 import kiinse.plugins.darkwaterapi.api.indicators.Indicator;
 import kiinse.plugins.darkwaterapi.api.indicators.IndicatorManager;
-import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.logging.Level;
 
 public class DarkIndicatorManager implements IndicatorManager {
@@ -52,7 +55,9 @@ public class DarkIndicatorManager implements IndicatorManager {
         }
         if (hasPosition(indicator)) {
             var pos = getMaxPosition() + 1;
-            plugin.sendLog(Level.WARNING, "Indicator position &c" + indicator.getPosition() + " is already used by '&b" + Objects.requireNonNull(getIndicatorByPosition(indicator.getPosition())).getPlugin().getName() + "&6'\nUsing last position: &b" + pos);
+            plugin.sendLog(Level.WARNING,
+                           "Indicator position &c" + indicator.getPosition() + " is already used by '&b" + Objects.requireNonNull(
+                                   getIndicatorByPosition(indicator.getPosition())).getPlugin().getName() + "&6'\nUsing last position: &b" + pos);
             registerIndicator(plugin, Indicator.valueOf(indicator.getPlugin(), indicator.getName(), pos));
             setIndicatorListToConsole();
             return this;
@@ -69,7 +74,8 @@ public class DarkIndicatorManager implements IndicatorManager {
         for (int i = 0; i <= getMaxPosition(); i++) {
             var indicator = getIndicatorByPosition(i);
             if (indicator != null) {
-                mainPlugin.sendLog(Level.CONFIG, "Position: '&d" + j + "&6' (Registered &d" + i + "&6) | Indicator: '&d" + indicator.getName() + "&6' | Plugin: '&d" + indicator.getPlugin() + "&6'");
+                mainPlugin.sendLog(Level.CONFIG,
+                                   "Position: '&d" + j + "&6' (Registered &d" + i + "&6) | Indicator: '&d" + indicator.getName() + "&6' | Plugin: '&d" + indicator.getPlugin() + "&6'");
                 j++;
             }
         }

@@ -22,14 +22,16 @@
 
 package kiinse.plugins.darkwaterapi.core.loader;
 
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.exceptions.PluginException;
 import kiinse.plugins.darkwaterapi.api.loader.PluginManager;
-import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public class DarkPluginManager implements PluginManager {
 
@@ -110,7 +112,7 @@ public class DarkPluginManager implements PluginManager {
     @Override
     public void enablePlugin(@NotNull String plugin) throws PluginException {
         var plug = getPlugin(plugin);
-        if (!hasPlugin(plugin)|| plug == null) {
+        if (!hasPlugin(plugin) || plug == null) {
             throw new PluginException("This plugin '" + plugin + "' not found!");
         }
         if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {

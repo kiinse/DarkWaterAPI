@@ -22,6 +22,7 @@
 
 package kiinse.plugins.darkwaterapi.core.files.locale;
 
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.exceptions.JsonFileException;
 import kiinse.plugins.darkwaterapi.api.exceptions.LocaleException;
 import kiinse.plugins.darkwaterapi.api.files.enums.Config;
@@ -31,7 +32,6 @@ import kiinse.plugins.darkwaterapi.api.files.filemanager.FilesManager;
 import kiinse.plugins.darkwaterapi.api.files.filemanager.JsonFile;
 import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
 import kiinse.plugins.darkwaterapi.api.files.locale.LocaleStorage;
-import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;

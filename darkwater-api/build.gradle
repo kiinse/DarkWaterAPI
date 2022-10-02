@@ -6,7 +6,7 @@ plugins {
 
 group = 'kiinse.plugins.darkwaterapi'
 description = 'darkwater-api'
-version = '3.0.1'
+version = '3.0.3'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -20,14 +20,14 @@ repositories {
 dependencies {
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
-    implementation 'org.jooq:jooq:3.17.2'
-    implementation 'org.jooq:jooq-meta:3.16.7'
-    implementation 'org.jooq:jooq-codegen:3.16.7'
-    implementation 'org.postgresql:postgresql:42.3.6'
+    implementation 'org.jooq:jooq:3.17.4'
+    implementation 'org.jooq:jooq-meta:3.17.4'
+    implementation 'org.jooq:jooq-codegen:3.17.4'
+    implementation 'org.postgresql:postgresql:42.5.0'
     implementation 'org.json:json:20220320'
     implementation 'org.jetbrains:annotations:23.0.0'
-    implementation 'org.springframework:spring-core:5.3.22'
-    compileOnly 'org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT'
+    implementation 'org.springframework:spring-core:5.3.23'
+    compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'
 }
 
 publishing {
@@ -39,7 +39,7 @@ publishing {
                 username System.getenv("USERNAME")
                 password System.getenv("TOKEN")
             }
-            authentication {basic(BasicAuthentication)}
+            authentication { basic(BasicAuthentication) }
         }
     }
     publications {

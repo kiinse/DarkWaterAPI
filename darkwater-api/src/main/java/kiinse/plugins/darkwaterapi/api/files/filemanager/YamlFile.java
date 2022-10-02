@@ -37,8 +37,8 @@ import java.util.logging.Level;
 @SuppressWarnings("unused")
 public class YamlFile extends FilesManager {
 
-    private YamlConfiguration file;
     private final FilesKeys fileName;
+    private YamlConfiguration file;
 
     public YamlFile(@NotNull DarkWaterJavaPlugin plugin, @NotNull FilesKeys fileName) {
         super(plugin);
@@ -50,7 +50,8 @@ public class YamlFile extends FilesManager {
         try {
             checkVersion(plugin);
         } catch (YamlFileException e) {
-            plugin.sendLog(Level.WARNING, "An error occurred while copying the new version of the file '&c" + getFile(fileName).getName() + "&6'! Message: " + e.getMessage());
+            plugin.sendLog(Level.WARNING,
+                           "An error occurred while copying the new version of the file '&c" + getFile(fileName).getName() + "&6'! Message: " + e.getMessage());
         }
         plugin.sendLog("File '&b" + getFileName(fileName) + "&a' loaded");
     }
@@ -70,7 +71,8 @@ public class YamlFile extends FilesManager {
                 copyFile(fileName);
                 this.file = YamlConfiguration.loadConfiguration(getFile(fileName));
                 var cfgName = getFile(fileName).getName();
-                plugin.sendLog(Level.WARNING, "Version mismatch found for file '&c" + cfgName + "&6'. This file has been renamed to '&c" + getFile(oldCfg).getName() + "&6' and a new file '&c" + cfgName + "&6' has been created");
+                plugin.sendLog(Level.WARNING,
+                               "Version mismatch found for file '&c" + cfgName + "&6'. This file has been renamed to '&c" + getFile(oldCfg).getName() + "&6' and a new file '&c" + cfgName + "&6' has been created");
             } catch (Exception e) {
                 throw new YamlFileException(e);
             }

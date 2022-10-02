@@ -12,7 +12,7 @@
   "status_command": "&2Votre locale est &f&l{LOCALE}",
   "locale_changed": "&2Votre langue a été changée en: &f&l{LOCALE}",
   "locale_not_found": "&cLangue '&c&l{LOCALE}&c' introuvable! Vous ne pouvez sélectionner que &f&l{LOCALES}",
-  "info_command":"&b&l===== &6LOCALISATION &b&l=====\n<CMD=/locale change::&6Utiliser la commande>&2/locale change</CMD>&2 - définir la langue via l'interface graphique\n<CMD= /locale set::&6Utiliser la commande>&a/locale set</CMD>&a %locale% - définir la langue\n<CMD=/locale help::&6Utiliser la commande>&2/locale help</CMD>&2 - informations sur les commandes\n<CMD=/locale list::&6Utiliser la commande>&a/locale list</CMD>&a - liste des langues disponibles",
+  "info_command": "&b&l===== &6LOCALISATION &b&l=====\n<CMD=/locale change::&6Utiliser la commande>&2/locale change</CMD>&2 - définir la langue via l'interface graphique\n<CMD= /locale set::&6Utiliser la commande>&a/locale set</CMD>&a %locale% - définir la langue\n<CMD=/locale help::&6Utiliser la commande>&2/locale help</CMD>&2 - informations sur les commandes\n<CMD=/locale list::&6Utiliser la commande>&a/locale list</CMD>&a - liste des langues disponibles",
   "get_command": "&2Player &f&l{PLAYER}&2 a une langue définie sur &f&l{LOCALE}&2",
   "player_not_found": "&cPlayer '{PLAYER}' introuvable!",
   "first_join": "\n&b&l===== &6LOCALISATION &b&l=====\n&2Vos paramètres régionaux sont définis sur &f&l{LOCALE}&2.\n\n<CMD=/locale change::&6Change language>&aCliquez pour modifier ceci</CMD>\n\n",

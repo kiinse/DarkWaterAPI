@@ -23,8 +23,8 @@
 package kiinse.plugins.darkwaterapi.core.utilities;
 
 import com.vdurmont.semver4j.Semver;
-import kiinse.plugins.darkwaterapi.api.exceptions.VersioningException;
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
+import kiinse.plugins.darkwaterapi.api.exceptions.VersioningException;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.cookie.StandardCookieSpec;
@@ -41,6 +41,8 @@ import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public class DarkVersionUtils {
+
+    private DarkVersionUtils() {}
 
     public static @NotNull Semver getLatestGithubVersion(@NotNull String url) throws VersioningException {
         var version = getLatestGithubVersionAsString(url);
@@ -70,7 +72,7 @@ public class DarkVersionUtils {
 
     public static @NotNull String getLatestGithubVersionAsString(@NotNull String url) throws VersioningException {
         try {
-            var request = new HttpGet((url.endsWith("/") ? url.substring(0, url.length()-1) : url) + "/releases/latest");
+            var request = new HttpGet((url.endsWith("/") ? url.substring(0, url.length() - 1) : url) + "/releases/latest");
             var httpClient = HttpClientBuilder.create().setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(StandardCookieSpec.STRICT).build()).build();
             request.addHeader("Accept", "application/json");
             var result = new JSONObject(EntityUtils.toString(httpClient.execute(request).getEntity(), "UTF-8")).getString("tag_name");
@@ -91,7 +93,6 @@ public class DarkVersionUtils {
         }
         throw new VersioningException("Failed to get the latest version SpigotMC");
     }
-
 
     public static @NotNull Semver getPluginVersion(DarkWaterJavaPlugin plugin) {
         return new Semver(plugin.getDescription().getVersion());
@@ -136,6 +137,4 @@ public class DarkVersionUtils {
     public static boolean isSpigotVersionLowerOrEqualsPlugin(int pluginId, @NotNull DarkWaterJavaPlugin plugin) throws VersioningException {
         return getLatestSpigotVersion(pluginId).isLowerThanOrEqualTo(getPluginVersion(plugin));
     }
-
-    private DarkVersionUtils() {}
 }

@@ -118,10 +118,6 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
         }
     }
 
-    protected void setDarkWaterAPI(DarkWaterMain darkWater) {
-        darkWaterMain = darkWater;
-    }
-
     /**
      * Reloading plugin config file
      */
@@ -155,6 +151,7 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
 
     /**
      * Receiving plugin messages
+     *
      * @return Messages plugin {@link Messages}
      */
     public Messages getMessages() {
@@ -163,6 +160,7 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
 
     /**
      * Get plugin configuration
+     *
      * @return Plugin config {@link YamlFile}
      */
     public YamlFile getConfiguration() {
@@ -171,6 +169,7 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
 
     /**
      * Get an instance of DarkWaterAPI
+     *
      * @return {@link DarkWaterMain}
      */
     @Utility
@@ -178,8 +177,13 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
         return darkWaterMain;
     }
 
+    protected void setDarkWaterAPI(DarkWaterMain darkWater) {
+        darkWaterMain = darkWater;
+    }
+
     /**
      * Send INFO level logs to console
+     *
      * @param msg Message
      */
     public void sendLog(@NotNull String msg) {
@@ -188,8 +192,9 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
 
     /**
      * Send logs to console
+     *
      * @param level Logging level
-     * @param msg Message
+     * @param msg   Message
      */
     public void sendLog(@NotNull Level level, @NotNull String msg) {
         if (level.equals(Level.INFO)) {
@@ -209,6 +214,7 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
 
     /**
      * Sending a message to the console
+     *
      * @param message Message
      */
     @Utility

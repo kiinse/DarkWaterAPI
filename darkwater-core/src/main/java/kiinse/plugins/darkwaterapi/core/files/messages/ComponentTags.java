@@ -23,13 +23,18 @@
 package kiinse.plugins.darkwaterapi.core.files.messages;
 
 import kiinse.plugins.darkwaterapi.api.files.messages.ComponentAction;
-import net.md_5.bungee.api.chat.*;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Content;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
 
 public class ComponentTags {
+
+    private ComponentTags() {}
 
     public static @NotNull BaseComponent[] parseMessage(@NotNull String msg) {
         var result = new ComponentBuilder(msg);
@@ -76,9 +81,13 @@ public class ComponentTags {
         var builder = new ComponentBuilder(text);
 
         return switch (action) {
-            case CMD -> builder.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, message[0])).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, getHoverText(message))).create();
-            case URL -> builder.event(new ClickEvent(ClickEvent.Action.OPEN_URL, message[0])).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, getHoverText(message))).create();
-            case COPY -> builder.event(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, message[0])).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, getHoverText(message))).create();
+            case CMD -> builder.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, message[0])).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                                                                                                      getHoverText(message))).create();
+            case URL -> builder.event(new ClickEvent(ClickEvent.Action.OPEN_URL, message[0])).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                                                                                                   getHoverText(message))).create();
+            case COPY ->
+                    builder.event(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, message[0])).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                                                                                                        getHoverText(message))).create();
             case HOVER -> builder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, getHoverText(message))).create();
         };
     }
@@ -86,7 +95,5 @@ public class ComponentTags {
     private static @NotNull Content getHoverText(@NotNull String[] text) {
         return new Text(ChatColor.translateAlternateColorCodes('&', text.length > 1 ? text[1] : text[0]));
     }
-
-    private ComponentTags() {}
 
 }

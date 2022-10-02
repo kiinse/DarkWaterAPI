@@ -37,35 +37,35 @@ public class StatisticExpansion extends PlaceholderExpansion {
 
     // %statistic_MOB%
 
-    public StatisticExpansion(@NotNull DarkWaterJavaPlugin plugin){
+    public StatisticExpansion(@NotNull DarkWaterJavaPlugin plugin) {
         this.darkWaterStatistic = plugin.getDarkWaterAPI().getDarkWaterStatistic();
         this.plugin = plugin;
     }
 
     @Override
-    public boolean canRegister(){
+    public boolean canRegister() {
         return true;
     }
 
     @Override
-    public @NotNull String getAuthor(){
+    public @NotNull String getAuthor() {
         return plugin.getDescription().getAuthors().get(0);
     }
 
 
     @Override
-    public @NotNull String getIdentifier(){
+    public @NotNull String getIdentifier() {
         return "statistic";
     }
 
     @Override
-    public @NotNull String getVersion(){
+    public @NotNull String getVersion() {
         return plugin.getDescription().getVersion();
     }
 
     @Override
-    public @NotNull String onPlaceholderRequest(@Nullable Player player, @NotNull String identifier){
-        if(player == null){
+    public @NotNull String onPlaceholderRequest(@Nullable Player player, @NotNull String identifier) {
+        if (player == null) {
             return "";
         }
         return String.valueOf(darkWaterStatistic.getPlayerStatistic(player).getStatistic(EntityType.valueOf(identifier)));

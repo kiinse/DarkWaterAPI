@@ -35,20 +35,19 @@ public abstract class Locale {
         value = str;
     }
 
-    public @NotNull String toString() {
-        return value;
-    }
-
     public static @NotNull Locale valueOf(@NotNull String str) {
         return new Locale(str) {};
     }
 
+    public static boolean equals(@NotNull Locale locale1, @NotNull Locale locale2) {
+        return Objects.equals(locale1.toString(), locale2.toString());
+    }
+
+    public @NotNull String toString() {
+        return value;
+    }
 
     public boolean equals(@NotNull Locale locale) {
         return Objects.equals(this.toString(), locale.toString());
-    }
-
-    public static boolean equals(@NotNull Locale locale1, @NotNull Locale locale2) {
-        return Objects.equals(locale1.toString(), locale2.toString());
     }
 }

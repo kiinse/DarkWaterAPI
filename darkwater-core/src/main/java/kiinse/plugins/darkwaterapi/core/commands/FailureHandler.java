@@ -22,11 +22,11 @@
 
 package kiinse.plugins.darkwaterapi.core.commands;
 
-import kiinse.plugins.darkwaterapi.api.commands.CommandFailureHandler;
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.commands.CommandFailReason;
+import kiinse.plugins.darkwaterapi.api.commands.CommandFailureHandler;
 import kiinse.plugins.darkwaterapi.api.commands.DarkRegisteredCommand;
 import kiinse.plugins.darkwaterapi.api.files.messages.MessagesUtils;
-import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

@@ -36,11 +36,9 @@ import java.util.logging.Level;
 @SuppressWarnings("unused")
 public abstract class Postgresql {
 
-    private Connection connection;
-
-    private DSLContext context;
-
     private final DarkWaterJavaPlugin plugin;
+    private Connection connection;
+    private DSLContext context;
 
     protected Postgresql(@NotNull DarkWaterJavaPlugin plugin) throws SQLException {
         connect();

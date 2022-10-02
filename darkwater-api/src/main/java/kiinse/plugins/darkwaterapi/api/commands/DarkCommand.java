@@ -30,8 +30,9 @@ public interface DarkCommand {
 
     /**
      * Standard command method. Executed when a player enters a command into the chat
+     *
      * @param sender Command sender
-     * @param args Array of arguments
+     * @param args   Array of arguments
      */
     void command(@NotNull CommandSender sender, @NotNull String[] args);
 

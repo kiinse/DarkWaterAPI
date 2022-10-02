@@ -45,7 +45,8 @@ public class LocaleTab implements TabCompleter {
         this.storage = plugin.getDarkWaterAPI().getLocaleStorage();
     }
 
-    public @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String commandLabel, @NotNull String[] args) {
+    public @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String commandLabel,
+                                               @NotNull String[] args) {
         var list = new ArrayList<String>();
         if (sender instanceof Player && cmd.getName().equalsIgnoreCase("locale")) {
             if (args.length == 1) {

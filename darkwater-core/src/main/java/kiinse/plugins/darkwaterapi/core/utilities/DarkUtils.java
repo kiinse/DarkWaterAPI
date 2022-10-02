@@ -25,9 +25,9 @@ package kiinse.plugins.darkwaterapi.core.utilities;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.google.common.base.Strings;
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.files.messages.ReplaceKeys;
 import kiinse.plugins.darkwaterapi.api.utilities.TaskType;
-import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -48,10 +48,7 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings({"unused", "UnusedReturnValue", "BooleanMethodIsAlwaysInverted"})
 public class DarkUtils {
 
-    private enum Word {
-        FIRST,
-        SECOND
-    }
+    private DarkUtils() {}
 
     public static @NotNull String getProgressBar(int current, int max, int totalBars, @NotNull String char1, @NotNull String char2) {
         int progressBars = (int) (totalBars * ((float) current / max));
@@ -93,6 +90,7 @@ public class DarkUtils {
             return Bukkit.getScheduler().runTask(plugin, task);
         }
     }
+
     public static long getTaskSpeed(@NotNull Runnable task) {
         var prevTime = System.currentTimeMillis();
         task.run();
@@ -113,9 +111,9 @@ public class DarkUtils {
 
     public static @NotNull List<Block> getRegionBlocks(@NotNull World world, @NotNull Location loc1, @NotNull Location loc2) {
         var blocks = new ArrayList<Block>();
-        for(var x = loc1.getX(); x <= loc2.getX(); x++) {
-            for(var y = loc1.getY(); y <= loc2.getY(); y++) {
-                for(var z = loc1.getZ(); z <= loc2.getZ(); z++) {
+        for (var x = loc1.getX(); x <= loc2.getX(); x++) {
+            for (var y = loc1.getY(); y <= loc2.getY(); y++) {
+                for (var z = loc1.getZ(); z <= loc2.getZ(); z++) {
                     blocks.add(new Location(world, x, y, z).getBlock());
                 }
             }
@@ -129,17 +127,20 @@ public class DarkUtils {
 
     public static @NotNull String generateJwtToken(@NotNull String user, @NotNull RSAPrivateKey key, int expiresInHours) {
         return JWT.create()
-                .withSubject(user)
-                .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(expiresInHours)))
-                .sign(Algorithm.RSA256(key));
+                  .withSubject(user)
+                  .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(expiresInHours)))
+                  .sign(Algorithm.RSA256(key));
     }
 
     public static @NotNull String generateJwtToken(@NotNull String user, @NotNull String secret, int expiresInHours) {
         return JWT.create()
-                .withSubject(user)
-                .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(expiresInHours)))
-                .sign(Algorithm.HMAC256(secret));
+                  .withSubject(user)
+                  .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(expiresInHours)))
+                  .sign(Algorithm.HMAC256(secret));
     }
 
-    private DarkUtils() {}
+    private enum Word {
+        FIRST,
+        SECOND
+    }
 }

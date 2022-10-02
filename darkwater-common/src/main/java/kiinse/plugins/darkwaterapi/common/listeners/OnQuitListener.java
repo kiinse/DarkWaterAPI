@@ -32,6 +32,6 @@ public class OnQuitListener implements Listener {
 
     @EventHandler
     public void quitEvent(@NotNull PlayerQuitEvent event) {
-         MoveSchedule.getNotMovingMap().remove(event.getPlayer().getUniqueId());
+        MoveSchedule.getNotMovingMap().remove(event.getPlayer().getUniqueId());
     }
 }

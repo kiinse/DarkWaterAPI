@@ -52,6 +52,8 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public class DarkPlayerUtils {
 
+    private DarkPlayerUtils() {}
+
     public static boolean isActing(@NotNull Player player) {
         return isJumping(player) || player.isSprinting() || player.isInWater() || isClimbing(player);
     }
@@ -155,11 +157,11 @@ public class DarkPlayerUtils {
             return;
         }
         var player = getPlayer(sender);
-        player.playSound(player, sound, v,  v1);
+        player.playSound(player, sound, v, v1);
     }
 
     public static void playSound(@NotNull Player player, @NotNull Sound sound, float v, float v1) {
-        player.playSound(player, sound, v,  v1);
+        player.playSound(player, sound, v, v1);
     }
 
     public static void playSound(@NotNull CommandSender sender, @NotNull Sound sound, float v) {
@@ -171,7 +173,7 @@ public class DarkPlayerUtils {
     }
 
     public static void playSound(@NotNull Player player, @NotNull Sound sound, float v) {
-        player.playSound(player, sound, v,  1f);
+        player.playSound(player, sound, v, 1f);
     }
 
     public static void playSound(@NotNull CommandSender sender, @NotNull Sound sound) {
@@ -179,11 +181,11 @@ public class DarkPlayerUtils {
             return;
         }
         var player = getPlayer(sender);
-        player.playSound(player, sound, 1f,  1f);
+        player.playSound(player, sound, 1f, 1f);
     }
 
     public static void playSound(@NotNull Player player, @NotNull Sound sound) {
-        player.playSound(player, sound, 1f,  1f);
+        player.playSound(player, sound, 1f, 1f);
     }
 
     public static @Nullable Player getPlayer(@NotNull UUID uuid) {
@@ -247,7 +249,8 @@ public class DarkPlayerUtils {
     }
 
     public static @NotNull String getPlayerID(@NotNull String player) throws IOException {
-        var bufferedReader = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/users/profiles/minecraft/" + player.replace(" ", "_")).openConnection().getInputStream()));
+        var bufferedReader = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/users/profiles/minecraft/" + player.replace(" ",
+                                                                                                                                                  "_")).openConnection().getInputStream()));
         return new JSONObject(bufferedReader.readLine()).getString("id");
     }
 
@@ -264,6 +267,4 @@ public class DarkPlayerUtils {
     private static String formatPermissionsKey(@NotNull PermissionsKeys permission) {
         return permission.toString().toLowerCase().replace("_", ".");
     }
-
-    private DarkPlayerUtils() {}
 }

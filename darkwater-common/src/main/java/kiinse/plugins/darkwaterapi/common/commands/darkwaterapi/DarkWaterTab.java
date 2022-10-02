@@ -44,7 +44,8 @@ public class DarkWaterTab implements TabCompleter {
         this.pluginManager = plugin.getDarkWaterAPI().getPluginManager();
     }
 
-    public @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String commandLabel, @NotNull String[] args) {
+    public @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String commandLabel,
+                                               @NotNull String[] args) {
         var list = new ArrayList<String>();
         if (sender instanceof Player && cmd.getName().equalsIgnoreCase("darkwater")) {
             if (args.length == 1) {
@@ -68,6 +69,9 @@ public class DarkWaterTab implements TabCompleter {
     }
 
     private boolean hasSenderPermissionsToPluginList(@NotNull CommandSender sender) {
-        return DarkPlayerUtils.hasPermission(sender, Permission.DARKWATER_RELOAD) || DarkPlayerUtils.hasPermission(sender, Permission.DARKWATER_DISABLE) || DarkPlayerUtils.hasPermission(sender, Permission.DARKWATER_ENABLE);
+        return DarkPlayerUtils.hasPermission(sender, Permission.DARKWATER_RELOAD) || DarkPlayerUtils.hasPermission(sender,
+                                                                                                                   Permission.DARKWATER_DISABLE) || DarkPlayerUtils.hasPermission(
+                sender,
+                Permission.DARKWATER_ENABLE);
     }
 }

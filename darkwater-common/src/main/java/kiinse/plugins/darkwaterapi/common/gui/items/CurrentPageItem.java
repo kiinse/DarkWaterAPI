@@ -39,7 +39,9 @@ public class CurrentPageItem implements GuiItem {
     private final GuiAction action;
 
     public CurrentPageItem(@NotNull DarkWaterJavaPlugin plugin, @NotNull Locale locale, int page, @NotNull GuiAction action) {
-        this.name = DarkUtils.replaceWord(plugin.getMessages().getStringMessage(locale, Message.GUI_CURRENT_PAGE), Replace.PAGE, String.valueOf(page));
+        this.name = DarkUtils.replaceWord(plugin.getMessages().getStringMessage(locale, Message.GUI_CURRENT_PAGE),
+                                          Replace.PAGE,
+                                          String.valueOf(page));
         this.action = action;
     }
 

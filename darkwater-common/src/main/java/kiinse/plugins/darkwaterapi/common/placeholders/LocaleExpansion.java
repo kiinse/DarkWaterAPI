@@ -35,35 +35,35 @@ public class LocaleExpansion extends PlaceholderExpansion {
     // %locale_player%
     // %locale_list%
 
-    public LocaleExpansion(@NotNull DarkWaterJavaPlugin plugin){
+    public LocaleExpansion(@NotNull DarkWaterJavaPlugin plugin) {
         this.plugin = plugin;
     }
 
     @Override
-    public boolean canRegister(){
+    public boolean canRegister() {
         return true;
     }
 
     @Override
-    public @NotNull String getAuthor(){
+    public @NotNull String getAuthor() {
         return plugin.getDescription().getAuthors().get(0);
     }
 
 
     @Override
-    public @NotNull String getIdentifier(){
+    public @NotNull String getIdentifier() {
         return "locale";
     }
 
 
     @Override
-    public @NotNull String getVersion(){
+    public @NotNull String getVersion() {
         return plugin.getDescription().getVersion();
     }
 
     @Override
-    public @Nullable String onPlaceholderRequest(@Nullable Player player, @NotNull String identifier){
-        if(player == null){
+    public @Nullable String onPlaceholderRequest(@Nullable Player player, @NotNull String identifier) {
+        if (player == null) {
             return "";
         }
         return switch (identifier) {

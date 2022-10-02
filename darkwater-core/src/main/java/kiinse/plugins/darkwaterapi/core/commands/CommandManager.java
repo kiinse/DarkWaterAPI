@@ -22,9 +22,9 @@
 
 package kiinse.plugins.darkwaterapi.core.commands;
 
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.commands.*;
 import kiinse.plugins.darkwaterapi.api.exceptions.CommandException;
-import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -50,6 +50,7 @@ public class CommandManager implements CommandExecutor {
 
     /**
      * Commands manager
+     *
      * @param plugin Plugin {@link DarkWaterJavaPlugin}
      */
     public CommandManager(@NotNull DarkWaterJavaPlugin plugin) {
@@ -65,6 +66,7 @@ public class CommandManager implements CommandExecutor {
 
     /**
      * Registration class commands
+     *
      * @param darkCommand A class that inherits from CommandClass and contains command methods {@link DarkCommand}
      */
     public @NotNull CommandManager registerCommand(@NotNull DarkCommand darkCommand) throws CommandException {
@@ -83,7 +85,8 @@ public class CommandManager implements CommandExecutor {
      * Standard command handler from Bukkit
      */
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label,
+                             @NotNull String[] args) {
         if (args.length == 0) {
             for (var usage : registeredMainCommandTable.entrySet()) {
                 var wrapper = usage.getValue();
@@ -169,7 +172,8 @@ public class CommandManager implements CommandExecutor {
         }
     }
 
-    private void register(@NotNull DarkCommand commandClass, @NotNull Method method, @Nullable PluginCommand pluginCommand, @NotNull String command, @NotNull Object annotation, boolean isMainCommand) throws CommandException {
+    private void register(@NotNull DarkCommand commandClass, @NotNull Method method, @Nullable PluginCommand pluginCommand, @NotNull String command,
+                          @NotNull Object annotation, boolean isMainCommand) throws CommandException {
         register(pluginCommand, command);
         if (isMainCommand) {
             registeredMainCommandTable.put(command, new RegisteredCommand(method, commandClass, annotation));
@@ -179,13 +183,14 @@ public class CommandManager implements CommandExecutor {
         plugin.sendLog(Level.CONFIG, "Command '&d" + command + "&6' registered!");
     }
 
-    private void register(@NotNull DarkCommand commandClass, @Nullable PluginCommand pluginCommand, @NotNull Command annotation) throws CommandException {
+    private void register(@NotNull DarkCommand commandClass, @Nullable PluginCommand pluginCommand, @NotNull Command annotation)
+            throws CommandException {
         var command = annotation.command();
         register(pluginCommand, command);
         registeredMainCommandTable.put(command, new RegisteredCommand(null, commandClass, annotation));
     }
 
-    private void register(@Nullable PluginCommand pluginCommand, @NotNull String command)  throws CommandException {
+    private void register(@Nullable PluginCommand pluginCommand, @NotNull String command) throws CommandException {
         if (registeredSubCommandTable.containsKey(command) || registeredMainCommandTable.containsKey(command)) {
             throw new CommandException("Command '" + command + "' already registered!");
         }
@@ -203,7 +208,7 @@ public class CommandManager implements CommandExecutor {
             }
         }
         var name = darkCommand.getClass().getName().split("\\.");
-        throw new CommandException("Main command in class '" + name[name.length-1]  + "' not found!");
+        throw new CommandException("Main command in class '" + name[name.length - 1] + "' not found!");
     }
 
     private boolean isClassMainCommand(@NotNull DarkCommand darkCommand) {

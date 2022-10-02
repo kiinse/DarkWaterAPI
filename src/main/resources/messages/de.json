@@ -12,7 +12,7 @@
   "status_command": "&2Ihr Gebietsschema ist &f&l{LOCALE}",
   "locale_changed": "&2Ihre Sprache wurde geändert zu: &f&l{LOCALE}",
   "locale_not_found": "&cSprache '&c&l{LOCALE}&c' nicht gefunden! Sie können nur &f&l{LOCALES} auswählen",
-  "info_command":"&b&l===== &6LOCALIZATION &b&l=====\n<CMD=/locale change::&6Use command>&2/locale change</CMD>&2 - set language via GUI\n<CMD= /locale set::&6Use command>&a/locale set</CMD>&a %locale% - Sprache einstellen\n<CMD=/locale help::&6Use command>&2/locale help</CMD>&2 - Informationen über Befehle\n<CMD=/locale list::&6Use command>&a/locale list</CMD>&a - Liste der verfügbaren Sprachen",
+  "info_command": "&b&l===== &6LOCALIZATION &b&l=====\n<CMD=/locale change::&6Use command>&2/locale change</CMD>&2 - set language via GUI\n<CMD= /locale set::&6Use command>&a/locale set</CMD>&a %locale% - Sprache einstellen\n<CMD=/locale help::&6Use command>&2/locale help</CMD>&2 - Informationen über Befehle\n<CMD=/locale list::&6Use command>&a/locale list</CMD>&a - Liste der verfügbaren Sprachen",
   "get_command": "&2Player &f&l{PLAYER}&2 hat die Sprache auf &f&l{LOCALE}&2 eingestellt",
   "player_not_found": "&cPlayer '{PLAYER}' nicht gefunden!",
   "first_join": "\n&b&l===== &6LOCALIZATION &b&l=====\n&2Ihr Gebietsschema ist auf &f&l{LOCALE}&2 eingestellt.\n\n<CMD=/locale change::&6Change language>&aKlicken Sie hier, um dies zu ändern</CMD>\n\n",

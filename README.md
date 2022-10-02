@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img width=250 height=250 src="https://raw.githubusercontent.com/kiinse/DarkWaterAPI/master/.github/img/logo.png" />
+  <img width=250 height=250 src="https://raw.githubusercontent.com/kiinse/DarkWaterAPI/master/.github/img/logo.png"  alt=""/>
   <br>DarkWaterAPI<br>
 </h1>
 
@@ -64,11 +64,12 @@ Please **don't** open an issue just for the sake of questions.
 
 ## Download
 
-The latest version can be downloaded on the <a href="https://github.com/kiinse/DarkWaterAPI/releases">releases page.</a><br>
+The latest version can be downloaded on the <a href="https://github.com/kiinse/DarkWaterAPI/releases">releases
+page.</a><br>
 
 ## Installation
 
-In order for DarkWaterAPI to work, it must be placed in the **plugins folder**.
+In order for DarkWaterAPI to work, it must be placed in the **plugins' folder**.
 
 ### Maven
 
@@ -93,7 +94,7 @@ In order for DarkWaterAPI to work, it must be placed in the **plugins folder**.
 ### Gradle
 
 ```groovy
-repositories {
+ repositories {
     maven {
         url "https://repo.kiinse.me/releases"
     }
@@ -112,7 +113,8 @@ dependencies {
 
 <b>Since all examples are on WIKI, I will give a small example of working with messages here.</b>
 
-In the resources folder create a "messages" folder, where also create several localization files. For example en.json and ru.json. The result is the following structure:
+In the resources folder create a "messages" folder, where also create several localization files. For example en.json
+and ru.json. The result is the following structure:
 
 ```txt
 .
@@ -122,7 +124,8 @@ In the resources folder create a "messages" folder, where also create several lo
         └── ru.json
 ```
 
-After running the plugin containing the main class, which was inherited from "DarkWaterJavaPlugin" - These files will appear in the plugin folder on the server.
+After running the plugin containing the main class, which was inherited from "DarkWaterJavaPlugin" - These files will
+appear in the plugin folder on the server.
 
 Sending text from these files takes just two lines:
 

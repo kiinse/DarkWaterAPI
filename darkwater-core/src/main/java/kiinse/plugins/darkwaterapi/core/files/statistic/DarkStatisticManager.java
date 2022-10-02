@@ -22,12 +22,12 @@
 
 package kiinse.plugins.darkwaterapi.core.files.statistic;
 
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.exceptions.JsonFileException;
 import kiinse.plugins.darkwaterapi.api.files.enums.File;
 import kiinse.plugins.darkwaterapi.api.files.filemanager.JsonFile;
-import kiinse.plugins.darkwaterapi.api.files.statistic.StatisticManager;
 import kiinse.plugins.darkwaterapi.api.files.statistic.Statistic;
-import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
+import kiinse.plugins.darkwaterapi.api.files.statistic.StatisticManager;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

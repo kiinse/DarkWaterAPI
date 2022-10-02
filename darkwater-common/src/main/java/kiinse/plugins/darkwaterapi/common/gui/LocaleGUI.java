@@ -24,18 +24,17 @@ package kiinse.plugins.darkwaterapi.common.gui;
 
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
-import kiinse.plugins.darkwaterapi.common.gui.items.CurrentPageItem;
-import kiinse.plugins.darkwaterapi.common.gui.items.ExitItem;
 import kiinse.plugins.darkwaterapi.api.files.messages.Message;
-import kiinse.plugins.darkwaterapi.common.gui.items.NextPageItem;
-import kiinse.plugins.darkwaterapi.common.gui.items.PreviousPageItem;
-import kiinse.plugins.darkwaterapi.common.gui.items.LocaleItem;
+import kiinse.plugins.darkwaterapi.common.gui.items.*;
 import kiinse.plugins.darkwaterapi.core.gui.DarkGUI;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
 import org.bukkit.Sound;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 @SuppressWarnings("UnusedReturnValue")
 public class LocaleGUI extends DarkGUI {
@@ -45,6 +44,10 @@ public class LocaleGUI extends DarkGUI {
 
     public LocaleGUI(@NotNull DarkWaterJavaPlugin plugin) {
         super(plugin);
+    }
+
+    public static void setLocaleFlags(@NotNull LocaleFlags lcFlags) {
+        localeFlags = lcFlags;
     }
 
     @Override
@@ -83,12 +86,12 @@ public class LocaleGUI extends DarkGUI {
     }
 
     private @NotNull LocaleGUI setPreviousPageItem(@NotNull Map<Integer, HashSet<Locale>> locales) {
-        if (locales.containsKey(page-1)) {
+        if (locales.containsKey(page - 1)) {
             setItem(new PreviousPageItem(getPlugin(), getPlayerLocale(), (player -> {
                 delete();
                 DarkPlayerUtils.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_STEP);
                 new LocaleGUI(getPlugin())
-                        .setPage(page-1)
+                        .setPage(page - 1)
                         .setName(getName())
                         .setLocale(getPlayerLocale())
                         .open(player);
@@ -105,12 +108,12 @@ public class LocaleGUI extends DarkGUI {
     }
 
     private @NotNull LocaleGUI setNextPageItem(@NotNull Map<Integer, HashSet<Locale>> locales) {
-        if (locales.containsKey(page+1)) {
+        if (locales.containsKey(page + 1)) {
             setItem(new NextPageItem(getPlugin(), getPlayerLocale(), (player -> {
                 delete();
                 DarkPlayerUtils.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_STEP);
                 new LocaleGUI(getPlugin())
-                        .setPage(page+1)
+                        .setPage(page + 1)
                         .setName(getName())
                         .setLocale(getPlayerLocale())
                         .open(player);
@@ -137,7 +140,7 @@ public class LocaleGUI extends DarkGUI {
         for (var locale : storage.getAllowedLocalesList()) {
             size++;
             list.add(locale);
-            if (size == 9 || localesCount == storage.getAllowedLocalesList().size()-1) {
+            if (size == 9 || localesCount == storage.getAllowedLocalesList().size() - 1) {
                 hashmap.put(pageNum, new HashSet<>(list));
                 pageNum++;
                 size = 0;
@@ -146,9 +149,5 @@ public class LocaleGUI extends DarkGUI {
             localesCount++;
         }
         return hashmap;
-    }
-
-    public static void setLocaleFlags(@NotNull LocaleFlags lcFlags) {
-        localeFlags = lcFlags;
     }
 }

@@ -26,8 +26,8 @@ import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.files.enums.Config;
 import kiinse.plugins.darkwaterapi.api.files.filemanager.YamlFile;
 import kiinse.plugins.darkwaterapi.api.files.locale.PlayerLocales;
-import kiinse.plugins.darkwaterapi.api.files.messages.MessagesUtils;
 import kiinse.plugins.darkwaterapi.api.files.messages.Message;
+import kiinse.plugins.darkwaterapi.api.files.messages.MessagesUtils;
 import kiinse.plugins.darkwaterapi.common.files.Replace;
 import kiinse.plugins.darkwaterapi.core.files.messages.DarkMessagesUtils;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
@@ -68,7 +68,8 @@ public class OnJoinListener implements Listener {
                 messagesUtils.sendMessage(player, Message.FIRST_JOIN, Replace.LOCALE, interfaceLocale.toString());
                 DarkPlayerUtils.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
             }
-            plugin.sendLog(Level.CONFIG, "The player &d" + DarkPlayerUtils.getPlayerName(player) + "&6 has been added to the plugin. His language is defined as " + interfaceLocale);
+            plugin.sendLog(Level.CONFIG,
+                           "The player &d" + DarkPlayerUtils.getPlayerName(player) + "&6 has been added to the plugin. His language is defined as " + interfaceLocale);
         }
         plugin.sendLog(Level.CONFIG, "Player &d" + DarkPlayerUtils.getPlayerName(player) + "&6 joined. His locale is " + locales.getLocale(player));
     }

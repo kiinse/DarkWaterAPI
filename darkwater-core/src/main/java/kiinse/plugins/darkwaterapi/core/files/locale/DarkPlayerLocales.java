@@ -23,10 +23,10 @@
 package kiinse.plugins.darkwaterapi.core.files.locale;
 
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
-import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
 import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
 import kiinse.plugins.darkwaterapi.api.files.locale.LocaleStorage;
 import kiinse.plugins.darkwaterapi.api.files.locale.PlayerLocales;
+import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -53,7 +53,8 @@ public class DarkPlayerLocales implements PlayerLocales {
     public @NotNull Locale getLocale(@NotNull Player player) {
         if (isLocalized(player)) {
             return storage.getLocalesData(player);
-        } return storage.getDefaultLocale();
+        }
+        return storage.getDefaultLocale();
     }
 
     @Override
@@ -64,7 +65,8 @@ public class DarkPlayerLocales implements PlayerLocales {
         var player = DarkPlayerUtils.getPlayer(sender);
         if (isLocalized(player)) {
             return storage.getLocalesData(player);
-        } return storage.getDefaultLocale();
+        }
+        return storage.getDefaultLocale();
     }
 
     @Override
@@ -73,7 +75,7 @@ public class DarkPlayerLocales implements PlayerLocales {
             plugin.sendLog(Level.CONFIG, "Player '" + DarkPlayerUtils.getPlayerName(player) + "' locale has been removed");
         }
         if (storage.putInLocalesData(player, storage.isAllowedLocale(locale) ? locale : storage.getDefaultLocale())) {
-            plugin.sendLog(Level.CONFIG, "Player '" + DarkPlayerUtils.getPlayerName(player)  + "' locale has been added. Locale: " + locale);
+            plugin.sendLog(Level.CONFIG, "Player '" + DarkPlayerUtils.getPlayerName(player) + "' locale has been added. Locale: " + locale);
         }
     }
 

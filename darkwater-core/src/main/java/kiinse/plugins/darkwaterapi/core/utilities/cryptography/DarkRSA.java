@@ -43,11 +43,6 @@ public class DarkRSA implements RSADarkWater {
 
     private final Map<KeyType, Key> keys = new HashMap<>();
 
-    private enum KeyType {
-        PUBLIC,
-        PRIVATE
-    }
-
     public DarkRSA() throws Exception {
         generateKeys();
     }
@@ -100,6 +95,11 @@ public class DarkRSA implements RSADarkWater {
     @Override
     public @NotNull PublicKey recreatePublicKey(@NotNull BigInteger exponent, @NotNull BigInteger modulus) throws Exception {
         return KeyFactory.getInstance("RSA").generatePublic(new RSAPublicKeySpec(modulus, exponent));
+    }
+
+    private enum KeyType {
+        PUBLIC,
+        PRIVATE
     }
 
 }

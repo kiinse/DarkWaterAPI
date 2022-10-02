@@ -34,33 +34,14 @@ import static org.bukkit.Bukkit.getServer;
 @SuppressWarnings("UnusedReturnValue")
 public abstract class Scheduler {
 
+    protected final @NotNull DarkWaterJavaPlugin plugin;
     private String name = null;
     private long delay = -1;
     private long period = -1;
-    protected final @NotNull DarkWaterJavaPlugin plugin;
     private int schedulerID;
 
     protected Scheduler(@NotNull DarkWaterJavaPlugin plugin) {
         this.plugin = plugin;
-    }
-
-    public @NotNull Scheduler setName(@Nullable String name) {
-        if (name == null || name.isBlank()) {
-            this.name = RandomStringUtils.randomAscii(60).replace(">", "");
-        } else {
-            this.name = name;
-        }
-        return this;
-    }
-
-    public @NotNull Scheduler setDelay(long delay) {
-        this.delay = delay;
-        return this;
-    }
-
-    public @NotNull Scheduler setPeriod(long period) {
-        this.period = period;
-        return this;
     }
 
     public boolean canStart() {
@@ -97,11 +78,30 @@ public abstract class Scheduler {
         return name;
     }
 
+    public @NotNull Scheduler setName(@Nullable String name) {
+        if (name == null || name.isBlank()) {
+            this.name = RandomStringUtils.randomAscii(60).replace(">", "");
+        } else {
+            this.name = name;
+        }
+        return this;
+    }
+
     public long getDelay() {
         return delay;
     }
 
+    public @NotNull Scheduler setDelay(long delay) {
+        this.delay = delay;
+        return this;
+    }
+
     public long getPeriod() {
         return period;
+    }
+
+    public @NotNull Scheduler setPeriod(long period) {
+        this.period = period;
+        return this;
     }
 }

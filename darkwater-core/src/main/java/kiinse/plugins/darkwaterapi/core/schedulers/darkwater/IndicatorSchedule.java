@@ -22,11 +22,11 @@
 
 package kiinse.plugins.darkwaterapi.core.schedulers.darkwater;
 
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.files.enums.Config;
 import kiinse.plugins.darkwaterapi.api.indicators.IndicatorManager;
 import kiinse.plugins.darkwaterapi.api.schedulers.Scheduler;
 import kiinse.plugins.darkwaterapi.api.schedulers.SchedulerData;
-import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;

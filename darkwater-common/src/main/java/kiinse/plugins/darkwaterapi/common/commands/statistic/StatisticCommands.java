@@ -30,8 +30,8 @@ import kiinse.plugins.darkwaterapi.api.files.messages.MessagesUtils;
 import kiinse.plugins.darkwaterapi.api.files.statistic.StatisticManager;
 import kiinse.plugins.darkwaterapi.common.files.Replace;
 import kiinse.plugins.darkwaterapi.core.files.messages.DarkMessagesUtils;
-import kiinse.plugins.darkwaterapi.core.utilities.DarkUtils;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
+import kiinse.plugins.darkwaterapi.core.utilities.DarkUtils;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,7 +46,9 @@ public class StatisticCommands implements DarkCommand {
     }
 
     @Override
-    @Command(command = "statistic", permission = "darkwater.statistic", disallowNonPlayer = true)
+    @Command(command = "statistic",
+             permission = "darkwater.statistic",
+             disallowNonPlayer = true)
     public void command(@NotNull CommandSender sender, @NotNull String[] args) {
         var stats = darkWaterStatistic.getPlayerStatistic(DarkPlayerUtils.getPlayer(sender)).getAllStatistic();
         String msg;

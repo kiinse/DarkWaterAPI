@@ -41,18 +41,6 @@ public abstract class Indicator {
         this.plugin = plugin;
     }
 
-    public int getPosition() {
-        return position;
-    }
-
-    public @NotNull Plugin getPlugin() {
-        return plugin;
-    }
-
-    public @NotNull String getName() {
-        return name;
-    }
-
     public static @NotNull Indicator valueOf(@NotNull Plugin plugin, @NotNull String name, int position) throws IndicatorException {
         if (name.isBlank()) {
             throw new IndicatorException("Indicator name is empty!");
@@ -66,11 +54,23 @@ public abstract class Indicator {
         return new Indicator(plugin, name, position) {};
     }
 
-    public boolean equals(@NotNull Indicator indicator) {
-        return Objects.equals(this.getName(), indicator.getName()) && this.getPosition() == indicator.getPosition();
-    }
-
     public static boolean equals(@NotNull Indicator indicator1, @NotNull Indicator indicator2) {
         return Objects.equals(indicator1.getName(), indicator2.getName()) && indicator1.getPosition() == indicator2.getPosition();
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public @NotNull Plugin getPlugin() {
+        return plugin;
+    }
+
+    public @NotNull String getName() {
+        return name;
+    }
+
+    public boolean equals(@NotNull Indicator indicator) {
+        return Objects.equals(this.getName(), indicator.getName()) && this.getPosition() == indicator.getPosition();
     }
 }

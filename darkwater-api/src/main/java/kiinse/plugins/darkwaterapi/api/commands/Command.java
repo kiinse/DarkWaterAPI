@@ -33,18 +33,21 @@ public @interface Command {
 
     /**
      * The command that the player must execute. For example /darkwater reload. Should start with a slash
+     *
      * @return Command
      */
     String command();
 
     /**
      * Allows you to disable the use of the command by non-players (for example, via the console). Disabled by default
+     *
      * @return Enabled or Disabled
      */
     boolean disallowNonPlayer() default false;
 
     /**
      * Required rights to use the command. Default is empty
+     *
      * @return Permissions to use the command
      */
     String permission() default "";

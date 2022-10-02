@@ -24,10 +24,10 @@ package kiinse.plugins.darkwaterapi.core.gui;
 
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
-import kiinse.plugins.darkwaterapi.core.utilities.DarkUtils;
 import kiinse.plugins.darkwaterapi.api.gui.GuiAction;
 import kiinse.plugins.darkwaterapi.api.gui.GuiItem;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
+import kiinse.plugins.darkwaterapi.core.utilities.DarkUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -41,10 +41,10 @@ import java.util.UUID;
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public abstract class DarkGUI {
 
-    private final UUID uuid;
-    private final Map<Integer, GuiAction> actions;
     protected static final Map<UUID, DarkGUI> inventoriesByUUID = new HashMap<>();
     protected static final Map<UUID, UUID> openInventories = new HashMap<>();
+    private final UUID uuid;
+    private final Map<Integer, GuiAction> actions;
     private final DarkWaterJavaPlugin plugin;
     private Locale playerLocale;
     private Inventory inv;
@@ -60,6 +60,14 @@ public abstract class DarkGUI {
         inventoriesByUUID.put(getUuid(), this);
     }
 
+    public static @NotNull Map<UUID, DarkGUI> getInventoriesByUUID() {
+        return inventoriesByUUID;
+    }
+
+    public static @NotNull Map<UUID, UUID> getOpenInventories() {
+        return openInventories;
+    }
+
     public @NotNull UUID getUuid() {
         return uuid;
     }
@@ -68,7 +76,7 @@ public abstract class DarkGUI {
         return inv;
     }
 
-    protected @NotNull DarkGUI setItem(@NotNull GuiItem item){
+    protected @NotNull DarkGUI setItem(@NotNull GuiItem item) {
         var stack = item.itemStack();
         var slot = item.slot();
         var meta = stack.getItemMeta();
@@ -80,19 +88,11 @@ public abstract class DarkGUI {
         return this;
     }
 
-    public static @NotNull Map<UUID, DarkGUI> getInventoriesByUUID() {
-        return inventoriesByUUID;
-    }
-
-    public static @NotNull Map<UUID, UUID> getOpenInventories() {
-        return openInventories;
-    }
-
     public @NotNull Map<Integer, GuiAction> getActions() {
         return actions;
     }
 
-    public void open(@NotNull Player player){
+    public void open(@NotNull Player player) {
         if (this.playerLocale == null) {
             this.playerLocale = plugin.getDarkWaterAPI().getPlayerLocales().getLocale(player);
         }
@@ -102,7 +102,7 @@ public abstract class DarkGUI {
         openInventories.put(player.getUniqueId(), getUuid());
     }
 
-    public void open(@NotNull CommandSender sender){
+    public void open(@NotNull CommandSender sender) {
         if (this.playerLocale == null) {
             this.playerLocale = plugin.getDarkWaterAPI().getPlayerLocales().getLocale(sender);
         }
@@ -115,18 +115,8 @@ public abstract class DarkGUI {
 
     protected abstract void inventory(@NotNull DarkWaterJavaPlugin plugin);
 
-    public @NotNull DarkGUI setSize(int size) {
-        this.size = size <= 0 ? 36 : size;
-        return this;
-    }
-
     public @NotNull DarkGUI setRows(int rows) {
-        this.size = rows <= 0 ? 36 : rows*9;
-        return this;
-    }
-
-    public @NotNull DarkGUI setName(@NotNull String name) {
-        this.name = name;
+        this.size = rows <= 0 ? 36 : rows * 9;
         return this;
     }
 
@@ -147,13 +137,23 @@ public abstract class DarkGUI {
         return name;
     }
 
+    public @NotNull DarkGUI setName(@NotNull String name) {
+        this.name = name;
+        return this;
+    }
+
     protected int getSize() {
         return size;
     }
 
-    public @NotNull DarkGUI delete(){
+    public @NotNull DarkGUI setSize(int size) {
+        this.size = size <= 0 ? 36 : size;
+        return this;
+    }
+
+    public @NotNull DarkGUI delete() {
         for (var player : Bukkit.getOnlinePlayers()) {
-            if (openInventories.get(player.getUniqueId()).equals(getUuid())){
+            if (openInventories.get(player.getUniqueId()).equals(getUuid())) {
                 player.closeInventory();
             }
         }

@@ -97,7 +97,8 @@ public abstract class FilesManager {
             try {
                 createDirectory(directory);
                 for (var file : getFilesInDirectoryInJar(directory)) {
-                    FileUtils.copyInputStreamToFile(Objects.requireNonNull(accessFile(getFileName(directory) + "/" + file)), new File(getDataFolder() + getFileName(directory) + File.separator + file));
+                    FileUtils.copyInputStreamToFile(Objects.requireNonNull(accessFile(getFileName(directory) + "/" + file)),
+                                                    new File(getDataFolder() + getFileName(directory) + File.separator + file));
                 }
             } catch (Exception e) {
                 plugin.sendLog(Level.WARNING, "Error on copying directory '&c" + destDirectory.getName() + "&6'! Message: " + e.getMessage());
@@ -149,7 +150,7 @@ public abstract class FilesManager {
         var list = new ArrayList<String>();
         for (var file : getResourceUrls("classpath:/" + getFileName(directory) + "/*.*")) {
             var split = file.split("/");
-            list.add(split[split.length-1]);
+            list.add(split[split.length - 1]);
         }
         return list;
     }
@@ -157,9 +158,9 @@ public abstract class FilesManager {
     private @NotNull List<String> getResourceUrls(@NotNull String locationPattern) throws IOException {
         var resolver = new PathMatchingResourcePatternResolver(plugin.getClass().getClassLoader());
         return Arrays.stream(resolver.getResources(locationPattern))
-                .map(this::toURL)
-                .filter(Objects::nonNull)
-                .toList();
+                     .map(this::toURL)
+                     .filter(Objects::nonNull)
+                     .toList();
     }
 
     private @Nullable String toURL(@NotNull Resource r) {

@@ -24,8 +24,8 @@ package kiinse.plugins.darkwaterapi.core.utilities;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import kiinse.plugins.darkwaterapi.api.utilities.ItemStackUtils;
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
+import kiinse.plugins.darkwaterapi.api.utilities.ItemStackUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
@@ -93,7 +93,8 @@ public class DarkItemUtils implements ItemStackUtils {
     }
 
     @Override
-    public @NotNull ShapelessRecipe getShapelessRecipe(@NotNull String key, @NotNull ItemStack result, @NotNull ItemStack ingredient1, @NotNull ItemStack ingredient2) {
+    public @NotNull ShapelessRecipe getShapelessRecipe(@NotNull String key, @NotNull ItemStack result, @NotNull ItemStack ingredient1,
+                                                       @NotNull ItemStack ingredient2) {
         var recipe = new ShapelessRecipe(new NamespacedKey(plugin, key), result);
         recipe.addIngredient(new RecipeChoice.ExactChoice(ingredient1));
         recipe.addIngredient(new RecipeChoice.ExactChoice(ingredient2));

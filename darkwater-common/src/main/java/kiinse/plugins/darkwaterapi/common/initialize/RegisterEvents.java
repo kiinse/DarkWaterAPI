@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class RegisterEvents {
 
-    public RegisterEvents(@NotNull DarkWaterJavaPlugin plugin){
+    public RegisterEvents(@NotNull DarkWaterJavaPlugin plugin) {
         plugin.sendLog("Registering listeners...");
         var pluginManager = plugin.getServer().getPluginManager();
         pluginManager.registerEvents(new EntityDeathListener(plugin), plugin);

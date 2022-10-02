@@ -77,6 +77,10 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWater
     private IndicatorManager indicatorManager;
     private SchedulersManager schedulersManager;
 
+    public static @NotNull DarkWaterMain getInstance() {
+        return instance;
+    }
+
     @Override
     protected void start() throws PluginException {
         try {
@@ -146,12 +150,13 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWater
                         sendLog("Latest version of DarkWaterAPI installed, no new versions found =3");
                         return;
                     }
-                    var reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("version-message.txt"))));
+                    var reader = new BufferedReader(new InputStreamReader(
+                            Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("version-message.txt"))));
                     var builder = new StringBuilder("\n");
                     while (reader.ready()) {
                         builder.append(reader.readLine()).append("\n");
                     }
-                    sendConsole(DarkUtils.replaceWord(builder.toString(), new String[] {
+                    sendConsole(DarkUtils.replaceWord(builder.toString(), new String[]{
                             "{NEW_VERSION}:" + latest.getOriginalValue(),
                             "{CURRENT_VERSION}:" + getDescription().getVersion()
                     }));
@@ -213,9 +218,5 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWater
             return getConfiguration().getBoolean(Config.DEBUG);
         }
         return false;
-    }
-
-    public static @NotNull DarkWaterMain getInstance() {
-        return instance;
     }
 }

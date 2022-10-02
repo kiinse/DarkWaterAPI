@@ -22,9 +22,9 @@
 
 package kiinse.plugins.darkwaterapi.core.schedulers.darkwater;
 
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.schedulers.Scheduler;
 import kiinse.plugins.darkwaterapi.api.schedulers.SchedulerData;
-import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -43,6 +43,10 @@ public class JumpSchedule extends Scheduler {
         super(plugin);
     }
 
+    public static @NotNull Map<UUID, Integer> getJumpingMap() {
+        return jumpingMap;
+    }
+
     @Override
     public void run() {
         var iterator = jumpingMap.entrySet().iterator();
@@ -53,9 +57,5 @@ public class JumpSchedule extends Scheduler {
                 iterator.remove();
             }
         }
-    }
-
-    public static @NotNull Map<UUID, Integer> getJumpingMap() {
-        return jumpingMap;
     }
 }
