@@ -175,12 +175,12 @@ File "ru.json":
 
 | Command                     | Permission          | Description                                   |
 |-----------------------------|---------------------|-----------------------------------------------|
-| /locale                     | locale.status       | Displays your current location                |
-| /locale change              | locale.change       | Opens a GUI to change the selected language   |
-| /locale help                | locale.help         | Help command                                  |
-| /locale set [locale]        | locale.change       | Setting the language without opening the GUI  |
-| /locale list                | locale.list         | List of languages available for selection     |
-| /locale get [player]        | locale.get          | View player's language                        |
+| /playerLocale                     | playerLocale.status       | Displays your current location                |
+| /playerLocale change              | playerLocale.change       | Opens a GUI to change the selected language   |
+| /playerLocale help                | playerLocale.help         | Help command                                  |
+| /playerLocale set [playerLocale]        | playerLocale.change       | Setting the language without opening the GUI  |
+| /playerLocale list                | playerLocale.list         | List of languages available for selection     |
+| /playerLocale get [player]        | playerLocale.get          | View player's language                        |
 | /darkwater reload [plugin]  | darkwater.reload    | Reloading a plugin using DarkWaterAPI         |
 | /darkwater disable [plugin] | darkwater.disable   | Disabling a plugin using DarkWaterAPI         |
 | /darkwater enable [plugin]  | darkwater.enable    | Enabling a plugin using DarkWaterAPI          |
@@ -197,7 +197,7 @@ File "ru.json":
 ## Config
 
 ```yaml
-locale.default: en # The default language if the player's language is not available on the server, or it has not been defined
+playerLocale.default: en # The default language if the player's language is not available on the server, or it has not been defined
 
 first.join.message: true # A message when the player enters, telling about the definition of the player's language and the possibility of changing this language.
 actionbar.indicators: true # Indicators above the player's toolbar. This function is needed for some plugins that use DarkWaterAPI. Requires PlaceHolderAPI to work.

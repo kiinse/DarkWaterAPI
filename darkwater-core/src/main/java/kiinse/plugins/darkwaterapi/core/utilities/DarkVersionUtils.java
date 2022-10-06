@@ -85,9 +85,7 @@ public class DarkVersionUtils {
     private static @NotNull String getLatestSpigotVersionAsString(int pluginId) throws VersioningException {
         try (var inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + pluginId).openStream()) {
             var scanner = new Scanner(inputStream);
-            if (scanner.hasNext()) {
-                return scanner.next();
-            }
+            if (scanner.hasNext()) return scanner.next();
         } catch (IOException e) {
             throw new VersioningException("Failed to get the latest version SpigotMC", e);
         }

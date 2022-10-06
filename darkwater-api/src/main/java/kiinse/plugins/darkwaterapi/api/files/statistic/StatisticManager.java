@@ -38,13 +38,13 @@ public interface StatisticManager {
 
     @NotNull StatisticManager reload() throws JsonFileException;
 
-    @NotNull Statistic getPlayerStatistic(@NotNull Player player);
+    @NotNull DarkStatistic getPlayerStatistic(@NotNull Player player);
 
-    @NotNull Statistic getPlayerStatistic(@NotNull UUID player);
+    @NotNull DarkStatistic getPlayerStatistic(@NotNull UUID player);
 
-    @NotNull StatisticManager setPlayerStatistic(@NotNull Player player, @NotNull Statistic statistic);
+    @NotNull StatisticManager setPlayerStatistic(@NotNull Player player, @NotNull DarkStatistic statistic);
 
-    @NotNull StatisticManager setPlayerStatistic(@NotNull UUID player, @NotNull Statistic statistic);
+    @NotNull StatisticManager setPlayerStatistic(@NotNull UUID player, @NotNull DarkStatistic statistic);
 
     @NotNull StatisticManager addStatistic(@NotNull Player player, @NotNull EntityType type);
 
@@ -54,5 +54,5 @@ public interface StatisticManager {
 
     @NotNull StatisticManager updatePlayer(@NotNull UUID player, @NotNull JSONObject stats);
 
-    @NotNull HashMap<UUID, Statistic> getAllPlayerStatistic();
+    @NotNull HashMap<UUID, DarkStatistic> getAllPlayerStatistic();
 }

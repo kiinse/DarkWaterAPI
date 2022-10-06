@@ -6,7 +6,7 @@ plugins {
 
 group = 'kiinse.plugins.darkwaterapi'
 description = 'darkwater-api'
-version = '3.0.3'
+version = '3.1.0-beta.1'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -24,7 +24,7 @@ dependencies {
     implementation 'org.jooq:jooq-meta:3.17.4'
     implementation 'org.jooq:jooq-codegen:3.17.4'
     implementation 'org.postgresql:postgresql:42.5.0'
-    implementation 'org.json:json:20220320'
+    implementation 'org.json:json:20220924'
     implementation 'org.jetbrains:annotations:23.0.0'
     implementation 'org.springframework:spring-core:5.3.23'
     compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'

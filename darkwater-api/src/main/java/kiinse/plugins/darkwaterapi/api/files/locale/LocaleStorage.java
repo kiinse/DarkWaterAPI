@@ -38,31 +38,31 @@ public interface LocaleStorage {
 
     @NotNull LocaleStorage save() throws JsonFileException;
 
-    boolean isAllowedLocale(@NotNull Locale locale);
+    boolean isAllowedLocale(@NotNull PlayerLocale playerLocale);
 
-    boolean putInLocalesData(@NotNull UUID uuid, @NotNull Locale locale);
+    boolean putInLocalesData(@NotNull UUID uuid, @NotNull PlayerLocale playerLocale);
 
-    boolean putInLocalesData(@NotNull Player player, @NotNull Locale locale);
+    boolean putInLocalesData(@NotNull Player player, @NotNull PlayerLocale playerLocale);
 
     boolean isLocalesDataContains(@NotNull UUID uuid);
 
     boolean isLocalesDataContains(@NotNull Player player);
 
-    @NotNull Locale getLocalesData(@NotNull UUID uuid);
+    @NotNull PlayerLocale getLocalesData(@NotNull UUID uuid);
 
-    @NotNull Locale getLocalesData(@NotNull Player player);
+    @NotNull PlayerLocale getLocalesData(@NotNull Player player);
 
     boolean removeLocalesData(@NotNull UUID uuid);
 
     boolean removeLocalesData(@NotNull Player player);
 
-    @NotNull Locale getDefaultLocale();
+    @NotNull PlayerLocale getDefaultLocale();
 
-    @NotNull HashMap<UUID, Locale> getLocalesData();
+    @NotNull HashMap<UUID, PlayerLocale> getLocalesData();
 
     @NotNull String getAllowedLocalesString();
 
-    @NotNull Set<Locale> getAllowedLocalesList();
+    @NotNull Set<PlayerLocale> getAllowedLocalesList();
 
     @NotNull Set<String> getAllowedLocalesListString();
 

@@ -50,28 +50,23 @@ public class LocaleTab implements TabCompleter {
         var list = new ArrayList<String>();
         if (sender instanceof Player && cmd.getName().equalsIgnoreCase("locale")) {
             if (args.length == 1) {
-                if (DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_HELP)) {
+                if (DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_HELP))
                     list.add("help");
-                }
-                if (DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_LIST)) {
+                if (DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_LIST))
                     list.add("list");
-                }
-                if (DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_GET)) {
+                if (DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_GET))
                     list.add("get");
-                }
                 if (DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_CHANGE)) {
                     list.add("change");
                     list.add("set");
                 }
             } else if (args.length == 2) {
-                if (args[0].equals("set") && DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_CHANGE)) {
+                if (args[0].equals("set") && DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_CHANGE))
                     list.addAll(storage.getAllowedLocalesListString());
-                }
-                if (args[0].equals("get") && DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_GET)) {
+                if (args[0].equals("get") && DarkPlayerUtils.hasPermission(sender, Permission.LOCALE_GET))
                     for (var player : Bukkit.getOnlinePlayers()) {
                         list.add(DarkPlayerUtils.getPlayerName(player));
                     }
-                }
             }
             Collections.sort(list);
         }

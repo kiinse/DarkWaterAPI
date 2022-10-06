@@ -30,8 +30,8 @@ import kiinse.plugins.darkwaterapi.api.files.enums.Directory;
 import kiinse.plugins.darkwaterapi.api.files.enums.File;
 import kiinse.plugins.darkwaterapi.api.files.filemanager.FilesManager;
 import kiinse.plugins.darkwaterapi.api.files.filemanager.JsonFile;
-import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
 import kiinse.plugins.darkwaterapi.api.files.locale.LocaleStorage;
+import kiinse.plugins.darkwaterapi.api.files.locale.PlayerLocale;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -44,30 +44,26 @@ public class DarkLocaleStorage extends FilesManager implements LocaleStorage {
 
     private final DarkWaterJavaPlugin plugin;
     private final JsonFile jsonFile;
-    private Locale defaultLocale;
-    private Set<Locale> allowedLocales;
-    private HashMap<UUID, Locale> locales;
+    private PlayerLocale defaultPlayerLocale;
+    private Set<PlayerLocale> allowedPlayerLocales;
+    private HashMap<UUID, PlayerLocale> locales;
 
     public DarkLocaleStorage(@NotNull DarkWaterJavaPlugin plugin) {
         super(plugin);
         var directoryName = Directory.MESSAGES;
-        if (isFileNotExists(directoryName)) {
-            copyFile(directoryName);
-        }
+        if (isFileNotExists(directoryName)) copyFile(directoryName);
         this.plugin = plugin;
         this.jsonFile = new JsonFile(plugin, File.DATA_JSON);
     }
 
     @Override
     public @NotNull LocaleStorage load() throws LocaleException, JsonFileException {
-        this.allowedLocales = parseAllowedLocales(Arrays.stream(Objects.requireNonNull(getFile(Directory.MESSAGES).listFiles())).toList());
+        this.allowedPlayerLocales = parseAllowedLocales(Arrays.stream(Objects.requireNonNull(getFile(Directory.MESSAGES).listFiles())).toList());
         plugin.sendLog("Loaded locales: '&b" + getAllowedLocalesString() + "&a'");
         this.locales = parseLocalesData(jsonFile.getJsonFromFile());
         var defLocale = parseDefaultLocale(plugin.getConfiguration().getString(Config.LOCALE_DEFAULT));
-        if (!isAllowedLocale(defLocale)) {
-            throw new LocaleException("This default locale '" + defLocale + "' is not allowed!");
-        }
-        this.defaultLocale = defLocale;
+        if (!isAllowedLocale(defLocale)) throw new LocaleException("This default locale '" + defLocale + "' is not allowed!");
+        this.defaultPlayerLocale = defLocale;
         plugin.sendLog("Installed default locale: &b" + defLocale);
         return this;
     }
@@ -83,25 +79,23 @@ public class DarkLocaleStorage extends FilesManager implements LocaleStorage {
     }
 
     @Override
-    public boolean isAllowedLocale(@NotNull Locale locale) {
-        for (var loc : allowedLocales) {
-            if (locale.equals(loc)) {
-                return true;
-            }
+    public boolean isAllowedLocale(@NotNull PlayerLocale playerLocale) {
+        for (var loc : allowedPlayerLocales) {
+            if (playerLocale.equals(loc)) return true;
         }
         return false;
     }
 
     @Override
-    public boolean putInLocalesData(@NotNull UUID uuid, @NotNull Locale locale) {
-        locales.put(uuid, locale);
+    public boolean putInLocalesData(@NotNull UUID uuid, @NotNull PlayerLocale playerLocale) {
+        locales.put(uuid, playerLocale);
         return locales.containsKey(uuid);
     }
 
     @Override
-    public boolean putInLocalesData(@NotNull Player player, @NotNull Locale locale) {
+    public boolean putInLocalesData(@NotNull Player player, @NotNull PlayerLocale playerLocale) {
         var uuid = player.getUniqueId();
-        locales.put(uuid, locale);
+        locales.put(uuid, playerLocale);
         return locales.containsKey(uuid);
     }
 
@@ -116,12 +110,12 @@ public class DarkLocaleStorage extends FilesManager implements LocaleStorage {
     }
 
     @Override
-    public @NotNull Locale getLocalesData(@NotNull UUID uuid) {
+    public @NotNull PlayerLocale getLocalesData(@NotNull UUID uuid) {
         return locales.get(uuid);
     }
 
     @Override
-    public @NotNull Locale getLocalesData(@NotNull Player player) {
+    public @NotNull PlayerLocale getLocalesData(@NotNull Player player) {
         return locales.get(player.getUniqueId());
     }
 
@@ -139,18 +133,18 @@ public class DarkLocaleStorage extends FilesManager implements LocaleStorage {
     }
 
     @Override
-    public @NotNull Locale getDefaultLocale() {
-        return defaultLocale;
+    public @NotNull PlayerLocale getDefaultLocale() {
+        return defaultPlayerLocale;
     }
 
     @Override
     public @NotNull String getAllowedLocalesString() {
-        return allowedLocales.stream().map(Locale::toString).collect(Collectors.joining(", ", "[", "]"));
+        return allowedPlayerLocales.stream().map(PlayerLocale::toString).collect(Collectors.joining(", ", "[", "]"));
     }
 
     @Override
-    public @NotNull Set<Locale> getAllowedLocalesList() {
-        return new HashSet<>(allowedLocales);
+    public @NotNull Set<PlayerLocale> getAllowedLocalesList() {
+        return new HashSet<>(allowedPlayerLocales);
     }
 
     @Override
@@ -163,16 +157,16 @@ public class DarkLocaleStorage extends FilesManager implements LocaleStorage {
     }
 
     @Override
-    public @NotNull HashMap<UUID, Locale> getLocalesData() {
+    public @NotNull HashMap<UUID, PlayerLocale> getLocalesData() {
         return locales;
     }
 
-    private @NotNull Set<Locale> parseAllowedLocales(@NotNull List<java.io.File> locales) throws LocaleException {
-        var set = new HashSet<Locale>();
+    private @NotNull Set<PlayerLocale> parseAllowedLocales(@NotNull List<java.io.File> locales) throws LocaleException {
+        var set = new HashSet<PlayerLocale>();
         for (var file : locales) {
             var fileName = file.getName().split("\\.");
             if (Objects.equals(fileName[1], "json")) {
-                var locale = Locale.valueOf(fileName[0]);
+                var locale = new Locale(fileName[0]);
                 if (!isContainsLocale(set, locale)) {
                     set.add(locale);
                 } else {
@@ -180,33 +174,27 @@ public class DarkLocaleStorage extends FilesManager implements LocaleStorage {
                 }
             }
         }
-        if (set.isEmpty()) {
-            throw new LocaleException("Allowed locales is empty!");
-        }
+        if (set.isEmpty()) throw new LocaleException("Allowed locales is empty!");
         return set;
     }
 
-    private @NotNull Locale parseDefaultLocale(@NotNull String locale) throws LocaleException {
+    private @NotNull PlayerLocale parseDefaultLocale(@NotNull String locale) throws LocaleException {
         var loc = locale.replace(" ", "");
-        if (loc.isEmpty()) {
-            throw new LocaleException("Default locale is empty!");
-        }
-        return Locale.valueOf(loc);
+        if (loc.isEmpty()) throw new LocaleException("Default locale is empty!");
+        return new Locale(loc);
     }
 
-    private @NotNull HashMap<UUID, Locale> parseLocalesData(@NotNull JSONObject json) {
-        var map = new HashMap<UUID, Locale>();
+    private @NotNull HashMap<UUID, PlayerLocale> parseLocalesData(@NotNull JSONObject json) {
+        var map = new HashMap<UUID, PlayerLocale>();
         for (var locale : json.keySet()) {
-            map.put(UUID.fromString(locale), Locale.valueOf(json.getString(locale)));
+            map.put(UUID.fromString(locale), new Locale(json.getString(locale)));
         }
         return map;
     }
 
-    private boolean isContainsLocale(@NotNull Set<Locale> allowedLocales, @NotNull Locale locale) {
-        for (var loc : allowedLocales) {
-            if (loc.equals(locale)) {
-                return true;
-            }
+    private boolean isContainsLocale(@NotNull Set<PlayerLocale> allowedPlayerLocales, @NotNull PlayerLocale playerLocale) {
+        for (var loc : allowedPlayerLocales) {
+            if (loc.equals(playerLocale)) return true;
         }
         return false;
     }

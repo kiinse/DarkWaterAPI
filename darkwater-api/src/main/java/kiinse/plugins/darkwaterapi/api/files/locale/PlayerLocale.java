@@ -20,16 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-package kiinse.plugins.darkwaterapi.api.commands;
+package kiinse.plugins.darkwaterapi.api.files.locale;
 
-import java.lang.reflect.Method;
+import org.jetbrains.annotations.NotNull;
 
-public interface DarkRegisteredCommand {
+import java.util.Objects;
 
-    Object getAnnotation();
+@SuppressWarnings("unused")
+public abstract class PlayerLocale {
 
-    Method getMethod();
+    public static boolean equals(@NotNull PlayerLocale playerLocale1, @NotNull PlayerLocale playerLocale2) {
+        return Objects.equals(playerLocale1.toString(), playerLocale2.toString());
+    }
 
-    Object getInstance();
+    public abstract @NotNull String toString();
 
+    public abstract boolean equals(@NotNull PlayerLocale playerLocale);
 }

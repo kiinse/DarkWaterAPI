@@ -20,15 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-package kiinse.plugins.darkwaterapi.core.commands;
+package kiinse.plugins.darkwaterapi.api.commands;
 
-import kiinse.plugins.darkwaterapi.api.commands.DarkRegisteredCommand;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
 
-public final class RegisteredCommand implements DarkRegisteredCommand {
+public abstract class RegisteredCommand {
 
     private final Object instance;
 
@@ -37,7 +36,7 @@ public final class RegisteredCommand implements DarkRegisteredCommand {
     private final Object annotation;
 
 
-    RegisteredCommand(@Nullable Method method, @NotNull Object instance, @Nullable Object annotation) {
+    protected RegisteredCommand(@Nullable Method method, @NotNull Object instance, @Nullable Object annotation) {
         this.method = method;
         this.instance = instance;
         this.annotation = annotation;

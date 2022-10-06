@@ -40,8 +40,6 @@ public class EntityDeathListener implements Listener {
     @EventHandler
     public void entityDeath(@NotNull EntityDeathEvent event) {
         var killer = event.getEntity().getKiller();
-        if (killer != null) {
-            darkWaterStatistic.addStatistic(killer, event.getEntity().getType());
-        }
+        if (killer != null) darkWaterStatistic.addStatistic(killer, event.getEntity().getType());
     }
 }

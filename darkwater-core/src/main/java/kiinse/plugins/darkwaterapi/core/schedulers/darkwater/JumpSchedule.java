@@ -53,9 +53,7 @@ public class JumpSchedule extends Scheduler {
         while (iterator.hasNext()) {
             var entry = iterator.next();
             entry.setValue(entry.getValue() + 1);
-            if (entry.getValue() >= 2) {
-                iterator.remove();
-            }
+            if (entry.getValue() >= 2) iterator.remove();
         }
     }
 }

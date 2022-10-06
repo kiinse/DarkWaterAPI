@@ -63,9 +63,7 @@ public class LocaleExpansion extends PlaceholderExpansion {
 
     @Override
     public @Nullable String onPlaceholderRequest(@Nullable Player player, @NotNull String identifier) {
-        if (player == null) {
-            return "";
-        }
+        if (player == null) return "";
         return switch (identifier) {
             case "player" -> plugin.getDarkWaterAPI().getPlayerLocales().getLocale(player).toString();
             case "list" -> plugin.getDarkWaterAPI().getLocaleStorage().getAllowedLocalesString();

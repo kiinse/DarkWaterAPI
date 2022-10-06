@@ -42,15 +42,12 @@ public abstract class Indicator {
     }
 
     public static @NotNull Indicator valueOf(@NotNull Plugin plugin, @NotNull String name, int position) throws IndicatorException {
-        if (name.isBlank()) {
+        if (name.isBlank())
             throw new IndicatorException("Indicator name is empty!");
-        }
-        if (!name.startsWith("%") || !name.endsWith("%")) {
+        if (!name.startsWith("%") || !name.endsWith("%"))
             throw new IndicatorException("Invalid indicator format! Please, user placeholder %indicator%!");
-        }
-        if (position < 0) {
+        if (position < 0)
             throw new IndicatorException("Position can't be < 0!");
-        }
         return new Indicator(plugin, name, position) {};
     }
 

@@ -50,9 +50,7 @@ public class DarkPluginManager implements PluginManager {
     @Override
     public boolean hasPlugin(@NotNull String plugin) {
         for (var plug : plugins) {
-            if (plug.getName().equals(plugin)) {
-                return true;
-            }
+            if (plug.getName().equals(plugin)) return true;
         }
         return false;
     }
@@ -64,9 +62,7 @@ public class DarkPluginManager implements PluginManager {
 
     private @Nullable DarkWaterJavaPlugin getPlugin(@NotNull String plugin) {
         for (var plug : plugins) {
-            if (plug.getName().equals(plugin)) {
-                return plug;
-            }
+            if (plug.getName().equals(plugin)) return plug;
         }
         return null;
     }
@@ -95,16 +91,15 @@ public class DarkPluginManager implements PluginManager {
         if (!hasPlugin(plugin)) {
             plugins.add(plugin);
             this.mainPlugin.sendLog("Plugin '&b" + plugin.getName() + "&a' registered");
-        } else {
-            this.mainPlugin.sendLog("Plugin '&b" + plugin.getName() + "&a' already registered! Skipping register...");
+            return;
         }
+        this.mainPlugin.sendLog("Plugin '&b" + plugin.getName() + "&a' already registered! Skipping register...");
     }
 
     @Override
     public void unregisterPlugin(@NotNull DarkWaterJavaPlugin plugin) throws PluginException {
-        if (!hasPlugin(plugin)) {
+        if (!hasPlugin(plugin))
             throw new PluginException("This plugin '" + plugin.getName() + "' not registered!");
-        }
         remove(plugin);
         this.mainPlugin.sendLog("Plugin '&b" + plugin.getName() + "&a' unregistered");
     }
@@ -112,12 +107,10 @@ public class DarkPluginManager implements PluginManager {
     @Override
     public void enablePlugin(@NotNull String plugin) throws PluginException {
         var plug = getPlugin(plugin);
-        if (!hasPlugin(plugin) || plug == null) {
+        if (plug == null || !hasPlugin(plugin))
             throw new PluginException("This plugin '" + plugin + "' not found!");
-        }
-        if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
+        if (Bukkit.getPluginManager().isPluginEnabled(plugin))
             throw new PluginException("This plugin '" + plugin + "' already enabled!");
-        }
         Bukkit.getPluginManager().enablePlugin(plug);
         this.mainPlugin.sendLog("Plugin '&b" + plug.getName() + "&a' started");
     }
@@ -125,12 +118,10 @@ public class DarkPluginManager implements PluginManager {
     @Override
     public void disablePlugin(@NotNull String plugin) throws PluginException {
         var plug = getPlugin(plugin);
-        if (!hasPlugin(plugin) || plug == null) {
+        if (plug == null || !hasPlugin(plugin))
             throw new PluginException("This plugin '" + plugin + "' not found!");
-        }
-        if (!Bukkit.getPluginManager().isPluginEnabled(plugin)) {
+        if (!Bukkit.getPluginManager().isPluginEnabled(plugin))
             throw new PluginException("This plugin '" + plugin + "' already disabled!");
-        }
         Bukkit.getPluginManager().disablePlugin(plug);
         this.mainPlugin.sendLog("Plugin '&b" + plug.getName() + "&a' stopped");
     }
@@ -138,9 +129,8 @@ public class DarkPluginManager implements PluginManager {
     @Override
     public void reloadPlugin(@NotNull String plugin) throws PluginException {
         var plug = getPlugin(plugin);
-        if (!hasPlugin(plugin) || plug == null) {
+        if (plug == null || !hasPlugin(plugin))
             throw new PluginException("This plugin '" + plugin + "' not found!");
-        }
         plug.restart();
         this.mainPlugin.sendLog("Plugin '&b" + plug.getName() + "&a' restarted");
     }

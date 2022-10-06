@@ -153,9 +153,7 @@ public class DarkPlayerUtils {
     }
 
     public static void playSound(@NotNull CommandSender sender, @NotNull Sound sound, float v, float v1) {
-        if (sender instanceof ConsoleCommandSender) {
-            return;
-        }
+        if (sender instanceof ConsoleCommandSender) return;
         var player = getPlayer(sender);
         player.playSound(player, sound, v, v1);
     }
@@ -165,9 +163,7 @@ public class DarkPlayerUtils {
     }
 
     public static void playSound(@NotNull CommandSender sender, @NotNull Sound sound, float v) {
-        if (sender instanceof ConsoleCommandSender) {
-            return;
-        }
+        if (sender instanceof ConsoleCommandSender) return;
         var player = getPlayer(sender);
         player.playSound(player, sound, v, 1f);
     }
@@ -177,9 +173,7 @@ public class DarkPlayerUtils {
     }
 
     public static void playSound(@NotNull CommandSender sender, @NotNull Sound sound) {
-        if (sender instanceof ConsoleCommandSender) {
-            return;
-        }
+        if (sender instanceof ConsoleCommandSender) return;
         var player = getPlayer(sender);
         player.playSound(player, sound, 1f, 1f);
     }
@@ -249,17 +243,16 @@ public class DarkPlayerUtils {
     }
 
     public static @NotNull String getPlayerID(@NotNull String player) throws IOException {
-        var bufferedReader = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/users/profiles/minecraft/" + player.replace(" ",
-                                                                                                                                                  "_")).openConnection().getInputStream()));
+        var bufferedReader = new BufferedReader(new InputStreamReader(
+                new URL("https://api.mojang.com/users/profiles/minecraft/" + player.replace(" ",
+                                                                                            "_")).openConnection().getInputStream()));
         return new JSONObject(bufferedReader.readLine()).getString("id");
     }
 
     public static @NotNull String getPlayerTextures(String uuid) throws IOException {
         var bufferedReader = new BufferedReader(new InputStreamReader(new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid + "?unsigned=false").openConnection().getInputStream()));
         var sb = new StringBuilder();
-        while (bufferedReader.ready()) {
-            sb.append(bufferedReader.readLine());
-        }
+        while (bufferedReader.ready()) sb.append(bufferedReader.readLine());
         var data = new JSONObject(sb.toString()).getJSONArray("properties").get(0).toString();
         return new JSONObject(data).getString("value");
     }

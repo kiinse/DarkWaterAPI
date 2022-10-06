@@ -23,7 +23,7 @@
 package kiinse.plugins.darkwaterapi.common.gui;
 
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
-import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
+import kiinse.plugins.darkwaterapi.api.files.locale.PlayerLocale;
 import kiinse.plugins.darkwaterapi.api.files.messages.Message;
 import kiinse.plugins.darkwaterapi.common.gui.items.*;
 import kiinse.plugins.darkwaterapi.core.gui.DarkGUI;
@@ -65,7 +65,7 @@ public class LocaleGUI extends DarkGUI {
         return this;
     }
 
-    private @NotNull LocaleGUI addItems(@NotNull Map<Integer, HashSet<Locale>> locales) {
+    private @NotNull LocaleGUI addItems(@NotNull Map<Integer, HashSet<PlayerLocale>> locales) {
         int position = 9;
         for (var locale : locales.get(page)) {
             var item = localeFlags.getFlag(locale);
@@ -85,7 +85,7 @@ public class LocaleGUI extends DarkGUI {
         return this;
     }
 
-    private @NotNull LocaleGUI setPreviousPageItem(@NotNull Map<Integer, HashSet<Locale>> locales) {
+    private @NotNull LocaleGUI setPreviousPageItem(@NotNull Map<Integer, HashSet<PlayerLocale>> locales) {
         if (locales.containsKey(page - 1)) {
             setItem(new PreviousPageItem(getPlugin(), getPlayerLocale(), (player -> {
                 delete();
@@ -100,14 +100,13 @@ public class LocaleGUI extends DarkGUI {
         return this;
     }
 
-    private @NotNull LocaleGUI setCurrentPageItem(@NotNull Map<Integer, HashSet<Locale>> locales) {
-        if (locales.size() > 1) {
+    private @NotNull LocaleGUI setCurrentPageItem(@NotNull Map<Integer, HashSet<PlayerLocale>> locales) {
+        if (locales.size() > 1)
             setItem(new CurrentPageItem(getPlugin(), getPlayerLocale(), page, (player -> {})));
-        }
         return this;
     }
 
-    private @NotNull LocaleGUI setNextPageItem(@NotNull Map<Integer, HashSet<Locale>> locales) {
+    private @NotNull LocaleGUI setNextPageItem(@NotNull Map<Integer, HashSet<PlayerLocale>> locales) {
         if (locales.containsKey(page + 1)) {
             setItem(new NextPageItem(getPlugin(), getPlayerLocale(), (player -> {
                 delete();
@@ -130,10 +129,10 @@ public class LocaleGUI extends DarkGUI {
         return this;
     }
 
-    private @NotNull Map<Integer, HashSet<Locale>> getGuiPages() {
+    private @NotNull Map<Integer, HashSet<PlayerLocale>> getGuiPages() {
         var storage = getPlugin().getDarkWaterAPI().getLocaleStorage();
-        var hashmap = new HashMap<Integer, HashSet<Locale>>();
-        var list = new HashSet<Locale>();
+        var hashmap = new HashMap<Integer, HashSet<PlayerLocale>>();
+        var list = new HashSet<PlayerLocale>();
         int localesCount = 0;
         int size = 0;
         int pageNum = 1;

@@ -24,7 +24,7 @@ package kiinse.plugins.darkwaterapi.common.commands.darkwaterapi;
 
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.commands.Command;
-import kiinse.plugins.darkwaterapi.api.commands.DarkCommand;
+import kiinse.plugins.darkwaterapi.api.commands.CommandContext;
 import kiinse.plugins.darkwaterapi.api.commands.SubCommand;
 import kiinse.plugins.darkwaterapi.api.files.messages.Message;
 import kiinse.plugins.darkwaterapi.api.files.messages.MessagesUtils;
@@ -40,7 +40,7 @@ import java.util.logging.Level;
 
 @SuppressWarnings("unused")
 @Command(command = "darkwater")
-public class DarkWaterCommands implements DarkCommand {
+public class DarkWaterCommands {
 
     private final DarkWaterJavaPlugin plugin;
     private final PluginManager pluginManager;
@@ -52,11 +52,12 @@ public class DarkWaterCommands implements DarkCommand {
         this.messagesUtils = new DarkMessagesUtils(plugin);
     }
 
-    @Override
     @SubCommand(command = "reload",
                 permission = "darkwater.reload",
                 parameters = 1)
-    public void command(@NotNull CommandSender sender, @NotNull String[] args) {
+    public void reload(@NotNull CommandContext context) {
+        var args = context.getArgs();
+        var sender = context.getSender();
         if (hasPlugin(sender, args[0])) {
             try {
                 pluginManager.reloadPlugin(args[0]);
@@ -72,7 +73,9 @@ public class DarkWaterCommands implements DarkCommand {
     @SubCommand(command = "enable",
                 permission = "darkwater.enable",
                 parameters = 1)
-    public void enable(@NotNull CommandSender sender, @NotNull String[] args) {
+    public void enable(@NotNull CommandContext context) {
+        var args = context.getArgs();
+        var sender = context.getSender();
         if (hasPlugin(sender, args[0])) {
             try {
                 pluginManager.enablePlugin(args[0]);
@@ -88,7 +91,9 @@ public class DarkWaterCommands implements DarkCommand {
     @SubCommand(command = "disable",
                 permission = "darkwater.disable",
                 parameters = 1)
-    public void disable(@NotNull CommandSender sender, @NotNull String[] args) {
+    public void disable(@NotNull CommandContext context) {
+        var args = context.getArgs();
+        var sender = context.getSender();
         if (hasPlugin(sender, args[0])) {
             try {
                 pluginManager.disablePlugin(args[0]);

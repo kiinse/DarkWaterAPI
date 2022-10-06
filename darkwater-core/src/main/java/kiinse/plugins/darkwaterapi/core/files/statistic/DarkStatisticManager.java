@@ -26,7 +26,7 @@ import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.exceptions.JsonFileException;
 import kiinse.plugins.darkwaterapi.api.files.enums.File;
 import kiinse.plugins.darkwaterapi.api.files.filemanager.JsonFile;
-import kiinse.plugins.darkwaterapi.api.files.statistic.Statistic;
+import kiinse.plugins.darkwaterapi.api.files.statistic.DarkStatistic;
 import kiinse.plugins.darkwaterapi.api.files.statistic.StatisticManager;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -39,7 +39,7 @@ import java.util.UUID;
 @SuppressWarnings("UnusedReturnValue")
 public class DarkStatisticManager extends JsonFile implements StatisticManager {
 
-    private final HashMap<UUID, Statistic> statistic = new HashMap<>();
+    private final HashMap<UUID, DarkStatistic> statistic = new HashMap<>();
 
     public DarkStatisticManager(@NotNull DarkWaterJavaPlugin plugin) throws JsonFileException {
         super(plugin, File.STATISTIC_JSON);
@@ -89,23 +89,19 @@ public class DarkStatisticManager extends JsonFile implements StatisticManager {
     }
 
     @Override
-    public @NotNull Statistic getPlayerStatistic(@NotNull Player player) {
-        if (!hasPlayer(player)) {
-            putPlayer(player);
-        }
+    public @NotNull DarkStatistic getPlayerStatistic(@NotNull Player player) {
+        if (!hasPlayer(player)) putPlayer(player);
         return statistic.get(player.getUniqueId());
     }
 
     @Override
-    public @NotNull Statistic getPlayerStatistic(@NotNull UUID player) {
-        if (!hasPlayer(player)) {
-            putPlayer(player);
-        }
+    public @NotNull DarkStatistic getPlayerStatistic(@NotNull UUID player) {
+        if (!hasPlayer(player)) putPlayer(player);
         return statistic.get(player);
     }
 
     @Override
-    public @NotNull StatisticManager setPlayerStatistic(@NotNull Player player, @NotNull Statistic statistic) {
+    public @NotNull StatisticManager setPlayerStatistic(@NotNull Player player, @NotNull DarkStatistic statistic) {
         var uuid = player.getUniqueId();
         this.statistic.remove(uuid);
         this.statistic.put(uuid, statistic);
@@ -113,7 +109,7 @@ public class DarkStatisticManager extends JsonFile implements StatisticManager {
     }
 
     @Override
-    public @NotNull StatisticManager setPlayerStatistic(@NotNull UUID player, @NotNull Statistic statistic) {
+    public @NotNull StatisticManager setPlayerStatistic(@NotNull UUID player, @NotNull DarkStatistic statistic) {
         this.statistic.remove(player);
         this.statistic.put(player, statistic);
         return this;
@@ -144,7 +140,7 @@ public class DarkStatisticManager extends JsonFile implements StatisticManager {
     }
 
     @Override
-    public @NotNull HashMap<UUID, Statistic> getAllPlayerStatistic() {
+    public @NotNull HashMap<UUID, DarkStatistic> getAllPlayerStatistic() {
         return statistic;
     }
 }

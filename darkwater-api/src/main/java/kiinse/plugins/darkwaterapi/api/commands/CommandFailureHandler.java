@@ -35,6 +35,6 @@ public interface CommandFailureHandler {
      * @param sender  Command sender
      * @param command Command used
      */
-    void handleFailure(@NotNull CommandFailReason reason, @NotNull CommandSender sender, @Nullable DarkRegisteredCommand command);
+    void handleFailure(@NotNull CommandFailReason reason, @NotNull CommandSender sender, @Nullable RegisteredCommand command);
 
 }

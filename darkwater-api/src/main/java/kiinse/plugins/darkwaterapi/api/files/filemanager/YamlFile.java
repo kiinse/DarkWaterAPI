@@ -42,9 +42,7 @@ public class YamlFile extends FilesManager {
 
     public YamlFile(@NotNull DarkWaterJavaPlugin plugin, @NotNull FilesKeys fileName) {
         super(plugin);
-        if (isFileNotExists(fileName)) {
-            copyFile(fileName);
-        }
+        if (isFileNotExists(fileName)) copyFile(fileName);
         this.fileName = fileName;
         this.file = YamlConfiguration.loadConfiguration(getFile(fileName));
         try {

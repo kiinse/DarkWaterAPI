@@ -153,9 +153,8 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWater
                     var reader = new BufferedReader(new InputStreamReader(
                             Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("version-message.txt"))));
                     var builder = new StringBuilder("\n");
-                    while (reader.ready()) {
+                    while (reader.ready())
                         builder.append(reader.readLine()).append("\n");
-                    }
                     sendConsole(DarkUtils.replaceWord(builder.toString(), new String[]{
                             "{NEW_VERSION}:" + latest.getOriginalValue(),
                             "{CURRENT_VERSION}:" + getDescription().getVersion()
@@ -214,9 +213,8 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWater
 
     @Override
     public boolean isDebug() {
-        if (getConfiguration() != null) {
+        if (getConfiguration() != null)
             return getConfiguration().getBoolean(Config.DEBUG);
-        }
         return false;
     }
 }

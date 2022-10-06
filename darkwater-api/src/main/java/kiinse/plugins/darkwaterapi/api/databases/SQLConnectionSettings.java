@@ -40,9 +40,7 @@ public class SQLConnectionSettings {
     private String dbName = "darkwaterapi";
 
     public @NotNull SQLConnectionSettings setURLDriver(@NotNull String urlDriver) throws IllegalArgumentException {
-        if (urlDriver.isBlank()) {
-            throw new IllegalArgumentException("SQL database url driver is empty");
-        }
+        if (urlDriver.isBlank()) throw new IllegalArgumentException("SQL database url driver is empty");
         this.urlDriver = urlDriver;
         return this;
     }
@@ -52,9 +50,7 @@ public class SQLConnectionSettings {
     }
 
     public @NotNull SQLConnectionSettings setHost(@NotNull String sqlHost) throws IllegalArgumentException {
-        if (sqlHost.isBlank()) {
-            throw new IllegalArgumentException("SQL host is empty");
-        }
+        if (sqlHost.isBlank()) throw new IllegalArgumentException("SQL host is empty");
         this.host = sqlHost;
         return this;
     }
@@ -64,9 +60,7 @@ public class SQLConnectionSettings {
     }
 
     public @NotNull SQLConnectionSettings setPort(@NotNull String sqlPort) throws IllegalArgumentException {
-        if (sqlPort.isBlank()) {
-            throw new IllegalArgumentException("SQL port is empty");
-        }
+        if (sqlPort.isBlank()) throw new IllegalArgumentException("SQL port is empty");
         this.port = sqlPort;
         return this;
     }
@@ -76,9 +70,7 @@ public class SQLConnectionSettings {
     }
 
     public @NotNull SQLConnectionSettings setLogin(@NotNull String sqlLogin) throws IllegalArgumentException {
-        if (sqlLogin.isBlank()) {
-            throw new IllegalArgumentException("SQL login is empty");
-        }
+        if (sqlLogin.isBlank()) throw new IllegalArgumentException("SQL login is empty");
         this.login = sqlLogin;
         return this;
     }
@@ -88,9 +80,7 @@ public class SQLConnectionSettings {
     }
 
     public @NotNull SQLConnectionSettings setPassword(@NotNull String sqlPassword) throws IllegalArgumentException {
-        if (sqlPassword.isBlank()) {
-            throw new IllegalArgumentException("SQL password is empty");
-        }
+        if (sqlPassword.isBlank()) throw new IllegalArgumentException("SQL password is empty");
         this.password = sqlPassword;
         return this;
     }
@@ -104,9 +94,7 @@ public class SQLConnectionSettings {
     }
 
     public @NotNull SQLConnectionSettings setDbName(@NotNull String sqldbName) throws IllegalArgumentException {
-        if (sqldbName.isBlank()) {
-            throw new IllegalArgumentException("SQL database name is empty");
-        }
+        if (sqldbName.isBlank()) throw new IllegalArgumentException("SQL database name is empty");
         this.dbName = sqldbName;
         return this;
     }

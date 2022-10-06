@@ -57,12 +57,8 @@ public class DarkItemUtils implements ItemStackUtils {
         var item = new ItemStack(material);
         var meta = item.getItemMeta();
         if (meta != null) {
-            if (!DarkUtils.isStringEmpty(name)) {
-                meta.setDisplayName(name);
-            }
-            if (lore != null) {
-                meta.setLore(lore);
-            }
+            if (!DarkUtils.isStringEmpty(name)) meta.setDisplayName(name);
+            if (lore != null) meta.setLore(lore);
             item.setItemMeta(meta);
             item.setAmount(amount);
         }
@@ -74,12 +70,8 @@ public class DarkItemUtils implements ItemStackUtils {
         var item = new ItemStack(Material.POTION);
         var meta = item.getItemMeta();
         if (meta != null) {
-            if (!DarkUtils.isStringEmpty(name)) {
-                meta.setDisplayName(name);
-            }
-            if (lore != null) {
-                meta.setLore(lore);
-            }
+            if (!DarkUtils.isStringEmpty(name)) meta.setDisplayName(name);
+            if (lore != null) meta.setLore(lore);
             ((PotionMeta) meta).setBasePotionData(new PotionData(type));
         }
         item.setAmount(amount);

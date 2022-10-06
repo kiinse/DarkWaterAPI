@@ -33,16 +33,12 @@ public class GUIListener implements Listener {
 
     @EventHandler
     public void onClick(@NotNull InventoryClickEvent e) {
-        if (!(e.getWhoClicked() instanceof Player player)) {
-            return;
-        }
+        if (!(e.getWhoClicked() instanceof Player player)) return;
         var inventoryUUID = DarkGUI.getOpenInventories().get(player.getUniqueId());
         if (inventoryUUID != null) {
             e.setCancelled(true);
             var action = DarkGUI.getInventoriesByUUID().get(inventoryUUID).getActions().get(e.getSlot());
-            if (action != null) {
-                action.click(player);
-            }
+            if (action != null) action.click(player);
         }
     }
 

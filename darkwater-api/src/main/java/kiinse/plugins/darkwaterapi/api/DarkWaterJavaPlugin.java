@@ -79,9 +79,8 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
             configuration = new YamlFile(this, getConfigurationFileName());
             messages = getDarkWaterAPI().getMessages(this);
             onStart();
-            if (!getDarkWaterAPI().getPluginManager().hasPlugin(this)) {
+            if (!getDarkWaterAPI().getPluginManager().hasPlugin(this))
                 getDarkWaterAPI().getPluginManager().registerPlugin(this);
-            }
             sendInfo();
         } catch (Exception e) {
             throw new PluginException(e);

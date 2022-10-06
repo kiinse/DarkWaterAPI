@@ -24,7 +24,7 @@ package kiinse.plugins.darkwaterapi.common.commands.statistic;
 
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.commands.Command;
-import kiinse.plugins.darkwaterapi.api.commands.DarkCommand;
+import kiinse.plugins.darkwaterapi.api.commands.CommandContext;
 import kiinse.plugins.darkwaterapi.api.files.messages.Message;
 import kiinse.plugins.darkwaterapi.api.files.messages.MessagesUtils;
 import kiinse.plugins.darkwaterapi.api.files.statistic.StatisticManager;
@@ -32,10 +32,9 @@ import kiinse.plugins.darkwaterapi.common.files.Replace;
 import kiinse.plugins.darkwaterapi.core.files.messages.DarkMessagesUtils;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkUtils;
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-public class StatisticCommands implements DarkCommand {
+public class StatisticCommands {
 
     private final MessagesUtils messagesUtils;
     private final StatisticManager darkWaterStatistic;
@@ -45,11 +44,11 @@ public class StatisticCommands implements DarkCommand {
         this.darkWaterStatistic = plugin.getDarkWaterAPI().getDarkWaterStatistic();
     }
 
-    @Override
     @Command(command = "statistic",
              permission = "darkwater.statistic",
              disallowNonPlayer = true)
-    public void command(@NotNull CommandSender sender, @NotNull String[] args) {
+    public void command(@NotNull CommandContext context) {
+        var sender = context.getSender();
         var stats = darkWaterStatistic.getPlayerStatistic(DarkPlayerUtils.getPlayer(sender)).getAllStatistic();
         String msg;
         if (!stats.isEmpty()) {

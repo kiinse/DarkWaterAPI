@@ -45,18 +45,14 @@ public class JsonFile extends FilesManager {
     public JsonFile(@NotNull DarkWaterJavaPlugin plugin, @NotNull FilesKeys fileName) {
         super(plugin);
         this.plugin = plugin;
-        if (isFileNotExists(fileName)) {
-            copyFile(fileName);
-        }
+        if (isFileNotExists(fileName)) copyFile(fileName);
         this.file = getFile(fileName);
     }
 
     public @NotNull JSONObject getJsonFromFile() throws JsonFileException {
         try (var br = new BufferedReader(new FileReader(file.getAbsolutePath()))) {
             var line = br.readLine();
-            if (line == null) {
-                return new JSONObject();
-            }
+            if (line == null) return new JSONObject();
             var json = new JSONObject(Files.readString(Paths.get(file.getAbsolutePath())));
             plugin.sendLog("File '&b" + file.getName() + "&a' loaded");
             return json;
@@ -67,9 +63,8 @@ public class JsonFile extends FilesManager {
 
     public void saveJsonToFile(@NotNull JSONObject json) throws JsonFileException {
         try {
-            if (!file.exists() && file.createNewFile()) {
+            if (!file.exists() && file.createNewFile())
                 plugin.sendLog("File '&b" + file.getName() + "&a' created");
-            }
             var lines = List.of(json.toString());
             Files.write(Paths.get(file.getAbsolutePath()), lines, StandardCharsets.UTF_8);
             plugin.sendLog("File '&b" + file.getName() + "&a' saved");

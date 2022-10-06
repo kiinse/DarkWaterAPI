@@ -23,8 +23,8 @@
 package kiinse.plugins.darkwaterapi.core.files.locale;
 
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
-import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
 import kiinse.plugins.darkwaterapi.api.files.locale.LocaleStorage;
+import kiinse.plugins.darkwaterapi.api.files.locale.PlayerLocale;
 import kiinse.plugins.darkwaterapi.api.files.locale.PlayerLocales;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
 import org.bukkit.command.CommandSender;
@@ -50,37 +50,36 @@ public class DarkPlayerLocales implements PlayerLocales {
     }
 
     @Override
-    public @NotNull Locale getLocale(@NotNull Player player) {
-        if (isLocalized(player)) {
-            return storage.getLocalesData(player);
-        }
+    public @NotNull PlayerLocale getLocale(@NotNull Player player) {
+        if (isLocalized(player)) return storage.getLocalesData(player);
         return storage.getDefaultLocale();
     }
 
     @Override
-    public @NotNull Locale getLocale(@NotNull CommandSender sender) {
-        if (sender instanceof ConsoleCommandSender) {
+    public @NotNull PlayerLocale getLocale(@NotNull CommandSender sender) {
+        if (sender instanceof ConsoleCommandSender)
             return storage.getDefaultLocale();
-        }
         var player = DarkPlayerUtils.getPlayer(sender);
-        if (isLocalized(player)) {
+        if (isLocalized(player))
             return storage.getLocalesData(player);
-        }
         return storage.getDefaultLocale();
     }
 
     @Override
-    public void setLocale(@NotNull Player player, @NotNull Locale locale) {
-        if (isLocalized(player) && storage.removeLocalesData(player)) {
-            plugin.sendLog(Level.CONFIG, "Player '" + DarkPlayerUtils.getPlayerName(player) + "' locale has been removed");
-        }
-        if (storage.putInLocalesData(player, storage.isAllowedLocale(locale) ? locale : storage.getDefaultLocale())) {
-            plugin.sendLog(Level.CONFIG, "Player '" + DarkPlayerUtils.getPlayerName(player) + "' locale has been added. Locale: " + locale);
-        }
+    public @NotNull PlayerLocale convertStringToLocale(@NotNull String locale) {
+        return new Locale(locale);
     }
 
     @Override
-    public @NotNull Locale getInterfaceLocale(@NotNull Player player) {
-        return Locale.valueOf(player.getLocale().split("_")[0]);
+    public void setLocale(@NotNull Player player, @NotNull PlayerLocale playerLocale) {
+        if (isLocalized(player) && storage.removeLocalesData(player))
+            plugin.sendLog(Level.CONFIG, "Player '" + DarkPlayerUtils.getPlayerName(player) + "' locale has been removed");
+        if (storage.putInLocalesData(player, storage.isAllowedLocale(playerLocale) ? playerLocale : storage.getDefaultLocale()))
+            plugin.sendLog(Level.CONFIG, "Player '" + DarkPlayerUtils.getPlayerName(player) + "' locale has been added. Locale: " + playerLocale);
+    }
+
+    @Override
+    public @NotNull PlayerLocale getInterfaceLocale(@NotNull Player player) {
+        return convertStringToLocale(player.getLocale().split("_")[0]);
     }
 }
