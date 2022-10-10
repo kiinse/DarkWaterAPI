@@ -17,7 +17,6 @@
   "player_not_found": "&cPlayer '{PLAYER}' nicht gefunden!",
   "first_join": "\n&b&l===== &6LOCALIZATION &b&l=====\n&2Ihr Gebietsschema ist auf &f&l{LOCALE}&2 eingestellt.\n\n<CMD=/locale change::&6Change language>&aKlicken Sie hier, um dies zu ändern</CMD>\n\n",
   "locales_list": "&2LANGUAGES: &f&l{LOCALES}",
-  "resource_declined": "&cSie wurden gekickt, weil Sie keine Serverressourcen akzeptiert haben.",
   "plugin_not_found": "&cDieses Plugin '{PLUGIN}' wurde nicht gefunden!",
   "plugin_reloaded": "&a{PLUGIN} neu geladen!",
   "plugin_disabled": "&a{PLUGIN} ist deaktiviert!",

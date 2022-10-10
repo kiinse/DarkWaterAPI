@@ -38,7 +38,7 @@ public class GUIListener implements Listener {
         if (inventoryUUID != null) {
             e.setCancelled(true);
             var action = DarkGUI.getInventoriesByUUID().get(inventoryUUID).getActions().get(e.getSlot());
-            if (action != null) action.click(player);
+            if (action != null) action.click(e.getClick(), player);
         }
     }
 

@@ -44,4 +44,5 @@ public @interface SubCommand {
      */
     String permission() default "";
 
+    String[] aliases() default {};
 }

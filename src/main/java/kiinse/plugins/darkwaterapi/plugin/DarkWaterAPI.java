@@ -147,7 +147,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWater
                 try {
                     var latest = DarkVersionUtils.getLatestGithubVersion("https://github.com/kiinse/DarkWaterAPI");
                     if (!latest.isGreaterThan(DarkVersionUtils.getPluginVersion(this))) {
-                        sendLog("Latest version of DarkWaterAPI installed, no new versions found =3");
+                        sendLog("Latest version of DarkWaterAPI installed, no new versions found <3");
                         return;
                     }
                     var reader = new BufferedReader(new InputStreamReader(
@@ -160,7 +160,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWater
                             "{CURRENT_VERSION}:" + getDescription().getVersion()
                     }));
                 } catch (IOException | VersioningException e) {
-                    sendLog(Level.WARNING, "Error checking DarkWaterAPI version! Message: " + e.getMessage());
+                    sendLog(Level.WARNING, "Error while checking DarkWaterAPI version! Message: " + e.getMessage());
                 }
             }
         });

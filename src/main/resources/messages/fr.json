@@ -17,7 +17,6 @@
   "player_not_found": "&cPlayer '{PLAYER}' introuvable!",
   "first_join": "\n&b&l===== &6LOCALISATION &b&l=====\n&2Vos paramètres régionaux sont définis sur &f&l{LOCALE}&2.\n\n<CMD=/locale change::&6Change language>&aCliquez pour modifier ceci</CMD>\n\n",
   "locales_list": "&2LANGUES : &f&l{LOCALES}",
-  "resource_declined": "&cVous avez été expulsé parce que vous n'avez pas accepté les ressources du serveur.",
   "plugin_not_found": "&cCe plugin '{PLUGIN}' n'a pas été trouvé!",
   "plugin_reloaded": "&a{PLUGIN} rechargé!",
   "plugin_disabled": "&a{PLUGIN} est désactivé!",

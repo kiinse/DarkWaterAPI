@@ -76,7 +76,7 @@ public class LocaleGUI extends DarkGUI {
                 meta.setLore(list);
                 item.setItemMeta(meta);
             }
-            setItem(new LocaleItem(position, "&f" + locale, item, player -> {
+            setItem(new LocaleItem(position, "&f" + locale, item, (type, player) -> {
                 player.performCommand("locale set " + locale);
                 delete();
             }));
@@ -87,7 +87,7 @@ public class LocaleGUI extends DarkGUI {
 
     private @NotNull LocaleGUI setPreviousPageItem(@NotNull Map<Integer, HashSet<PlayerLocale>> locales) {
         if (locales.containsKey(page - 1)) {
-            setItem(new PreviousPageItem(getPlugin(), getPlayerLocale(), (player -> {
+            setItem(new PreviousPageItem(getPlugin(), getPlayerLocale(), (type, player) -> {
                 delete();
                 DarkPlayerUtils.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_STEP);
                 new LocaleGUI(getPlugin())
@@ -95,20 +95,20 @@ public class LocaleGUI extends DarkGUI {
                         .setName(getName())
                         .setLocale(getPlayerLocale())
                         .open(player);
-            })));
+            }));
         }
         return this;
     }
 
     private @NotNull LocaleGUI setCurrentPageItem(@NotNull Map<Integer, HashSet<PlayerLocale>> locales) {
         if (locales.size() > 1)
-            setItem(new CurrentPageItem(getPlugin(), getPlayerLocale(), page, (player -> {})));
+            setItem(new CurrentPageItem(getPlugin(), getPlayerLocale(), page, (type, player) -> {}));
         return this;
     }
 
     private @NotNull LocaleGUI setNextPageItem(@NotNull Map<Integer, HashSet<PlayerLocale>> locales) {
         if (locales.containsKey(page + 1)) {
-            setItem(new NextPageItem(getPlugin(), getPlayerLocale(), (player -> {
+            setItem(new NextPageItem(getPlugin(), getPlayerLocale(), (type, player) -> {
                 delete();
                 DarkPlayerUtils.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_STEP);
                 new LocaleGUI(getPlugin())
@@ -116,16 +116,16 @@ public class LocaleGUI extends DarkGUI {
                         .setName(getName())
                         .setLocale(getPlayerLocale())
                         .open(player);
-            })));
+            }));
         }
         return this;
     }
 
     private @NotNull LocaleGUI setExitItem() {
-        setItem(new ExitItem(getPlugin(), getPlayerLocale(), (player -> {
+        setItem(new ExitItem(getPlugin(), getPlayerLocale(), (type, player) -> {
             delete();
             DarkPlayerUtils.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_STEP);
-        })));
+        }));
         return this;
     }
 

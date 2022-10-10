@@ -31,6 +31,8 @@ import java.util.Objects;
 @SuppressWarnings("unused")
 public abstract class Indicator {
 
+    // TODO: Обновить
+
     private final int position;
     private final String name;
     private final Plugin plugin;
