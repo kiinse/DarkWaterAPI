@@ -33,6 +33,7 @@ import kiinse.plugins.darkwaterapi.api.files.messages.Messages;
 import kiinse.plugins.darkwaterapi.api.files.messages.MessagesUtils;
 import kiinse.plugins.darkwaterapi.common.files.Replace;
 import kiinse.plugins.darkwaterapi.common.gui.LocaleGUI;
+import kiinse.plugins.darkwaterapi.api.commands.DarkCommand;
 import kiinse.plugins.darkwaterapi.core.files.messages.DarkMessagesUtils;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkUtils;
@@ -40,16 +41,15 @@ import org.bukkit.Sound;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
-public class LocaleCommands {
+public class LocaleCommands extends DarkCommand {
 
-    private final DarkWaterJavaPlugin plugin;
     private final PlayerLocales locales;
     private final LocaleStorage storage;
     private final Messages messages;
     private final MessagesUtils messagesUtils;
 
     public LocaleCommands(@NotNull DarkWaterJavaPlugin plugin) {
-        this.plugin = plugin;
+        super(plugin);
         this.messages = plugin.getMessages();
         this.locales = plugin.getDarkWaterAPI().getPlayerLocales();
         this.storage = plugin.getDarkWaterAPI().getLocaleStorage();
@@ -71,7 +71,7 @@ public class LocaleCommands {
     public void change(@NotNull CommandContext context) {
         var sender = context.getSender();
         DarkPlayerUtils.playSound(sender, Sound.BLOCK_AMETHYST_BLOCK_STEP);
-        new LocaleGUI(plugin)
+        new LocaleGUI(getPlugin())
                 .setPage(1)
                 .setName(DarkUtils.replaceWord(messages.getStringMessage(context.getSenderLocale(), Message.LOCALES_GUI),
                                                Replace.LOCALE,
@@ -115,7 +115,7 @@ public class LocaleCommands {
         } else {
             locales.setLocale(DarkPlayerUtils.getPlayer(sender), locale);
             messagesUtils.sendMessageWithPrefix(sender, Message.LOCALE_CHANGED, Replace.LOCALE, args[0].toLowerCase());
-            plugin.sendLog("The player '&b" + DarkPlayerUtils.getPlayerName(sender) + "&a' has changed his language. Now his language is: '&b" + args[0].toLowerCase() + "&a'");
+            getPlugin().sendLog("The player '&b" + DarkPlayerUtils.getPlayerName(sender) + "&a' has changed his language. Now his language is: '&b" + args[0].toLowerCase() + "&a'");
         }
     }
 

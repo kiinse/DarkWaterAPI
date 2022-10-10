@@ -48,6 +48,10 @@ commands:
     description: Disable plugins
     permission: darkwater.disable
     usage: /<command> [disable] %plugin%
+  darkwater test:
+    description: Just test command
+    permission: darkwater.test
+    usage: /<command> test
   statistic:
     description: Return your statistic
     permission: darkwater.statistic
@@ -64,6 +68,9 @@ permissions:
     default: op
   darkwater.disable:
     description: Allows /darkwater disable %plugin% command
+    default: op
+  darkwater.test:
+    description: Allows /darkwater test command
     default: op
   locale.get:
     description: Allows /locale get %player% command

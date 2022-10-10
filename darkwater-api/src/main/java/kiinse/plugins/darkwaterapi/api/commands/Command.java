@@ -52,6 +52,4 @@ public @interface Command {
      */
     String permission() default "";
 
-    String[] aliases() default {};
-
 }

@@ -44,11 +44,11 @@ public class CommandManager extends DarkCommandManager {
     }
 
     @Override
-    public @NotNull DarkCommandManager registerCommand(@NotNull Object commandClass) throws CommandException {
+    public @NotNull DarkCommandManager registerCommand(@NotNull DarkCommand commandClass) throws CommandException {
         var clazz = commandClass.getClass();
-        mainCommandTable.put(clazz, clazz.getAnnotation(Command.class) != null ?
-                registerMainCommand(clazz) : registerMainCommand(clazz, getMainCommandMethod(clazz)));
-        for (var method : clazz.getMethods()) registerSubCommand(clazz, method);
+        mainCommandTable.put(commandClass, clazz.getAnnotation(Command.class) != null ?
+                registerMainCommand(commandClass) : registerMainCommand(commandClass, getMainCommandMethod(clazz)));
+        for (var method : clazz.getMethods()) registerSubCommand(commandClass, method);
         return this;
     }
 
@@ -69,8 +69,7 @@ public class CommandManager extends DarkCommandManager {
             var wrapper = usage.getValue();
             if (wrapper.getMethod() != null) {
                 var annotation = (Command) wrapper.getAnnotation();
-                if (annotation != null && (annotation.command().equalsIgnoreCase(command.getName()) ||
-                                           hasCommandInAliases(annotation.aliases(), command.getName()) )) {
+                if (annotation != null && annotation.command().equalsIgnoreCase(command.getName())) {
                     if (isDisAllowNonPlayer(wrapper, sender, annotation.disallowNonPlayer())
                         || hasNotPermissions(wrapper, sender, annotation.permission())) return true;
                     invokeWrapper(wrapper, sender, args);
@@ -88,8 +87,7 @@ public class CommandManager extends DarkCommandManager {
         for (var argument : args) {
             sb.append(" ").append(argument.toLowerCase());
             for (var usage : registeredSubCommandTable.entrySet()) {
-                if (usage.getKey().equals(sb.toString())
-                    || hasCommandInAliases(((SubCommand) usage.getValue().getAnnotation()).aliases(), sb.toString())) {
+                if (usage.getKey().equals(sb.toString())) {
                     var wrapper = usage.getValue();
                     var annotation = (SubCommand) wrapper.getAnnotation();
                     if (annotation != null) {
@@ -113,17 +111,10 @@ public class CommandManager extends DarkCommandManager {
         return false;
     }
 
-    private boolean hasCommandInAliases(@NotNull String[] aliases, @NotNull String command) {
-        for (var alias : aliases) {
-            if (alias.equalsIgnoreCase(command)) return true;
-        }
-        return false;
-    }
-
     private void invokeWrapper(@NotNull RegisteredCommand wrapper, @NotNull CommandSender sender, @NotNull String[] args) {
         try {
             wrapper.getMethod().invoke(wrapper.getInstance(),
-                                       new Context(sender, plugin.getDarkWaterAPI().getPlayerLocales().getLocale(sender), args));
+                                       new DarkContext(sender, plugin.getDarkWaterAPI().getPlayerLocales().getLocale(sender), args));
         } catch (IllegalAccessException | InvocationTargetException e) {
             failureHandler.handleFailure(CommandFailReason.REFLECTION_ERROR, sender, wrapper);
             plugin.sendLog(Level.WARNING, "Error on command usage! Message: " + e.getMessage());

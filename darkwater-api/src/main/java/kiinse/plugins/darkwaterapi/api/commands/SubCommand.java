@@ -43,6 +43,4 @@ public @interface SubCommand {
      * @return Permissions to use the command
      */
     String permission() default "";
-
-    String[] aliases() default {};
 }

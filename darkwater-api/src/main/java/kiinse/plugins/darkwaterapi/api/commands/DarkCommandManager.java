@@ -20,7 +20,7 @@ public abstract class DarkCommandManager implements CommandExecutor {
     protected final CommandFailureHandler failureHandler;
     protected final Map<String, RegisteredCommand> registeredSubCommandTable = new HashMap<>();
     protected final Map<String, RegisteredCommand> registeredMainCommandTable = new HashMap<>();
-    protected final Map<Class<?>, String> mainCommandTable = new HashMap<>();
+    protected final Map<DarkCommand, String> mainCommandTable = new HashMap<>();
 
     protected DarkCommandManager(@NotNull DarkWaterJavaPlugin plugin) {
         this.plugin = plugin;
@@ -37,23 +37,23 @@ public abstract class DarkCommandManager implements CommandExecutor {
      *
      * @param commandClass A class that inherits from CommandClass and contains command methods
      */
-    public abstract @NotNull DarkCommandManager registerCommand(@NotNull Object commandClass) throws CommandException;
+    public abstract @NotNull DarkCommandManager registerCommand(@NotNull DarkCommand commandClass) throws CommandException;
 
-    protected @NotNull String registerMainCommand(@NotNull Class<?> commandClass, @NotNull Method method) throws CommandException {
+    protected @NotNull String registerMainCommand(@NotNull DarkCommand commandClass, @NotNull Method method) throws CommandException {
         var mainCommand = method.getAnnotation(Command.class);
         var command = mainCommand.command();
         register(commandClass, method, plugin.getServer().getPluginCommand(command), command, mainCommand, true);
         return command;
     }
 
-    protected @NotNull String registerMainCommand(@NotNull Class<?> darkCommand) throws CommandException {
-        var mainCommand = darkCommand.getAnnotation(Command.class);
+    protected @NotNull String registerMainCommand(@NotNull DarkCommand darkCommand) throws CommandException {
+        var mainCommand = darkCommand.getClass().getAnnotation(Command.class);
         var command = mainCommand.command();
         register(darkCommand, plugin.getServer().getPluginCommand(command), mainCommand);
         return command;
     }
 
-    protected void registerSubCommand(@NotNull Class<?> commandClass, @NotNull Method method) throws CommandException {
+    protected void registerSubCommand(@NotNull DarkCommand commandClass, @NotNull Method method) throws CommandException {
         var annotation = method.getAnnotation(SubCommand.class);
         var mainCommand = mainCommandTable.get(commandClass);
         if (annotation != null && !annotation.command().equals(mainCommand)) {
@@ -62,7 +62,7 @@ public abstract class DarkCommandManager implements CommandExecutor {
         }
     }
 
-    protected void register(@NotNull Class<?> commandClass, @NotNull Method method, @Nullable PluginCommand pluginCommand, @NotNull String command,
+    protected void register(@NotNull DarkCommand commandClass, @NotNull Method method, @Nullable PluginCommand pluginCommand, @NotNull String command,
                             @NotNull Object annotation, boolean isMainCommand) throws CommandException {
         register(pluginCommand, command);
         (isMainCommand ? registeredMainCommandTable : registeredSubCommandTable)
@@ -70,7 +70,7 @@ public abstract class DarkCommandManager implements CommandExecutor {
         plugin.sendLog(Level.CONFIG, "Command '&d" + command + "&6' registered!");
     }
 
-    protected void register(@NotNull Class<?> commandClass, @Nullable PluginCommand pluginCommand, @NotNull Command annotation)
+    protected void register(@NotNull DarkCommand commandClass, @Nullable PluginCommand pluginCommand, @NotNull Command annotation)
             throws CommandException {
         var command = annotation.command();
         register(pluginCommand, command);
@@ -85,7 +85,7 @@ public abstract class DarkCommandManager implements CommandExecutor {
         pluginCommand.setExecutor(this);
     }
 
-    protected @NotNull Method getMainCommandMethod(@NotNull Class<?> darkCommand) throws CommandException {
+    protected @NotNull Method getMainCommandMethod(@NotNull Class<? extends DarkCommand> darkCommand) throws CommandException {
         for (var method : darkCommand.getMethods()) {
             if (method.getAnnotation(Command.class) != null) return method;
         }

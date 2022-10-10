@@ -29,17 +29,19 @@ import kiinse.plugins.darkwaterapi.api.files.messages.Message;
 import kiinse.plugins.darkwaterapi.api.files.messages.MessagesUtils;
 import kiinse.plugins.darkwaterapi.api.files.statistic.StatisticManager;
 import kiinse.plugins.darkwaterapi.common.files.Replace;
+import kiinse.plugins.darkwaterapi.api.commands.DarkCommand;
 import kiinse.plugins.darkwaterapi.core.files.messages.DarkMessagesUtils;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkUtils;
 import org.jetbrains.annotations.NotNull;
 
-public class StatisticCommands {
+public class StatisticCommands extends DarkCommand {
 
     private final MessagesUtils messagesUtils;
     private final StatisticManager darkWaterStatistic;
 
     public StatisticCommands(@NotNull DarkWaterJavaPlugin plugin) {
+        super(plugin);
         this.messagesUtils = new DarkMessagesUtils(plugin);
         this.darkWaterStatistic = plugin.getDarkWaterAPI().getDarkWaterStatistic();
     }

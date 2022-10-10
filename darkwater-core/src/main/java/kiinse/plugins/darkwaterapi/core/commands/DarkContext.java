@@ -7,7 +7,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-public record Context(CommandSender sender, PlayerLocale senderPlayerLocale, String[] args) implements CommandContext {
+public class DarkContext implements CommandContext {
+
+    private final CommandSender sender;
+    private final PlayerLocale playerLocale;
+    private final String[] args;
+
+    public DarkContext(CommandSender sender, PlayerLocale playerLocale, String[] args) {
+        this.sender = sender;
+        this.playerLocale = playerLocale;
+        this.args = args;
+    }
 
     @Override
     public @NotNull CommandSender getSender() {
@@ -21,7 +31,7 @@ public record Context(CommandSender sender, PlayerLocale senderPlayerLocale, Str
 
     @Override
     public @NotNull PlayerLocale getSenderLocale() {
-        return senderPlayerLocale;
+        return playerLocale;
     }
 
     @Override
