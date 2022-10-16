@@ -46,19 +46,16 @@ public abstract class FilesManager {
 
     public void createFile(@NotNull FilesKeys file) throws IOException {
         var destFile = getFile(file);
-        if (destFile.createNewFile()) {
+        if (destFile.createNewFile())
             plugin.sendLog(Level.CONFIG, "File '&d" + destFile.getName() + "&6' created");
-        }
     }
 
     public void createDirectory(@NotNull DirectoriesKeys directory) throws SecurityException {
         var destDirectory = getFile(directory);
-        if (destDirectory.exists()) {
+        if (destDirectory.exists())
             deleteFile(directory);
-        }
-        if (destDirectory.mkdirs()) {
+        if (destDirectory.mkdirs())
             plugin.sendLog(Level.CONFIG, "Directory '&d" + destDirectory.getName() + "&6' created");
-        }
     }
 
     public void copyFile(@NotNull FilesKeys file) {
@@ -132,17 +129,13 @@ public abstract class FilesManager {
 
     public @Nullable InputStream accessFile(@NotNull FilesKeys file) {
         var input = plugin.getClass().getResourceAsStream(getFileName(file));
-        if (input == null) {
-            input = plugin.getClass().getClassLoader().getResourceAsStream(getFileName(file));
-        }
+        if (input == null) input = plugin.getClass().getClassLoader().getResourceAsStream(getFileName(file));
         return input;
     }
 
     private @Nullable InputStream accessFile(@NotNull String file) {
         var input = plugin.getClass().getResourceAsStream(file);
-        if (input == null) {
-            input = plugin.getClass().getClassLoader().getResourceAsStream(file);
-        }
+        if (input == null) input = plugin.getClass().getClassLoader().getResourceAsStream(file);
         return input;
     }
 
@@ -196,14 +189,12 @@ public abstract class FilesManager {
     }
 
     public void deleteFile(@NotNull FilesKeys file) {
-        if (getFile(file).delete()) {
+        if (getFile(file).delete())
             plugin.sendLog(Level.CONFIG, "File '&d" + getFile(file).getName() + "&6' deleted");
-        }
     }
 
     public void deleteFile(@NotNull DirectoriesKeys file) {
-        if (getFile(file).delete()) {
+        if (getFile(file).delete())
             plugin.sendLog(Level.CONFIG, "File '&d" + getFile(file).getName() + "&6' deleted");
-        }
     }
 }

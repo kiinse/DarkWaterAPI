@@ -23,10 +23,11 @@
 package kiinse.plugins.darkwaterapi.api.gui;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
 
 public interface GuiAction {
 
-    void click(@NotNull Player player);
+    void click(@NotNull ClickType clickType, @NotNull Player player);
 
 }

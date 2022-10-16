@@ -25,7 +25,7 @@ package kiinse.plugins.darkwaterapi.core.commands;
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.commands.CommandFailReason;
 import kiinse.plugins.darkwaterapi.api.commands.CommandFailureHandler;
-import kiinse.plugins.darkwaterapi.api.commands.DarkRegisteredCommand;
+import kiinse.plugins.darkwaterapi.api.commands.RegisteredCommand;
 import kiinse.plugins.darkwaterapi.api.files.messages.MessagesUtils;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkUtils;
 import org.bukkit.command.CommandSender;
@@ -41,11 +41,9 @@ public class FailureHandler implements CommandFailureHandler {
     }
 
     @Override
-    public void handleFailure(@NotNull CommandFailReason reason, @NotNull CommandSender sender, @Nullable DarkRegisteredCommand command) {
+    public void handleFailure(@NotNull CommandFailReason reason, @NotNull CommandSender sender, @Nullable RegisteredCommand command) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(DarkUtils.colorize("&cYou cannot execute this command outside of the game!"));
-        } else {
-            messagesUtils.sendMessageWithPrefix(sender, reason);
-        }
+        } else messagesUtils.sendMessageWithPrefix(sender, reason);
     }
 }

@@ -51,9 +51,8 @@ public class IndicatorSchedule extends Scheduler {
     @Override
     public void run() {
         for (var player : Bukkit.getOnlinePlayers()) {
-            if (DarkPlayerUtils.isSurvivalAdventure(player)) {
+            if (DarkPlayerUtils.isSurvivalAdventure(player))
                 DarkPlayerUtils.sendActionBar(player, PlaceholderAPI.setPlaceholders(player, indicators.getIndicators()));
-            }
         }
     }
 

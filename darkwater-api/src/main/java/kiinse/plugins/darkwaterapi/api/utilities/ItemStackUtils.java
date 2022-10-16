@@ -29,6 +29,8 @@ import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,13 +38,22 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public interface ItemStackUtils {
 
     @NotNull ItemStack getItemStack(@NotNull Material material, @Nullable String name, @Nullable List<String> lore, int amount);
 
+    @NotNull ItemStack getItemStack(@NotNull Material material, int amount, @NotNull Consumer<ItemMeta> meta);
+
+    @NotNull ItemStack getItemStack(@NotNull Material material, @Nullable String name, @Nullable List<String> lore, int amount, @NotNull Consumer<ItemMeta> meta);
+
     @NotNull ItemStack getPotionItemStack(@Nullable String name, @Nullable List<String> lore, @NotNull PotionType type, int amount);
+
+    @NotNull ItemStack getPotionItemStack(@NotNull PotionType type, int amount, @NotNull Consumer<ItemMeta> meta);
+
+    @NotNull ItemStack getPotionItemStack(@Nullable String name, @Nullable List<String> lore, @NotNull PotionType type, int amount, @NotNull Consumer<ItemMeta> meta);
 
     @NotNull FurnaceRecipe getFurnaceRecipe(@NotNull String key, @NotNull ItemStack result, float experience, int cookingTime);
 
@@ -55,7 +66,11 @@ public interface ItemStackUtils {
 
     @NotNull ItemStack getPlayerHead(@NotNull Player player);
 
+    @NotNull ItemStack getPlayerHead(@NotNull Player player, @NotNull Consumer<SkullMeta> meta);
+
     @NotNull ItemStack getPlayerHead(@NotNull OfflinePlayer player);
+
+    @NotNull ItemStack getPlayerHead(@NotNull OfflinePlayer player, @NotNull Consumer<SkullMeta> meta);
 
     @NotNull ItemStack getPlayerHead(@NotNull UUID player) throws IOException;
 

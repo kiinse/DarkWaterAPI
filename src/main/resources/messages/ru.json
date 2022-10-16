@@ -17,7 +17,6 @@
   "player_not_found": "&cИгрок '{PLAYER}' не найден!",
   "first_join": "\n&b&l===== &6ЛОКАЛИЗАЦИЯ &b&l=====\n&2Ваш язык определён как &f&l{LOCALE}&2.\n\n<CMD=/locale change::&6Изменить язык>&aНажмите, чтобы изменить это</CMD>\n\n",
   "locales_list": "&2ЯЗЫКИ: &f&l{LOCALES}",
-  "resource_declined": "&cВы были кикнуты, т.к. не приняли ресурсы сервера.",
   "plugin_not_found": "&cДанный плагин '{PLUGIN}' не найден!",
   "plugin_reloaded": "&a{PLUGIN} перезагружен!",
   "plugin_disabled": "&a{PLUGIN} выключен!",

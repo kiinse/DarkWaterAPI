@@ -23,7 +23,7 @@
 package kiinse.plugins.darkwaterapi.common.gui.items;
 
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
-import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
+import kiinse.plugins.darkwaterapi.api.files.locale.PlayerLocale;
 import kiinse.plugins.darkwaterapi.api.files.messages.Message;
 import kiinse.plugins.darkwaterapi.api.gui.GuiAction;
 import kiinse.plugins.darkwaterapi.api.gui.GuiItem;
@@ -38,8 +38,8 @@ public class CurrentPageItem implements GuiItem {
     private final String name;
     private final GuiAction action;
 
-    public CurrentPageItem(@NotNull DarkWaterJavaPlugin plugin, @NotNull Locale locale, int page, @NotNull GuiAction action) {
-        this.name = DarkUtils.replaceWord(plugin.getMessages().getStringMessage(locale, Message.GUI_CURRENT_PAGE),
+    public CurrentPageItem(@NotNull DarkWaterJavaPlugin plugin, @NotNull PlayerLocale playerLocale, int page, @NotNull GuiAction action) {
+        this.name = DarkUtils.replaceWord(plugin.getMessages().getStringMessage(playerLocale, Message.GUI_CURRENT_PAGE),
                                           Replace.PAGE,
                                           String.valueOf(page));
         this.action = action;

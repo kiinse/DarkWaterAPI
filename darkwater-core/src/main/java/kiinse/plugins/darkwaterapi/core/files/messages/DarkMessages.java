@@ -26,7 +26,7 @@ import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.exceptions.JsonFileException;
 import kiinse.plugins.darkwaterapi.api.files.enums.Directory;
 import kiinse.plugins.darkwaterapi.api.files.filemanager.FilesManager;
-import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
+import kiinse.plugins.darkwaterapi.api.files.locale.PlayerLocale;
 import kiinse.plugins.darkwaterapi.api.files.messages.Message;
 import kiinse.plugins.darkwaterapi.api.files.messages.Messages;
 import kiinse.plugins.darkwaterapi.api.files.messages.MessagesKeys;
@@ -53,9 +53,7 @@ public class DarkMessages extends FilesManager implements Messages {
         super(plugin);
         this.plugin = plugin;
         var directoryName = Directory.MESSAGES;
-        if (isFileNotExists(directoryName) || isDirectoryEmpty(directoryName)) {
-            copyFile(directoryName);
-        }
+        if (isFileNotExists(directoryName) || isDirectoryEmpty(directoryName)) copyFile(directoryName);
         load();
     }
 
@@ -77,47 +75,45 @@ public class DarkMessages extends FilesManager implements Messages {
             }
         }
         for (var locale : darkWaterApi.getLocaleStorage().getAllowedLocalesList()) {
-            if (!isContainsLocale(locale)) {
-                plugin.sendLog(Level.WARNING,
-                               "&cNo localization file found &6for language '&c" + locale + "&6', which is available in &bDarkWaterAPI&6.");
-            }
+            if (!isContainsLocale(locale))
+                plugin.sendLog(Level.WARNING, "&cNo localization file found &6for language '&c" +
+                                              locale + "&6', which is available in &bDarkWaterAPI&6.");
         }
         for (var entry : messages.entrySet()) {
             var locale = entry.getKey();
             for (var entryKey : entry.getValue().keySet()) {
                 for (var checkingEntry : messages.entrySet()) {
-                    if (!checkingEntry.getKey().equals(locale) && !checkingEntry.getValue().keySet().contains(entryKey)) {
+                    if (!checkingEntry.getKey().equals(locale) && !checkingEntry.getValue().keySet().contains(entryKey))
                         plugin.sendLog(Level.WARNING,
-                                       "Key '&c" + entryKey + "&6' was not found in localization '&с" + checkingEntry.getKey() + "&6', which was found in localization '&с" + locale + "&6'!");
-                    }
+                                       "Key '&c" + entryKey + "&6' was not found in localization '&с"
+                                       + checkingEntry.getKey() + "&6', which was found in localization '&с"
+                                       + locale + "&6'!");
                 }
 
             }
         }
     }
 
-    private boolean isContainsLocale(Locale locale) {
+    private boolean isContainsLocale(PlayerLocale playerLocale) {
         for (var set : messages.keySet()) {
-            if (Objects.equals(locale.toString(), set)) {
-                return true;
-            }
+            if (Objects.equals(playerLocale.toString(), set)) return true;
         }
         return false;
     }
 
     @Override
-    public @NotNull String getStringMessage(@NotNull Locale locale, @NotNull MessagesKeys message) {
-        return DarkUtils.colorize(getString(locale, message));
+    public @NotNull String getStringMessage(@NotNull PlayerLocale playerLocale, @NotNull MessagesKeys message) {
+        return DarkUtils.colorize(getString(playerLocale, message));
     }
 
     @Override
-    public @NotNull String getStringMessageWithPrefix(@NotNull Locale locale, @NotNull MessagesKeys message) {
-        return getPrefix(locale) + DarkUtils.colorize(getString(locale, message));
+    public @NotNull String getStringMessageWithPrefix(@NotNull PlayerLocale playerLocale, @NotNull MessagesKeys message) {
+        return getPrefix(playerLocale) + DarkUtils.colorize(getString(playerLocale, message));
     }
 
     @Override
-    public @NotNull JSONObject getAllLocaleMessages(@NotNull Locale locale) {
-        return messages.get(locale.toString());
+    public @NotNull JSONObject getAllLocaleMessages(@NotNull PlayerLocale playerLocale) {
+        return messages.get(playerLocale.toString());
     }
 
     @Override
@@ -126,25 +122,21 @@ public class DarkMessages extends FilesManager implements Messages {
     }
 
     @Override
-    public @NotNull String getPrefix(@NotNull Locale locale) {
-        return DarkUtils.colorize(getString(locale, Message.PREFIX));
+    public @NotNull String getPrefix(@NotNull PlayerLocale playerLocale) {
+        return DarkUtils.colorize(getString(playerLocale, Message.PREFIX));
     }
 
-    private @NotNull String getString(@NotNull Locale locale, @NotNull MessagesKeys message) {
-        var json = getAllLocaleMessages(locale);
+    private @NotNull String getString(@NotNull PlayerLocale playerLocale, @NotNull MessagesKeys message) {
+        var json = getAllLocaleMessages(playerLocale);
         var key = message.toString().toLowerCase();
-        if (json.has(key)) {
-            return json.getString(key);
-        }
+        if (json.has(key)) return json.getString(key);
         return key;
     }
 
     private @NotNull JSONObject getJsonFromFile(@NotNull File file) throws JsonFileException {
         try (var br = new BufferedReader(new FileReader(file.getAbsolutePath()))) {
             var line = br.readLine();
-            if (line == null) {
-                return new JSONObject();
-            }
+            if (line == null) return new JSONObject();
             var json = new JSONObject(Files.readString(Paths.get(file.getAbsolutePath())));
             plugin.sendLog("Messages '&b" + file.getName() + "&a' loaded");
             return json;

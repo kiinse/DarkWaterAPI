@@ -65,9 +65,7 @@ public class StatisticExpansion extends PlaceholderExpansion {
 
     @Override
     public @NotNull String onPlaceholderRequest(@Nullable Player player, @NotNull String identifier) {
-        if (player == null) {
-            return "";
-        }
+        if (player == null) return "";
         return String.valueOf(darkWaterStatistic.getPlayerStatistic(player).getStatistic(EntityType.valueOf(identifier)));
     }
 }

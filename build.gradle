@@ -6,7 +6,7 @@ plugins {
 
 group = 'kiinse.plugins.darkwaterapi'
 description = 'DarkWaterAPI'
-version = '3.0.3'
+version = '3.1.0'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     implementation 'com.vdurmont:semver4j:3.1.0'
-    implementation 'org.json:json:20220320'
+    implementation 'org.json:json:20220924'
     implementation 'org.jetbrains:annotations:23.0.0'
 
     implementation project(":darkwater-api")

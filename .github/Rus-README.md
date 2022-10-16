@@ -173,12 +173,12 @@ public final class TestPlugin extends DarkWaterJavaPlugin { // Main class
 
 | Команда                     | Права               | Описание                                              |
 |-----------------------------|---------------------|-------------------------------------------------------|
-| /locale                     | locale.status       | Отображает текущую локализацию                        |
-| /locale change              | locale.change       | Открывает GUI для выбора языка                        |
-| /locale help                | locale.help         | Команда помощи                                        |
-| /locale set [locale]        | locale.change       | Устанавливает язык без открытия GUI                   |
-| /locale list                | locale.list         | Список языков, доступных для установки                |
-| /locale get [player]        | locale.get          | Просмотр языка игрока                                 |
+| /playerLocale                     | playerLocale.status       | Отображает текущую локализацию                        |
+| /playerLocale change              | playerLocale.change       | Открывает GUI для выбора языка                        |
+| /playerLocale help                | playerLocale.help         | Команда помощи                                        |
+| /playerLocale set [playerLocale]        | playerLocale.change       | Устанавливает язык без открытия GUI                   |
+| /playerLocale list                | playerLocale.list         | Список языков, доступных для установки                |
+| /playerLocale get [player]        | playerLocale.get          | Просмотр языка игрока                                 |
 | /darkwater reload [plugin]  | darkwater.reload    | Перезагрузка плагина, который использует DarkWaterAPI |
 | /darkwater disable [plugin] | darkwater.disable   | Выключение плагина, который использует DarkWaterAPI   |
 | /darkwater enable [plugin]  | darkwater.enable    | Включение плагина, который использует DarkWaterAPI    |
@@ -195,7 +195,7 @@ public final class TestPlugin extends DarkWaterJavaPlugin { // Main class
 ## Конфиг
 
 ```yaml
-locale.default: en # Язык по умолчанию, если по каким-то причинам он не смог определиться при первом заходе игрока
+playerLocale.default: en # Язык по умолчанию, если по каким-то причинам он не смог определиться при первом заходе игрока
 
 first.join.message: true # Сообщение при первом заходе игрока, которая говорит какой язык был определён у него.
 actionbar.indicators: true # Индикаторы над toolbar. Сам DarkWaterAPI не использует эту функцию, но она может быть нужна для других плагинов. Требуется PlaceholderAPI для работы.

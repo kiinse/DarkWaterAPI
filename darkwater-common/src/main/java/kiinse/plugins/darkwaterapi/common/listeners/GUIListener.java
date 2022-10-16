@@ -29,21 +29,23 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class GUIListener implements Listener {
 
     @EventHandler
     public void onClick(@NotNull InventoryClickEvent e) {
-        if (!(e.getWhoClicked() instanceof Player player)) {
-            return;
-        }
-        var inventoryUUID = DarkGUI.getOpenInventories().get(player.getUniqueId());
-        if (inventoryUUID != null) {
-            e.setCancelled(true);
-            var action = DarkGUI.getInventoriesByUUID().get(inventoryUUID).getActions().get(e.getSlot());
-            if (action != null) {
-                action.click(player);
+        try {
+            if (!(e.getWhoClicked() instanceof Player player)) return;
+            var inventoryUUID = DarkGUI.getOpenInventories().get(player.getUniqueId());
+            if (inventoryUUID != null) {
+                e.setCancelled(true);
+                if (Objects.requireNonNull(e.getClickedInventory()).getHolder() instanceof DarkGUI) {
+                    var action = DarkGUI.getInventoriesByUUID().get(inventoryUUID).getActions().get(e.getSlot());
+                    if (action != null) action.click(e.getClick(), player);
+                }
             }
-        }
+        } catch (Exception ignored) {}
     }
 
 }

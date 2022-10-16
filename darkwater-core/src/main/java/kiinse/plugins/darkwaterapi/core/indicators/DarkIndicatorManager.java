@@ -47,17 +47,14 @@ public class DarkIndicatorManager implements IndicatorManager {
 
     @Override
     public @NotNull IndicatorManager register(@NotNull DarkWaterJavaPlugin plugin, @NotNull Indicator indicator) throws IndicatorException {
-        if (hasIndicator(indicator)) {
+        if (hasIndicator(indicator))
             throw new IndicatorException("Indicator '" + indicator.getName() + "' already registered by '" + indicators.get(indicator.getName()).getPlugin().getName() + "'");
-        }
-        if (!indicator.getName().startsWith("%") || !indicator.getName().endsWith("%")) {
+        if (!indicator.getName().startsWith("%") || !indicator.getName().endsWith("%"))
             throw new IndicatorException("The '" + indicator.getName() + "' indicator must be a placeholder, i.e. start and end with % ");
-        }
         if (hasPosition(indicator)) {
             var pos = getMaxPosition() + 1;
-            plugin.sendLog(Level.WARNING,
-                           "Indicator position &c" + indicator.getPosition() + " is already used by '&b" + Objects.requireNonNull(
-                                   getIndicatorByPosition(indicator.getPosition())).getPlugin().getName() + "&6'\nUsing last position: &b" + pos);
+            plugin.sendLog(Level.WARNING, "Indicator position &c" + indicator.getPosition() + " is already used by '&b" + Objects.requireNonNull(
+                    getIndicatorByPosition(indicator.getPosition())).getPlugin().getName() + "&6'\nUsing last position: &b" + pos);
             registerIndicator(plugin, Indicator.valueOf(indicator.getPlugin(), indicator.getName(), pos));
             setIndicatorListToConsole();
             return this;
@@ -86,9 +83,7 @@ public class DarkIndicatorManager implements IndicatorManager {
         var result = new StringBuilder();
         for (int i = 0; i <= getMaxPosition(); i++) {
             var indicator = getIndicatorByPosition(i);
-            if (indicator != null) {
-                result.append(indicator.getName());
-            }
+            if (indicator != null) result.append(indicator.getName());
         }
         return result.toString();
     }
@@ -112,9 +107,7 @@ public class DarkIndicatorManager implements IndicatorManager {
         var position = 0;
         for (var key : indicators.entrySet()) {
             var indicatorPos = key.getValue().getPosition();
-            if (indicatorPos > position) {
-                position = indicatorPos;
-            }
+            if (indicatorPos > position) position = indicatorPos;
         }
         return position;
     }
@@ -135,9 +128,7 @@ public class DarkIndicatorManager implements IndicatorManager {
     @Override
     public boolean hasIndicator(@NotNull Indicator indicator) {
         for (var entry : indicators.entrySet()) {
-            if (entry.getValue().equals(indicator)) {
-                return true;
-            }
+            if (entry.getValue().equals(indicator)) return true;
         }
         return false;
     }
@@ -145,9 +136,7 @@ public class DarkIndicatorManager implements IndicatorManager {
     @Override
     public boolean hasPosition(@NotNull Indicator indicator) {
         for (var entry : indicators.entrySet()) {
-            if (Objects.equals(entry.getValue().getPosition(), indicator.getPosition())) {
-                return true;
-            }
+            if (Objects.equals(entry.getValue().getPosition(), indicator.getPosition())) return true;
         }
         return false;
     }
@@ -156,9 +145,8 @@ public class DarkIndicatorManager implements IndicatorManager {
     public @Nullable Indicator getIndicatorByPosition(int position) {
         for (var entry : indicators.entrySet()) {
             var indicator = entry.getValue();
-            if (Objects.equals(indicator.getPosition(), position)) {
+            if (Objects.equals(indicator.getPosition(), position))
                 return indicator;
-            }
         }
         return null;
     }

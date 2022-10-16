@@ -52,9 +52,9 @@ public abstract class Scheduler {
         if (canStart()) {
             schedulerID = getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this::run, delay, period);
             plugin.sendLog("Scheduler '&b" + name + "&a' started!");
-        } else {
-            plugin.sendLog(Level.CONFIG, "Scheduler '&d" + name + "&6' cannot be started because the '&dcanStart()&6' method returns &cfalse");
+            return;
         }
+        plugin.sendLog(Level.CONFIG, "Scheduler '&d" + name + "&6' cannot be started because the '&dcanStart()&6' method returns &cfalse");
     }
 
     public void stop() {

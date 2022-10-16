@@ -20,34 +20,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-package kiinse.plugins.darkwaterapi.api.files.locale;
+package kiinse.plugins.darkwaterapi.api.files.statistic;
 
+import org.bukkit.entity.EntityType;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
-import java.util.Objects;
+import java.util.Map;
+import java.util.UUID;
 
 @SuppressWarnings("unused")
-public abstract class Locale {
+public interface DarkStatistic {
 
-    private final String value;
+    @NotNull UUID getPlayerUUID();
 
-    protected Locale(@NotNull String str) {
-        value = str;
-    }
+    @NotNull Map<EntityType, Integer> getAllStatistic();
 
-    public static @NotNull Locale valueOf(@NotNull String str) {
-        return new Locale(str) {};
-    }
+    int getStatistic(@NotNull EntityType type);
 
-    public static boolean equals(@NotNull Locale locale1, @NotNull Locale locale2) {
-        return Objects.equals(locale1.toString(), locale2.toString());
-    }
+    @NotNull DarkStatistic setStatistic(@NotNull EntityType type, int amount);
 
-    public @NotNull String toString() {
-        return value;
-    }
+    @NotNull DarkStatistic setStatistic(@NotNull Map<EntityType, Integer> stats);
 
-    public boolean equals(@NotNull Locale locale) {
-        return Objects.equals(this.toString(), locale.toString());
-    }
+    @NotNull DarkStatistic addStatistic(@NotNull EntityType type);
+
+    @NotNull JSONObject toJSONObject();
+
 }

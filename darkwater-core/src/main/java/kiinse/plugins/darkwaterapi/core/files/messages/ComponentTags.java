@@ -49,9 +49,8 @@ public class ComponentTags {
                         var label = text[0].split("=");
                         result = result.append(getComponent(text[1], label[1], ComponentAction.valueOf(label[0])));
                     }
-                    if (hasTextEndLabels(arg) && text.length > 1) {
+                    if (hasTextEndLabels(arg) && text.length > 1)
                         result = result.append(text[1]);
-                    }
                 }
             }
         }
@@ -60,18 +59,14 @@ public class ComponentTags {
 
     private static boolean hasTextLabels(@NotNull String msg) {
         for (var action : ComponentAction.values()) {
-            if (msg.contains(action + "=")) {
-                return true;
-            }
+            if (msg.contains(action + "=")) return true;
         }
         return false;
     }
 
     private static boolean hasTextEndLabels(@NotNull String msg) {
         for (var action : ComponentAction.values()) {
-            if (msg.contains("/" + action + ">")) {
-                return true;
-            }
+            if (msg.contains("/" + action + ">")) return true;
         }
         return false;
     }
@@ -79,7 +74,6 @@ public class ComponentTags {
     private static @NotNull BaseComponent[] getComponent(@NotNull String text, @NotNull String click, @NotNull ComponentAction action) {
         var message = click.split("::");
         var builder = new ComponentBuilder(text);
-
         return switch (action) {
             case CMD -> builder.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, message[0])).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                                                                                                       getHoverText(message))).create();

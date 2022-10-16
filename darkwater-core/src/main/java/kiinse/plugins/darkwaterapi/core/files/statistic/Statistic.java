@@ -1,27 +1,6 @@
-// MIT License
-//
-// Copyright (c) 2022 kiinse
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+package kiinse.plugins.darkwaterapi.core.files.statistic;
 
-package kiinse.plugins.darkwaterapi.api.files.statistic;
-
+import kiinse.plugins.darkwaterapi.api.files.statistic.DarkStatistic;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -31,8 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@SuppressWarnings("unused")
-public abstract class Statistic {
+public class Statistic implements DarkStatistic {
 
     private final UUID player;
     private Map<EntityType, Integer> stats = new HashMap<>();
@@ -53,14 +31,17 @@ public abstract class Statistic {
         }
     }
 
+    @Override
     public @NotNull UUID getPlayerUUID() {
         return player;
     }
 
+    @Override
     public @NotNull Map<EntityType, Integer> getAllStatistic() {
         return stats;
     }
 
+    @Override
     public int getStatistic(@NotNull EntityType type) {
         if (stats.containsKey(type)) {
             return stats.get(type);
@@ -68,22 +49,26 @@ public abstract class Statistic {
         return 0;
     }
 
-    public @NotNull Statistic setStatistic(@NotNull EntityType type, int amount) {
+    @Override
+    public @NotNull DarkStatistic setStatistic(@NotNull EntityType type, int amount) {
         stats.remove(type);
         stats.put(type, amount);
         return this;
     }
 
-    public @NotNull Statistic setStatistic(@NotNull Map<EntityType, Integer> stats) {
+    @Override
+    public @NotNull DarkStatistic setStatistic(@NotNull Map<EntityType, Integer> stats) {
         this.stats = stats;
         return this;
     }
 
-    public @NotNull Statistic addStatistic(@NotNull EntityType type) {
+    @Override
+    public @NotNull DarkStatistic addStatistic(@NotNull EntityType type) {
         stats.put(type, getStatistic(type) + 1);
         return this;
     }
 
+    @Override
     public @NotNull JSONObject toJSONObject() {
         var json = new JSONObject();
         for (var stat : stats.entrySet()) {
@@ -91,5 +76,4 @@ public abstract class Statistic {
         }
         return json;
     }
-
 }

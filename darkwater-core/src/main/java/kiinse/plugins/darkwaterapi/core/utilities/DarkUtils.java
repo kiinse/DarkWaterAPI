@@ -77,18 +77,13 @@ public class DarkUtils {
 
     public static @NotNull String replaceWord(@NotNull String text, @NotNull String[] words) {
         var result = text;
-        for (var word : words) {
-            result = replaceWord(result, getWord(word, Word.FIRST), getWord(word, Word.SECOND));
-        }
+        for (var word : words) result = replaceWord(result, getWord(word, Word.FIRST), getWord(word, Word.SECOND));
         return result;
     }
 
     public static @NotNull BukkitTask runTask(@NotNull TaskType taskType, @NotNull DarkWaterJavaPlugin plugin, @NotNull Runnable task) {
-        if (taskType == TaskType.ASYNC) {
-            return Bukkit.getScheduler().runTaskAsynchronously(plugin, task);
-        } else {
-            return Bukkit.getScheduler().runTask(plugin, task);
-        }
+        if (taskType == TaskType.ASYNC) return Bukkit.getScheduler().runTaskAsynchronously(plugin, task);
+        return Bukkit.getScheduler().runTask(plugin, task);
     }
 
     public static long getTaskSpeed(@NotNull Runnable task) {
@@ -103,9 +98,7 @@ public class DarkUtils {
 
     private static @NotNull String getWord(@NotNull String text, @NotNull Word word) {
         var result = text.split(":");
-        if (word.equals(Word.FIRST)) {
-            return result[0];
-        }
+        if (word.equals(Word.FIRST)) return result[0];
         return result[1];
     }
 

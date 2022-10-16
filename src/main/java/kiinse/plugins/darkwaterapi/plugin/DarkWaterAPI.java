@@ -147,21 +147,20 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWater
                 try {
                     var latest = DarkVersionUtils.getLatestGithubVersion("https://github.com/kiinse/DarkWaterAPI");
                     if (!latest.isGreaterThan(DarkVersionUtils.getPluginVersion(this))) {
-                        sendLog("Latest version of DarkWaterAPI installed, no new versions found =3");
+                        sendLog("Latest version of DarkWaterAPI installed, no new versions found <3");
                         return;
                     }
                     var reader = new BufferedReader(new InputStreamReader(
                             Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("version-message.txt"))));
                     var builder = new StringBuilder("\n");
-                    while (reader.ready()) {
+                    while (reader.ready())
                         builder.append(reader.readLine()).append("\n");
-                    }
                     sendConsole(DarkUtils.replaceWord(builder.toString(), new String[]{
                             "{NEW_VERSION}:" + latest.getOriginalValue(),
                             "{CURRENT_VERSION}:" + getDescription().getVersion()
                     }));
                 } catch (IOException | VersioningException e) {
-                    sendLog(Level.WARNING, "Error checking DarkWaterAPI version! Message: " + e.getMessage());
+                    sendLog(Level.WARNING, "Error while checking DarkWaterAPI version! Message: " + e.getMessage());
                 }
             }
         });
@@ -214,9 +213,8 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWater
 
     @Override
     public boolean isDebug() {
-        if (getConfiguration() != null) {
+        if (getConfiguration() != null)
             return getConfiguration().getBoolean(Config.DEBUG);
-        }
         return false;
     }
 }

@@ -23,7 +23,7 @@
 package kiinse.plugins.darkwaterapi.core.gui;
 
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
-import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
+import kiinse.plugins.darkwaterapi.api.files.locale.PlayerLocale;
 import kiinse.plugins.darkwaterapi.api.gui.GuiAction;
 import kiinse.plugins.darkwaterapi.api.gui.GuiItem;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
@@ -32,6 +32,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -39,14 +40,14 @@ import java.util.Map;
 import java.util.UUID;
 
 @SuppressWarnings({"unused", "UnusedReturnValue"})
-public abstract class DarkGUI {
+public abstract class DarkGUI implements InventoryHolder {
 
     protected static final Map<UUID, DarkGUI> inventoriesByUUID = new HashMap<>();
     protected static final Map<UUID, UUID> openInventories = new HashMap<>();
     private final UUID uuid;
     private final Map<Integer, GuiAction> actions;
     private final DarkWaterJavaPlugin plugin;
-    private Locale playerLocale;
+    private PlayerLocale playerLocale;
     private Inventory inv;
     private String name;
     private int size;
@@ -93,20 +94,16 @@ public abstract class DarkGUI {
     }
 
     public void open(@NotNull Player player) {
-        if (this.playerLocale == null) {
-            this.playerLocale = plugin.getDarkWaterAPI().getPlayerLocales().getLocale(player);
-        }
-        this.inv = Bukkit.createInventory(null, size, DarkUtils.colorize(name));
+        if (this.playerLocale == null) this.playerLocale = plugin.getDarkWaterAPI().getPlayerLocales().getLocale(player);
+        this.inv = Bukkit.createInventory(this, size, DarkUtils.colorize(name));
         inventory(plugin);
         player.openInventory(inv);
         openInventories.put(player.getUniqueId(), getUuid());
     }
 
     public void open(@NotNull CommandSender sender) {
-        if (this.playerLocale == null) {
-            this.playerLocale = plugin.getDarkWaterAPI().getPlayerLocales().getLocale(sender);
-        }
-        this.inv = Bukkit.createInventory(null, size, DarkUtils.colorize(name));
+        if (this.playerLocale == null) this.playerLocale = plugin.getDarkWaterAPI().getPlayerLocales().getLocale(sender);
+        this.inv = Bukkit.createInventory(this, size, DarkUtils.colorize(name));
         var player = DarkPlayerUtils.getPlayer(sender);
         inventory(plugin);
         player.openInventory(inv);
@@ -120,12 +117,12 @@ public abstract class DarkGUI {
         return this;
     }
 
-    public @NotNull DarkGUI setLocale(@NotNull Locale playerLocale) {
+    public @NotNull DarkGUI setLocale(@NotNull PlayerLocale playerLocale) {
         this.playerLocale = playerLocale;
         return this;
     }
 
-    protected @NotNull Locale getPlayerLocale() {
+    protected @NotNull PlayerLocale getPlayerLocale() {
         return playerLocale;
     }
 
@@ -153,9 +150,7 @@ public abstract class DarkGUI {
 
     public @NotNull DarkGUI delete() {
         for (var player : Bukkit.getOnlinePlayers()) {
-            if (openInventories.get(player.getUniqueId()).equals(getUuid())) {
-                player.closeInventory();
-            }
+            if (openInventories.get(player.getUniqueId()).equals(getUuid())) player.closeInventory();
         }
         inventoriesByUUID.remove(getUuid());
         return this;

@@ -23,7 +23,7 @@
 package kiinse.plugins.darkwaterapi.api.files.messages;
 
 import kiinse.plugins.darkwaterapi.api.exceptions.JsonFileException;
-import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
+import kiinse.plugins.darkwaterapi.api.files.locale.PlayerLocale;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
@@ -34,13 +34,13 @@ public interface Messages {
 
     void reload() throws JsonFileException;
 
-    @NotNull String getStringMessage(@NotNull Locale locale, @NotNull MessagesKeys message);
+    @NotNull String getStringMessage(@NotNull PlayerLocale playerLocale, @NotNull MessagesKeys message);
 
-    @NotNull String getStringMessageWithPrefix(@NotNull Locale locale, @NotNull MessagesKeys message);
+    @NotNull String getStringMessageWithPrefix(@NotNull PlayerLocale playerLocale, @NotNull MessagesKeys message);
 
-    @NotNull JSONObject getAllLocaleMessages(@NotNull Locale locale);
+    @NotNull JSONObject getAllLocaleMessages(@NotNull PlayerLocale playerLocale);
 
     @NotNull HashMap<String, JSONObject> getAllMessages();
 
-    @NotNull String getPrefix(@NotNull Locale locale);
+    @NotNull String getPrefix(@NotNull PlayerLocale playerLocale);
 }

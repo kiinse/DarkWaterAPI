@@ -23,7 +23,7 @@
 package kiinse.plugins.darkwaterapi.common.gui.items;
 
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
-import kiinse.plugins.darkwaterapi.api.files.locale.Locale;
+import kiinse.plugins.darkwaterapi.api.files.locale.PlayerLocale;
 import kiinse.plugins.darkwaterapi.api.files.messages.Message;
 import kiinse.plugins.darkwaterapi.api.gui.GuiAction;
 import kiinse.plugins.darkwaterapi.api.gui.GuiItem;
@@ -35,8 +35,8 @@ public class NextPageItem implements GuiItem {
     private final String name;
     private final GuiAction action;
 
-    public NextPageItem(@NotNull DarkWaterJavaPlugin plugin, @NotNull Locale locale, @NotNull GuiAction action) {
-        this.name = plugin.getMessages().getStringMessage(locale, Message.GUI_NEXT_PAGE);
+    public NextPageItem(@NotNull DarkWaterJavaPlugin plugin, @NotNull PlayerLocale playerLocale, @NotNull GuiAction action) {
+        this.name = plugin.getMessages().getStringMessage(playerLocale, Message.GUI_NEXT_PAGE);
         this.action = action;
     }
 

@@ -17,7 +17,6 @@
   "player_not_found": "&cPlayer '{PLAYER}' not found!",
   "first_join": "\n&b&l===== &6LOCALIZATION &b&l=====\n&2Your language is set to &f&l{LOCALE}&2.\n\n<CMD=/locale change::&6Change locale>&aClick to change this</CMD>\n\n",
   "locales_list": "&2LOCALES: &f&l{LOCALES}",
-  "resource_declined": "&cYou were kicked because did not accept server resources.",
   "plugin_not_found": "&cThis plugin '{PLUGIN}' was not found!",
   "plugin_reloaded": "&a{PLUGIN} has been reloaded!",
   "plugin_disabled": "&a{PLUGIN} has been disabled!",

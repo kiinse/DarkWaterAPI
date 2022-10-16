@@ -31,11 +31,13 @@ public interface PlayerLocales {
 
     boolean isLocalized(@NotNull Player player);
 
-    @NotNull Locale getLocale(@NotNull Player player);
+    @NotNull PlayerLocale getLocale(@NotNull Player player);
 
-    @NotNull Locale getLocale(@NotNull CommandSender sender);
+    @NotNull PlayerLocale getLocale(@NotNull CommandSender sender);
 
-    void setLocale(@NotNull Player player, @NotNull Locale locale);
+    @NotNull PlayerLocale convertStringToLocale(@NotNull String locale);
 
-    @NotNull Locale getInterfaceLocale(@NotNull Player player);
+    void setLocale(@NotNull Player player, @NotNull PlayerLocale playerLocale);
+
+    @NotNull PlayerLocale getInterfaceLocale(@NotNull Player player);
 }
