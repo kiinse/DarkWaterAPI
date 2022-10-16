@@ -24,6 +24,7 @@ package kiinse.plugins.darkwaterapi.core.commands;
 
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.commands.*;
+import kiinse.plugins.darkwaterapi.api.commands.CommandFailReason;
 import kiinse.plugins.darkwaterapi.api.exceptions.CommandException;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;

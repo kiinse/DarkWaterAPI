@@ -32,6 +32,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -39,7 +40,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @SuppressWarnings({"unused", "UnusedReturnValue"})
-public abstract class DarkGUI {
+public abstract class DarkGUI implements InventoryHolder {
 
     protected static final Map<UUID, DarkGUI> inventoriesByUUID = new HashMap<>();
     protected static final Map<UUID, UUID> openInventories = new HashMap<>();
@@ -94,7 +95,7 @@ public abstract class DarkGUI {
 
     public void open(@NotNull Player player) {
         if (this.playerLocale == null) this.playerLocale = plugin.getDarkWaterAPI().getPlayerLocales().getLocale(player);
-        this.inv = Bukkit.createInventory(null, size, DarkUtils.colorize(name));
+        this.inv = Bukkit.createInventory(this, size, DarkUtils.colorize(name));
         inventory(plugin);
         player.openInventory(inv);
         openInventories.put(player.getUniqueId(), getUuid());
@@ -102,7 +103,7 @@ public abstract class DarkGUI {
 
     public void open(@NotNull CommandSender sender) {
         if (this.playerLocale == null) this.playerLocale = plugin.getDarkWaterAPI().getPlayerLocales().getLocale(sender);
-        this.inv = Bukkit.createInventory(null, size, DarkUtils.colorize(name));
+        this.inv = Bukkit.createInventory(this, size, DarkUtils.colorize(name));
         var player = DarkPlayerUtils.getPlayer(sender);
         inventory(plugin);
         player.openInventory(inv);
