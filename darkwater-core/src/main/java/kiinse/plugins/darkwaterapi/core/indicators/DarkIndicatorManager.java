@@ -99,7 +99,7 @@ public class DarkIndicatorManager implements IndicatorManager {
 
     private void registerIndicator(@NotNull DarkWaterJavaPlugin plugin, @NotNull Indicator indicator) {
         indicators.put(indicator.getName(), indicator);
-        plugin.sendLog("Registered indicator '&b" + indicator.getName() + "&a' by '&b" + plugin.getName() + "&6' on position &b" + indicator.getPosition());
+        plugin.sendLog("Registered indicator '&b" + indicator.getName() + "&a' by '&b" + plugin.getName() + "&a' on position &b" + indicator.getPosition());
     }
 
     @Override

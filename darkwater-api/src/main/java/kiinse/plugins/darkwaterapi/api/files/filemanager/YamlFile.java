@@ -87,6 +87,14 @@ public class YamlFile extends FilesManager {
         return string != null ? string : "";
     }
 
+    public @Nullable Object getObject(@NotNull YamlKeys key) {
+        return file.get(getKeyString(key));
+    }
+
+    public @Nullable Object getObject(@NotNull String key) {
+        return file.get(key);
+    }
+
     public boolean getBoolean(@NotNull YamlKeys key) {
         return file.getBoolean(getKeyString(key));
     }
