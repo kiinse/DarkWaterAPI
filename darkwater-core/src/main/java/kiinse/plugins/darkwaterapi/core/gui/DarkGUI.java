@@ -150,7 +150,10 @@ public abstract class DarkGUI implements InventoryHolder {
 
     public @NotNull DarkGUI delete() {
         for (var player : Bukkit.getOnlinePlayers()) {
-            if (openInventories.get(player.getUniqueId()).equals(getUuid())) player.closeInventory();
+            var playerUniqueId = player.getUniqueId();
+            if (openInventories.containsKey(playerUniqueId) && openInventories.get(playerUniqueId).equals(getUuid())) {
+                openInventories.remove(playerUniqueId);
+            }
         }
         inventoriesByUUID.remove(getUuid());
         return this;
