@@ -191,33 +191,33 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
     }
 
     /**
-     * Send logs and CONFIG stacktrace to console
+     * Send logs and debug stacktrace to console
      *
      * @param throwable Throwable
      */
     public void sendLog(@NotNull Level level, @NotNull String message, @NotNull Throwable throwable) {
         sendLog(level, message + " " + throwable.getMessage());
-        sendLog(Level.CONFIG, Arrays.toString(throwable.getStackTrace()));
+        if (getDarkWaterAPI().isDebug()) throwable.printStackTrace();
     }
 
     /**
-     * Send WARNING level logs and CONFIG stacktrace to console
+     * Send WARNING level logs and debug stacktrace to console
      *
      * @param throwable Throwable
      */
     public void sendLog(@NotNull String message, @NotNull Throwable throwable) {
         sendLog(Level.WARNING, message + " " + throwable.getMessage());
-        sendLog(Level.CONFIG, Arrays.toString(throwable.getStackTrace()));
+        if (getDarkWaterAPI().isDebug()) throwable.printStackTrace();
     }
 
     /**
-     * Send WARNING level logs and CONFIG stacktrace to console
+     * Send WARNING level logs and debug stacktrace to console
      *
      * @param throwable Throwable
      */
     public void sendLog(@NotNull Throwable throwable) {
         sendLog(Level.WARNING, throwable.getMessage());
-        sendLog(Level.CONFIG, Arrays.toString(throwable.getStackTrace()));
+        if (getDarkWaterAPI().isDebug()) throwable.printStackTrace();
     }
 
     /**
