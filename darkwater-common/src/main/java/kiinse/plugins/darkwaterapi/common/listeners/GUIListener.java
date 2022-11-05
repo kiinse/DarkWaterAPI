@@ -22,6 +22,7 @@
 
 package kiinse.plugins.darkwaterapi.common.listeners;
 
+import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.core.gui.DarkGUI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,6 +33,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class GUIListener implements Listener {
+
+    private final DarkWaterJavaPlugin plugin;
+
+    public GUIListener(@NotNull DarkWaterJavaPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onClick(@NotNull InventoryClickEvent e) {
@@ -45,7 +52,12 @@ public class GUIListener implements Listener {
                     if (action != null) action.click(e.getClick(), player);
                 }
             }
-        } catch (Exception ignored) {}
+        } catch (Exception exception) {
+            var message = exception.getMessage();
+            if (message != null) {
+                plugin.sendLog("Error on trigger gui action! Message:", exception);
+            }
+        }
     }
 
 }

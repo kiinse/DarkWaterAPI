@@ -70,6 +70,7 @@ import java.util.logging.Level;
 public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWaterMain {
 
     private static DarkWaterAPI instance;
+    private boolean isDebug;
     private PluginManager pluginManager;
     private LocaleStorage localeStorage;
     private PlayerLocales locales;
@@ -84,6 +85,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWater
     @Override
     protected void start() throws PluginException {
         try {
+            isDebug = false;
             getLogger().setLevel(Level.CONFIG);
             sendLog("Loading " + getName() + "...");
             onStart();
@@ -100,6 +102,7 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWater
         setDarkWaterAPI(this);
         instance = this;
         super.configuration = new YamlFile(this, getConfigurationFileName());
+        isDebug = getConfiguration().getBoolean(Config.DEBUG);
         new LoadAPI(this);
         localeStorage = new DarkLocaleStorage(this).load();
         locales = new DarkPlayerLocales(this, localeStorage);
@@ -132,12 +135,13 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWater
             darkWaterStatistic.save();
             getMessages().reload();
             getConfiguration().reload();
+            isDebug = getConfiguration().getBoolean(Config.DEBUG);
             localeStorage.load();
             locales = new DarkPlayerLocales(this, localeStorage);
             darkWaterStatistic = new DarkStatisticManager(this);
             sendLog(getName() + " reloaded!");
         } catch (Exception e) {
-            sendLog(Level.SEVERE, "Error on reloading " + getName() + "! Message: " + e.getMessage());
+            sendLog(Level.SEVERE, "Error on reloading " + getName() + "! Message:", e);
         }
     }
 
@@ -153,14 +157,15 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWater
                     var reader = new BufferedReader(new InputStreamReader(
                             Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("version-message.txt"))));
                     var builder = new StringBuilder("\n");
-                    while (reader.ready())
+                    while (reader.ready()) {
                         builder.append(reader.readLine()).append("\n");
+                    }
                     sendConsole(DarkUtils.replaceWord(builder.toString(), new String[]{
                             "{NEW_VERSION}:" + latest.getOriginalValue(),
                             "{CURRENT_VERSION}:" + getDescription().getVersion()
                     }));
                 } catch (IOException | VersioningException e) {
-                    sendLog(Level.WARNING, "Error while checking DarkWaterAPI version! Message: " + e.getMessage());
+                    sendLog("Error while checking DarkWaterAPI version! Message:", e);
                 }
             }
         });
@@ -213,8 +218,6 @@ public final class DarkWaterAPI extends DarkWaterJavaPlugin implements DarkWater
 
     @Override
     public boolean isDebug() {
-        if (getConfiguration() != null)
-            return getConfiguration().getBoolean(Config.DEBUG);
-        return false;
+        return isDebug;
     }
 }

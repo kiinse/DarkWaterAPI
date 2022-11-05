@@ -75,14 +75,14 @@ public abstract class FilesManager {
                     FileUtils.copyInputStreamToFile(inputStream, destFile);
                     plugin.sendLog(Level.CONFIG, "File '&d" + destFile.getName() + "&6' created");
                 } catch (IOException e) {
-                    plugin.sendLog(Level.WARNING, "Error on copying file '&c" + destFile.getName() + "&6'! Message: " + e.getMessage());
+                    plugin.sendLog("Error on copying file '&c" + destFile.getName() + "&6'! Message:", e);
                 }
             } else {
                 plugin.sendLog(Level.WARNING, "File '&c" + getFileName(oldFile) + "&6' not found inside plugin jar. Creating a new file...");
                 try {
                     createFile(newFile);
                 } catch (IOException e) {
-                    plugin.sendLog(Level.SEVERE, "Error on creating file '" + destFile.getName() + "'! Message: " + e.getMessage());
+                    plugin.sendLog("Error on creating file '" + destFile.getName() + "'! Message:", e);
                 }
             }
         }
@@ -98,7 +98,7 @@ public abstract class FilesManager {
                                                     new File(getDataFolder() + getFileName(directory) + File.separator + file));
                 }
             } catch (Exception e) {
-                plugin.sendLog(Level.WARNING, "Error on copying directory '&c" + destDirectory.getName() + "&6'! Message: " + e.getMessage());
+                plugin.sendLog("Error on copying directory '&c" + destDirectory.getName() + "&6'! Message:", e);
                 deleteFile(directory);
             }
         }

@@ -43,7 +43,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
-import java.util.logging.Level;
 
 @SuppressWarnings("unused")
 public class DarkItemUtils implements ItemStackUtils {
@@ -179,8 +178,7 @@ public class DarkItemUtils implements ItemStackUtils {
         return crateHead(player, meta);
     }
 
-    @NotNull
-    private ItemStack crateHead(@NotNull OfflinePlayer player, @NotNull Consumer<SkullMeta> meta) {
+    private @NotNull ItemStack crateHead(@NotNull OfflinePlayer player, @NotNull Consumer<SkullMeta> meta) {
         var item = new ItemStack(Material.PLAYER_HEAD, 1);
         var skull = (SkullMeta) item.getItemMeta();
         if (skull != null) {
@@ -213,7 +211,7 @@ public class DarkItemUtils implements ItemStackUtils {
                 profileField.setAccessible(true);
                 profileField.set(meta, profile);
             } catch (NoSuchFieldException | IllegalAccessException e) {
-                plugin.sendLog(Level.WARNING, "There was an &cerror &6getting the custom head! Message: " + e.getMessage());
+                plugin.sendLog("There was an &cerror &6getting the custom head! Message:", e);
             }
         }
         skull.setItemMeta(meta);

@@ -25,12 +25,12 @@ package kiinse.plugins.darkwaterapi.common.commands.darkwaterapi;
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.commands.Command;
 import kiinse.plugins.darkwaterapi.api.commands.CommandContext;
+import kiinse.plugins.darkwaterapi.api.commands.DarkCommand;
 import kiinse.plugins.darkwaterapi.api.commands.SubCommand;
 import kiinse.plugins.darkwaterapi.api.files.messages.Message;
 import kiinse.plugins.darkwaterapi.api.files.messages.MessagesUtils;
 import kiinse.plugins.darkwaterapi.api.loader.PluginManager;
 import kiinse.plugins.darkwaterapi.common.files.Replace;
-import kiinse.plugins.darkwaterapi.api.commands.DarkCommand;
 import kiinse.plugins.darkwaterapi.core.files.messages.DarkMessagesUtils;
 import kiinse.plugins.darkwaterapi.core.utilities.DarkPlayerUtils;
 import org.bukkit.Sound;
@@ -65,7 +65,7 @@ public class DarkWaterCommands extends DarkCommand {
                 DarkPlayerUtils.playSound(sender, Sound.BLOCK_AMETHYST_BLOCK_HIT);
             } catch (Exception e) {
                 messagesUtils.sendMessageWithPrefix(sender, Message.PLUGIN_ERROR);
-                getPlugin().sendLog(Level.SEVERE, "Error on plugin '" + args[0] + "' reload! Message: " + e.getMessage());
+                getPlugin().sendLog(Level.SEVERE, "Error on plugin '" + args[0] + "' reload! Message:", e);
             }
         }
     }
@@ -83,7 +83,7 @@ public class DarkWaterCommands extends DarkCommand {
                 DarkPlayerUtils.playSound(sender, Sound.BLOCK_AMETHYST_BLOCK_HIT);
             } catch (Exception e) {
                 messagesUtils.sendMessageWithPrefix(sender, Message.PLUGIN_ERROR);
-                getPlugin().sendLog(Level.SEVERE, "Error on plugin '" + args[0] + "' enable! Message: " + e.getMessage());
+                getPlugin().sendLog(Level.SEVERE, "Error on plugin '" + args[0] + "' enable! Message:", e);
             }
         }
     }
@@ -101,7 +101,7 @@ public class DarkWaterCommands extends DarkCommand {
                 DarkPlayerUtils.playSound(sender, Sound.BLOCK_AMETHYST_BLOCK_HIT);
             } catch (Exception e) {
                 messagesUtils.sendMessageWithPrefix(sender, Message.PLUGIN_ERROR);
-                getPlugin().sendLog(Level.SEVERE, "Error on plugin '" + args[0] + "' disable! Message: " + e.getMessage());
+                getPlugin().sendLog(Level.SEVERE, "Error on plugin '" + args[0] + "' disable! Message:", e);
             }
         }
     }

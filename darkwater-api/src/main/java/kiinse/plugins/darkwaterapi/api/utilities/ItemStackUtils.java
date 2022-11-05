@@ -47,13 +47,15 @@ public interface ItemStackUtils {
 
     @NotNull ItemStack getItemStack(@NotNull Material material, int amount, @NotNull Consumer<ItemMeta> meta);
 
-    @NotNull ItemStack getItemStack(@NotNull Material material, @Nullable String name, @Nullable List<String> lore, int amount, @NotNull Consumer<ItemMeta> meta);
+    @NotNull ItemStack getItemStack(@NotNull Material material, @Nullable String name, @Nullable List<String> lore, int amount,
+                                    @NotNull Consumer<ItemMeta> meta);
 
     @NotNull ItemStack getPotionItemStack(@Nullable String name, @Nullable List<String> lore, @NotNull PotionType type, int amount);
 
     @NotNull ItemStack getPotionItemStack(@NotNull PotionType type, int amount, @NotNull Consumer<ItemMeta> meta);
 
-    @NotNull ItemStack getPotionItemStack(@Nullable String name, @Nullable List<String> lore, @NotNull PotionType type, int amount, @NotNull Consumer<ItemMeta> meta);
+    @NotNull ItemStack getPotionItemStack(@Nullable String name, @Nullable List<String> lore, @NotNull PotionType type, int amount,
+                                          @NotNull Consumer<ItemMeta> meta);
 
     @NotNull FurnaceRecipe getFurnaceRecipe(@NotNull String key, @NotNull ItemStack result, float experience, int cookingTime);
 

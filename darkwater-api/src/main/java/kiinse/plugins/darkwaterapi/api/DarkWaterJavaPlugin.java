@@ -34,6 +34,7 @@ import org.bukkit.Utility;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.logging.Level;
 
 /**
@@ -59,7 +60,7 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
         try {
             start();
         } catch (PluginException e) {
-            sendLog(Level.SEVERE, "Error on loading " + getName() + "! Message: " + e.getMessage());
+            sendLog(Level.SEVERE, "Error on loading " + getName() + "! Message:", e);
         }
     }
 
@@ -68,7 +69,7 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
         try {
             stop();
         } catch (PluginException e) {
-            sendLog(Level.SEVERE, "Error on disabling " + getName() + "! Message: " + e.getMessage());
+            sendLog(Level.SEVERE, "Error on disabling " + getName() + "! Message:", e);
         }
     }
 
@@ -113,7 +114,7 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
             sendConsole(" &6|  &f" + getName() + " &areloaded!");
             sendConsole(" &6|==============================");
         } catch (Exception e) {
-            sendLog(Level.SEVERE, "Error on reloading " + getName() + "! Message: " + e.getMessage());
+            sendLog(Level.SEVERE, "Error on reloading " + getName() + "! Message:", e);
         }
     }
 
@@ -190,6 +191,36 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
     }
 
     /**
+     * Send logs and CONFIG stacktrace to console
+     *
+     * @param throwable Throwable
+     */
+    public void sendLog(@NotNull Level level, @NotNull String message, @NotNull Throwable throwable) {
+        sendLog(level, message + " " + throwable.getMessage());
+        sendLog(Level.CONFIG, Arrays.toString(throwable.getStackTrace()));
+    }
+
+    /**
+     * Send WARNING level logs and CONFIG stacktrace to console
+     *
+     * @param throwable Throwable
+     */
+    public void sendLog(@NotNull String message, @NotNull Throwable throwable) {
+        sendLog(Level.WARNING, message + " " + throwable.getMessage());
+        sendLog(Level.CONFIG, Arrays.toString(throwable.getStackTrace()));
+    }
+
+    /**
+     * Send WARNING level logs and CONFIG stacktrace to console
+     *
+     * @param throwable Throwable
+     */
+    public void sendLog(@NotNull Throwable throwable) {
+        sendLog(Level.WARNING, throwable.getMessage());
+        sendLog(Level.CONFIG, Arrays.toString(throwable.getStackTrace()));
+    }
+
+    /**
      * Send logs to console
      *
      * @param level Logging level
@@ -200,8 +231,8 @@ public abstract class DarkWaterJavaPlugin extends JavaPlugin {
             sendConsole("&6[&b" + getName() + "&6]&a " + msg);
             return;
         }
-        if (level.equals(Level.WARNING)) {
-            sendConsole("&6[&b" + getName() + "&f/&cWARN&6] " + msg);
+        if (level.equals(Level.WARNING) || level.equals(Level.SEVERE)) {
+            sendConsole("&6[&b" + getName() + "&f/&c" + level + "&6] " + msg);
             return;
         }
         if (level.equals(Level.CONFIG) && getDarkWaterAPI().isDebug()) {

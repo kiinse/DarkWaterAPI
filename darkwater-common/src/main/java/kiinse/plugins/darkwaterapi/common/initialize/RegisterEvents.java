@@ -33,7 +33,7 @@ public class RegisterEvents {
         var pluginManager = plugin.getServer().getPluginManager();
         pluginManager.registerEvents(new EntityDeathListener(plugin), plugin);
         pluginManager.registerEvents(new MoveListener(), plugin);
-        pluginManager.registerEvents(new GUIListener(), plugin);
+        pluginManager.registerEvents(new GUIListener(plugin), plugin);
         pluginManager.registerEvents(new CloseInventoryListener(), plugin);
         pluginManager.registerEvents(new OnJoinListener(plugin), plugin);
         pluginManager.registerEvents(new OnQuitListener(), plugin);

@@ -24,14 +24,12 @@ package kiinse.plugins.darkwaterapi.core.commands;
 
 import kiinse.plugins.darkwaterapi.api.DarkWaterJavaPlugin;
 import kiinse.plugins.darkwaterapi.api.commands.*;
-import kiinse.plugins.darkwaterapi.api.commands.CommandFailReason;
 import kiinse.plugins.darkwaterapi.api.exceptions.CommandException;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-import java.util.logging.Level;
 
 @SuppressWarnings({"unused"})
 public class CommandManager extends DarkCommandManager {
@@ -118,7 +116,7 @@ public class CommandManager extends DarkCommandManager {
                                        new DarkContext(sender, plugin.getDarkWaterAPI().getPlayerLocales().getLocale(sender), args));
         } catch (IllegalAccessException | InvocationTargetException e) {
             failureHandler.handleFailure(CommandFailReason.REFLECTION_ERROR, sender, wrapper);
-            plugin.sendLog(Level.WARNING, "Error on command usage! Message: " + e.getMessage());
+            plugin.sendLog("Error on command usage! Message:", e);
         }
     }
 }

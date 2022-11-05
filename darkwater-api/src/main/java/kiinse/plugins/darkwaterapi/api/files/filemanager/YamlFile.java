@@ -49,7 +49,7 @@ public class YamlFile extends FilesManager {
             checkVersion(plugin);
         } catch (YamlFileException e) {
             plugin.sendLog(Level.WARNING,
-                           "An error occurred while copying the new version of the file '&c" + getFile(fileName).getName() + "&6'! Message: " + e.getMessage());
+                           "An error occurred while copying the new version of the file '&c" + getFile(fileName).getName() + "&6'! Message:", e);
         }
         plugin.sendLog("File '&b" + getFileName(fileName) + "&a' loaded");
     }

@@ -81,14 +81,16 @@ public class DarkSchedulersManager implements SchedulersManager {
     }
 
     public boolean hasScheduler(@NotNull Scheduler scheduler) {
-        for (var schedule : schedulers)
+        for (var schedule : schedulers) {
             if (Objects.equals(schedule.getName(), scheduler.getName())) return true;
+        }
         return false;
     }
 
     public @Nullable Scheduler getSchedulerByName(@NotNull String name) {
-        for (var scheduler : schedulers)
+        for (var scheduler : schedulers) {
             if (Objects.equals(scheduler.getName(), name)) return scheduler;
+        }
         return null;
     }
 
