@@ -10,8 +10,8 @@
     <img src="https://app.codacy.com/project/badge/Grade/04669f7c982b4ec8ba4783493dfb1ca9" alt="codacy"/>
   </a>
 
-  <a href="https://github.com/dzikoysk/reposilite/releases">
-    <img src="https://repo.kiinse.me/api/badge/latest/releases/kiinse/plugins/darkwaterapi/DarkWaterAPI?color=40c14a&name=Reposilite&prefix=v" />
+  <a href="https://repo.kiinse.me/api/badge/latest/releases/kiinse/plugins/darkwaterapi">
+    <img src="https://repo.kiinse.me/api/badge/latest/releases/kiinse/plugins/darkwaterapi/DarkWaterAPI?color=40c14a&name=Reposilite&prefix=v" alt="reposilite"/>
   </a>
   <a href="https://github.com/kiinse/DarkWaterAPI/releases">
     <img src="https://img.shields.io/github/v/release/kiinse/DarkWaterAPI?include_prereleases&style=flat-square" alt="release">
