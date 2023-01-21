@@ -1,11 +1,11 @@
 name: DarkWaterAPI
 version: '${version}'
-main: kiinse.plugins.darkwaterapi.plugin.DarkWaterAPI
-api-version: 1.18
+main: kiinse.me.plugins.darkwaterapi.DarkWaterAPI
+api-version: 1.19
 prefix: DarkWaterAPI
 softdepend: [ PlaceholderAPI ]
 authors: [ kiinse ]
-description: Plugin library
+description: Plugins library
 website: https://kiinse.me
 commands:
   locale:
