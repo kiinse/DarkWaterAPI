@@ -24,12 +24,12 @@ package kiinse.me.plugins.darkwaterapi.core.utilities
 import com.vdurmont.semver4j.Semver
 import kiinse.me.plugins.darkwaterapi.api.DarkWaterJavaPlugin
 import kiinse.me.plugins.darkwaterapi.api.exceptions.VersioningException
-import org.apache.hc.client5.http.classic.methods.HttpGet
 import org.apache.hc.client5.http.config.RequestConfig
 import org.apache.hc.client5.http.cookie.StandardCookieSpec
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder
 import org.apache.hc.core5.http.ParseException
 import org.apache.hc.core5.http.io.entity.EntityUtils
+import org.apache.hc.core5.http.message.BasicClassicHttpRequest
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
@@ -38,6 +38,7 @@ import java.util.function.Consumer
 
 @Suppress("unused")
 object DarkVersionUtils {
+
     @Throws(VersioningException::class)
     fun getLatestGithubVersion(url: String): Semver {
         val version = getLatestGithubVersionAsString(url)
@@ -73,11 +74,13 @@ object DarkVersionUtils {
     @Throws(VersioningException::class)
     fun getLatestGithubVersionAsString(url: String): String {
         return try {
-            val request = HttpGet((if (url.endsWith("/")) url.substring(0, url.length - 1) else url) + "/releases/latest")
             val httpClient = HttpClientBuilder.create().setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(StandardCookieSpec.STRICT).build()).build()
-            request.addHeader("Accept", "application/json")
-            val result = JSONObject(EntityUtils.toString(httpClient.execute(request).entity, "UTF-8")).getString("tag_name")
-            if (result.startsWith("v")) result.substring(1) else result
+            val req = BasicClassicHttpRequest("GET", (if (url.endsWith("/")) url.substring(0, url.length - 1) else url) + "/releases/latest")
+            req.addHeader("Accept", "application/json")
+            httpClient.execute(req) {
+                val result = JSONObject(EntityUtils.toString(it.entity, "UTF-8")).getString("tag_name")
+                if (result.startsWith("v")) return@execute result.substring(1) else return@execute result
+            }
         } catch (e: IOException) {
             throw VersioningException("Failed to get the latest version from '$url'", e)
         } catch (e: ParseException) {
