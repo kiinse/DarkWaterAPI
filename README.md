@@ -17,7 +17,7 @@
     <img src="https://img.shields.io/github/v/release/kiinse/DarkWaterAPI?include_prereleases&style=flat-square" alt="release">
   </a>
   <a href="https://github.com/kiinse/DarkWaterAPI/actions/workflows/gradle-package.yml">
-    <img src="https://img.shields.io/github/workflow/status/kiinse/DarkWaterAPI/Create%20packages%20with%20Gradle?style=flat-square" alt="build"> 
+    <img src="https://img.shields.io/github/actions/workflow/status/kiinse/DarkWaterAPI/gradle-package.yml?style=flat-square" alt="build"> 
   </a>
   <a href="https://github.com/kiinse/DarkWaterAPI">
     <img src="https://img.shields.io/github/repo-size/kiinse/DarkWaterAPI?style=flat-square" alt="size"> 
